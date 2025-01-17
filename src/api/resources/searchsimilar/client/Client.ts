@@ -12,7 +12,8 @@ import * as errors from "../../../../errors/index";
 export declare namespace Searchsimilar {
     interface Options {
         environment?: core.Supplier<environments.NewscatcherApiEnvironment | string>;
-        apiKey: core.Supplier<string>;
+        /** Override the x-api-token header */
+        apiToken: core.Supplier<string>;
     }
 
     interface RequestOptions {
@@ -22,42 +23,37 @@ export declare namespace Searchsimilar {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the x-api-token header */
+        apiToken?: string;
     }
 }
 
-/**
- * Operations to find similar articles.
- */
 export class Searchsimilar {
     constructor(protected readonly _options: Searchsimilar.Options) {}
 
     /**
-     * Searches for articles similar to a specified query.
+     * This endpoint returns a list of articles that are similar to the query provided. You also have the option to get similar articles for the results of a search.
      *
      * @param {NewscatcherApi.SearchSimilarGetRequest} request
      * @param {Searchsimilar.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link NewscatcherApi.BadRequestError}
-     * @throws {@link NewscatcherApi.UnauthorizedError}
-     * @throws {@link NewscatcherApi.ForbiddenError}
-     * @throws {@link NewscatcherApi.RequestTimeoutError}
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
-     * @throws {@link NewscatcherApi.TooManyRequestsError}
-     * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
      *     await client.searchsimilar.get({
-     *         q: "technology AND (Apple OR Microsoft) NOT Google",
-     *         similarDocumentsFields: "title,summary",
-     *         predefinedSources: "top 100 US, top 5 GB",
-     *         from: new Date("2024-07-01T00:00:00.000Z"),
-     *         to: new Date("2024-07-01T00:00:00.000Z"),
-     *         theme: "Business,Finance",
-     *         notTheme: "Crime",
-     *         nerName: "Tesla",
-     *         iptcTags: "20000199,20000209",
-     *         notIptcTags: "20000205,20000209",
-     *         customTags: "Tag1,Tag2,Tag3"
+     *         q: "q",
+     *         predefinedSources: "predefined_sources",
+     *         sources: "sources",
+     *         notSources: "not_sources",
+     *         lang: "lang",
+     *         notLang: "not_lang",
+     *         countries: "countries",
+     *         notCountries: "not_countries",
+     *         parentUrl: "parent_url",
+     *         allLinks: "all_links",
+     *         allDomainLinks: "all_domain_links",
+     *         iptcTags: "iptc_tags",
+     *         notIptcTags: "not_iptc_tags"
      *     })
      */
     public async get(
@@ -99,14 +95,12 @@ export class Searchsimilar {
             hasNlp,
             theme,
             notTheme,
-            nerName,
             titleSentimentMin,
             titleSentimentMax,
             contentSentimentMin,
             contentSentimentMax,
             iptcTags,
             notIptcTags,
-            customTags,
         } = request;
         const _queryParams: Record<string, string | string[] | object | object[]> = {};
         _queryParams["q"] = q;
@@ -126,40 +120,19 @@ export class Searchsimilar {
             _queryParams["similar_documents_fields"] = similarDocumentsFields;
         }
 
-        if (predefinedSources != null) {
-            _queryParams["predefined_sources"] = predefinedSources;
-        }
-
-        if (sources != null) {
-            _queryParams["sources"] = sources;
-        }
-
-        if (notSources != null) {
-            _queryParams["not_sources"] = notSources;
-        }
-
-        if (lang != null) {
-            _queryParams["lang"] = lang;
-        }
-
-        if (notLang != null) {
-            _queryParams["not_lang"] = notLang;
-        }
-
-        if (countries != null) {
-            _queryParams["countries"] = countries;
-        }
-
-        if (notCountries != null) {
-            _queryParams["not_countries"] = notCountries;
-        }
-
+        _queryParams["predefined_sources"] = predefinedSources;
+        _queryParams["sources"] = sources;
+        _queryParams["not_sources"] = notSources;
+        _queryParams["lang"] = lang;
+        _queryParams["not_lang"] = notLang;
+        _queryParams["countries"] = countries;
+        _queryParams["not_countries"] = notCountries;
         if (from_ != null) {
-            _queryParams["from_"] = from_.toISOString();
+            _queryParams["from_"] = from_;
         }
 
         if (to != null) {
-            _queryParams["to_"] = to.toISOString();
+            _queryParams["to_"] = to;
         }
 
         if (byParseDate != null) {
@@ -175,7 +148,7 @@ export class Searchsimilar {
         }
 
         if (rankedOnly != null) {
-            _queryParams["ranked_only"] = rankedOnly.toString();
+            _queryParams["ranked_only"] = rankedOnly;
         }
 
         if (fromRank != null) {
@@ -198,18 +171,9 @@ export class Searchsimilar {
             _queryParams["is_paid_content"] = isPaidContent.toString();
         }
 
-        if (parentUrl != null) {
-            _queryParams["parent_url"] = parentUrl;
-        }
-
-        if (allLinks != null) {
-            _queryParams["all_links"] = allLinks;
-        }
-
-        if (allDomainLinks != null) {
-            _queryParams["all_domain_links"] = allDomainLinks;
-        }
-
+        _queryParams["parent_url"] = parentUrl;
+        _queryParams["all_links"] = allLinks;
+        _queryParams["all_domain_links"] = allDomainLinks;
         if (wordCountMin != null) {
             _queryParams["word_count_min"] = wordCountMin.toString();
         }
@@ -242,10 +206,6 @@ export class Searchsimilar {
             _queryParams["not_theme"] = notTheme;
         }
 
-        if (nerName != null) {
-            _queryParams["ner_name"] = nerName;
-        }
-
         if (titleSentimentMin != null) {
             _queryParams["title_sentiment_min"] = titleSentimentMin.toString();
         }
@@ -262,18 +222,8 @@ export class Searchsimilar {
             _queryParams["content_sentiment_max"] = contentSentimentMax.toString();
         }
 
-        if (iptcTags != null) {
-            _queryParams["iptc_tags"] = iptcTags;
-        }
-
-        if (notIptcTags != null) {
-            _queryParams["not_iptc_tags"] = notIptcTags;
-        }
-
-        if (customTags != null) {
-            _queryParams["custom_tags"] = customTags;
-        }
-
+        _queryParams["iptc_tags"] = iptcTags;
+        _queryParams["not_iptc_tags"] = notIptcTags;
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
@@ -281,13 +231,13 @@ export class Searchsimilar {
             ),
             method: "GET",
             headers: {
+                "x-api-token": await core.Supplier.get(this._options.apiToken),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.0.2",
+                "User-Agent": "newscatcher-sdk/1.0.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...(await this._getCustomAuthorizationHeaders()),
             },
             contentType: "application/json",
             queryParameters: _queryParams,
@@ -307,63 +257,9 @@ export class Searchsimilar {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
-                case 400:
-                    throw new NewscatcherApi.BadRequestError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 401:
-                    throw new NewscatcherApi.UnauthorizedError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 403:
-                    throw new NewscatcherApi.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 408:
-                    throw new NewscatcherApi.RequestTimeoutError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 429:
-                    throw new NewscatcherApi.TooManyRequestsError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 500:
-                    throw new NewscatcherApi.InternalServerError(
-                        serializers.InternalServerError.parseOrThrow(_response.error.body, {
+                        serializers.HttpValidationError.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
@@ -394,28 +290,20 @@ export class Searchsimilar {
     }
 
     /**
-     * Searches for articles similar to the specified query. You can filter results by language, country, source, and more.
+     * This endpoint returns a list of articles that are similar to the query provided. You also have the option to get similar articles for the results of a search.
      *
-     * @param {NewscatcherApi.SearchSimilarPostRequest} request
+     * @param {NewscatcherApi.MoreLikeThisRequest} request
      * @param {Searchsimilar.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link NewscatcherApi.BadRequestError}
-     * @throws {@link NewscatcherApi.UnauthorizedError}
-     * @throws {@link NewscatcherApi.ForbiddenError}
-     * @throws {@link NewscatcherApi.RequestTimeoutError}
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
-     * @throws {@link NewscatcherApi.TooManyRequestsError}
-     * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
      *     await client.searchsimilar.post({
-     *         q: "artificial intelligence",
-     *         includeSimilarDocuments: true,
-     *         similarDocumentsNumber: 5
+     *         q: "q"
      *     })
      */
     public async post(
-        request: NewscatcherApi.SearchSimilarPostRequest,
+        request: NewscatcherApi.MoreLikeThisRequest,
         requestOptions?: Searchsimilar.RequestOptions
     ): Promise<NewscatcherApi.SearchSimilarPostResponse> {
         const _response = await core.fetcher({
@@ -425,17 +313,17 @@ export class Searchsimilar {
             ),
             method: "POST",
             headers: {
+                "x-api-token": await core.Supplier.get(this._options.apiToken),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.0.2",
+                "User-Agent": "newscatcher-sdk/1.0.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...(await this._getCustomAuthorizationHeaders()),
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.SearchSimilarPostRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: serializers.MoreLikeThisRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -451,63 +339,9 @@ export class Searchsimilar {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
-                case 400:
-                    throw new NewscatcherApi.BadRequestError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 401:
-                    throw new NewscatcherApi.UnauthorizedError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 403:
-                    throw new NewscatcherApi.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 408:
-                    throw new NewscatcherApi.RequestTimeoutError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 429:
-                    throw new NewscatcherApi.TooManyRequestsError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 500:
-                    throw new NewscatcherApi.InternalServerError(
-                        serializers.InternalServerError.parseOrThrow(_response.error.body, {
+                        serializers.HttpValidationError.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
@@ -535,10 +369,5 @@ export class Searchsimilar {
                     message: _response.error.errorMessage,
                 });
         }
-    }
-
-    protected async _getCustomAuthorizationHeaders() {
-        const apiKeyValue = await core.Supplier.get(this._options.apiKey);
-        return { "x-api-token": apiKeyValue };
     }
 }

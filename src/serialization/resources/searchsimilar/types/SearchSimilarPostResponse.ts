@@ -5,14 +5,14 @@
 import * as serializers from "../../../index";
 import * as NewscatcherApi from "../../../../api/index";
 import * as core from "../../../../core";
-import { SearchSimilarResponseDto } from "../../../types/SearchSimilarResponseDto";
-import { FailedSearchSimilarResponseDto } from "../../../types/FailedSearchSimilarResponseDto";
+import { SearchResponse } from "../../../types/SearchResponse";
+import { FailedSearchResponse } from "../../../types/FailedSearchResponse";
 
 export const SearchSimilarPostResponse: core.serialization.Schema<
     serializers.SearchSimilarPostResponse.Raw,
     NewscatcherApi.SearchSimilarPostResponse
-> = core.serialization.undiscriminatedUnion([SearchSimilarResponseDto, FailedSearchSimilarResponseDto]);
+> = core.serialization.undiscriminatedUnion([SearchResponse, FailedSearchResponse]);
 
 export declare namespace SearchSimilarPostResponse {
-    type Raw = SearchSimilarResponseDto.Raw | FailedSearchSimilarResponseDto.Raw;
+    type Raw = SearchResponse.Raw | FailedSearchResponse.Raw;
 }

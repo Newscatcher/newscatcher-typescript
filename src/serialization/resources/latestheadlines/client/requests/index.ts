@@ -1,1 +1,1 @@
-export { LatestHeadlinesPostRequest } from "./LatestHeadlinesPostRequest";
+export { LatestHeadlinesRequest } from "./LatestHeadlinesRequest";

@@ -1,1 +1,1 @@
-export { SearchSimilarPostRequest } from "./SearchSimilarPostRequest";
+export { MoreLikeThisRequest } from "./MoreLikeThisRequest";

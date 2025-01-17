@@ -12,7 +12,8 @@ import * as errors from "../../../../errors/index";
 export declare namespace Sources {
     interface Options {
         environment?: core.Supplier<environments.NewscatcherApiEnvironment | string>;
-        apiKey: core.Supplier<string>;
+        /** Override the x-api-token header */
+        apiToken: core.Supplier<string>;
     }
 
     interface RequestOptions {
@@ -22,87 +23,56 @@ export declare namespace Sources {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the x-api-token header */
+        apiToken?: string;
     }
 }
 
-/**
- * Operations to retrieve news sources.
- */
 export class Sources {
     constructor(protected readonly _options: Sources.Options) {}
 
     /**
-     * Retrieves a list of sources based on specified criteria such as language, country, rank, and more.
+     * This endpoint allows you to get the list of sources that are available in the database. You can filter the sources by language and country. The maximum number of sources displayed is set according to your plan. You can find the list of plans and their features here: https://newscatcherapi.com/news-api#news-api-pricing
      *
      * @param {NewscatcherApi.SourcesGetRequest} request
      * @param {Sources.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link NewscatcherApi.BadRequestError}
-     * @throws {@link NewscatcherApi.UnauthorizedError}
-     * @throws {@link NewscatcherApi.ForbiddenError}
-     * @throws {@link NewscatcherApi.RequestTimeoutError}
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
-     * @throws {@link NewscatcherApi.TooManyRequestsError}
-     * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
      *     await client.sources.get({
-     *         predefinedSources: "top 100 US, top 5 GB",
-     *         sourceUrl: "bbc.com"
+     *         lang: "lang",
+     *         countries: "countries",
+     *         predefinedSources: "predefined_sources",
+     *         sourceName: "source_name",
+     *         sourceUrl: "source_url",
+     *         newsDomainType: "news_domain_type",
+     *         newsType: "news_type"
      *     })
      */
     public async get(
-        request: NewscatcherApi.SourcesGetRequest = {},
+        request: NewscatcherApi.SourcesGetRequest,
         requestOptions?: Sources.RequestOptions
-    ): Promise<NewscatcherApi.SourcesResponseDto> {
+    ): Promise<NewscatcherApi.SourceResponse> {
         const {
             lang,
             countries,
             predefinedSources,
+            includeAdditionalInfo,
+            fromRank,
+            toRank,
             sourceName,
             sourceUrl,
-            includeAdditionalInfo,
             isNewsDomain,
             newsDomainType,
             newsType,
-            fromRank,
-            toRank,
         } = request;
         const _queryParams: Record<string, string | string[] | object | object[]> = {};
-        if (lang != null) {
-            _queryParams["lang"] = lang;
-        }
-
-        if (countries != null) {
-            _queryParams["countries"] = countries;
-        }
-
-        if (predefinedSources != null) {
-            _queryParams["predefined_sources"] = predefinedSources;
-        }
-
-        if (sourceName != null) {
-            _queryParams["source_name"] = sourceName;
-        }
-
-        if (sourceUrl != null) {
-            _queryParams["source_url"] = sourceUrl;
-        }
-
+        _queryParams["lang"] = lang;
+        _queryParams["countries"] = countries;
+        _queryParams["predefined_sources"] = predefinedSources;
         if (includeAdditionalInfo != null) {
             _queryParams["include_additional_info"] = includeAdditionalInfo.toString();
-        }
-
-        if (isNewsDomain != null) {
-            _queryParams["is_news_domain"] = isNewsDomain.toString();
-        }
-
-        if (newsDomainType != null) {
-            _queryParams["news_domain_type"] = newsDomainType;
-        }
-
-        if (newsType != null) {
-            _queryParams["news_type"] = newsType;
         }
 
         if (fromRank != null) {
@@ -113,6 +83,14 @@ export class Sources {
             _queryParams["to_rank"] = toRank.toString();
         }
 
+        _queryParams["source_name"] = sourceName;
+        _queryParams["source_url"] = sourceUrl;
+        if (isNewsDomain != null) {
+            _queryParams["is_news_domain"] = isNewsDomain.toString();
+        }
+
+        _queryParams["news_domain_type"] = newsDomainType;
+        _queryParams["news_type"] = newsType;
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
@@ -120,13 +98,13 @@ export class Sources {
             ),
             method: "GET",
             headers: {
+                "x-api-token": await core.Supplier.get(this._options.apiToken),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.0.2",
+                "User-Agent": "newscatcher-sdk/1.0.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...(await this._getCustomAuthorizationHeaders()),
             },
             contentType: "application/json",
             queryParameters: _queryParams,
@@ -136,7 +114,7 @@ export class Sources {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.SourcesResponseDto.parseOrThrow(_response.body, {
+            return serializers.SourceResponse.parseOrThrow(_response.body, {
                 unrecognizedObjectKeys: "passthrough",
                 allowUnrecognizedUnionMembers: true,
                 allowUnrecognizedEnumValues: true,
@@ -146,63 +124,9 @@ export class Sources {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
-                case 400:
-                    throw new NewscatcherApi.BadRequestError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 401:
-                    throw new NewscatcherApi.UnauthorizedError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 403:
-                    throw new NewscatcherApi.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 408:
-                    throw new NewscatcherApi.RequestTimeoutError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 429:
-                    throw new NewscatcherApi.TooManyRequestsError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 500:
-                    throw new NewscatcherApi.InternalServerError(
-                        serializers.InternalServerError.parseOrThrow(_response.error.body, {
+                        serializers.HttpValidationError.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
@@ -233,32 +157,20 @@ export class Sources {
     }
 
     /**
-     * Retrieves the list of sources available in the database. You can filter the sources by language, country, and more.
+     * This endpoint allows you to get the list of sources that are available in the database. You can filter the sources by language and country. The maximum number of sources displayed is set according to your plan. You can find the list of plans and their features here: https://newscatcherapi.com/news-api#news-api-pricing
      *
-     * @param {NewscatcherApi.SourcesPostRequest} request
+     * @param {NewscatcherApi.SourcesRequest} request
      * @param {Sources.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link NewscatcherApi.BadRequestError}
-     * @throws {@link NewscatcherApi.UnauthorizedError}
-     * @throws {@link NewscatcherApi.ForbiddenError}
-     * @throws {@link NewscatcherApi.RequestTimeoutError}
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
-     * @throws {@link NewscatcherApi.TooManyRequestsError}
-     * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
-     *     await client.sources.post({
-     *         predefinedSources: ["top 50 US"],
-     *         includeAdditionalInfo: true,
-     *         isNewsDomain: true,
-     *         newsDomainType: NewscatcherApi.NewsDomainType.OriginalContent,
-     *         newsType: "General News Outlets"
-     *     })
+     *     await client.sources.post()
      */
     public async post(
-        request: NewscatcherApi.SourcesPostRequest = {},
+        request: NewscatcherApi.SourcesRequest = {},
         requestOptions?: Sources.RequestOptions
-    ): Promise<NewscatcherApi.SourcesResponseDto> {
+    ): Promise<NewscatcherApi.SourceResponse> {
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
@@ -266,23 +178,23 @@ export class Sources {
             ),
             method: "POST",
             headers: {
+                "x-api-token": await core.Supplier.get(this._options.apiToken),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.0.2",
+                "User-Agent": "newscatcher-sdk/1.0.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...(await this._getCustomAuthorizationHeaders()),
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.SourcesPostRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: serializers.SourcesRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.SourcesResponseDto.parseOrThrow(_response.body, {
+            return serializers.SourceResponse.parseOrThrow(_response.body, {
                 unrecognizedObjectKeys: "passthrough",
                 allowUnrecognizedUnionMembers: true,
                 allowUnrecognizedEnumValues: true,
@@ -292,63 +204,9 @@ export class Sources {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
-                case 400:
-                    throw new NewscatcherApi.BadRequestError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 401:
-                    throw new NewscatcherApi.UnauthorizedError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 403:
-                    throw new NewscatcherApi.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 408:
-                    throw new NewscatcherApi.RequestTimeoutError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 429:
-                    throw new NewscatcherApi.TooManyRequestsError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 500:
-                    throw new NewscatcherApi.InternalServerError(
-                        serializers.InternalServerError.parseOrThrow(_response.error.body, {
+                        serializers.HttpValidationError.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
@@ -376,10 +234,5 @@ export class Sources {
                     message: _response.error.errorMessage,
                 });
         }
-    }
-
-    protected async _getCustomAuthorizationHeaders() {
-        const apiKeyValue = await core.Supplier.get(this._options.apiKey);
-        return { "x-api-token": apiKeyValue };
     }
 }

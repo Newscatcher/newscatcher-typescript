@@ -12,7 +12,8 @@ import * as errors from "../../../../errors/index";
 export declare namespace Authors {
     interface Options {
         environment?: core.Supplier<environments.NewscatcherApiEnvironment | string>;
-        apiKey: core.Supplier<string>;
+        /** Override the x-api-token header */
+        apiToken: core.Supplier<string>;
     }
 
     interface RequestOptions {
@@ -22,43 +23,39 @@ export declare namespace Authors {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the x-api-token header */
+        apiToken?: string;
     }
 }
 
-/**
- * Operations to search by author.
- */
 export class Authors {
     constructor(protected readonly _options: Authors.Options) {}
 
     /**
-     * Searches for articles written by a specified author. You can filter results by language, country, source, and more.
+     * This endpoint allows you to search for articles by author. You need to specify the author name. You can also filter by language, country, source, and more.
      *
      * @param {NewscatcherApi.AuthorsGetRequest} request
      * @param {Authors.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link NewscatcherApi.BadRequestError}
-     * @throws {@link NewscatcherApi.UnauthorizedError}
-     * @throws {@link NewscatcherApi.ForbiddenError}
-     * @throws {@link NewscatcherApi.RequestTimeoutError}
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
-     * @throws {@link NewscatcherApi.TooManyRequestsError}
-     * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
      *     await client.authors.get({
-     *         authorName: "Jane Smith",
-     *         predefinedSources: "top 100 US, top 5 GB",
-     *         from: new Date("2024-07-01T00:00:00.000Z"),
-     *         to: new Date("2024-07-01T00:00:00.000Z"),
-     *         theme: "Business,Finance",
-     *         notTheme: "Crime",
-     *         nerName: "Tesla",
-     *         iptcTags: "20000199,20000209",
-     *         notIptcTags: "20000205,20000209",
-     *         iabTags: "Business,Events",
-     *         notIabTags: "Agriculture,Metals",
-     *         customTags: "Tag1,Tag2,Tag3"
+     *         authorName: "author_name",
+     *         sources: "sources",
+     *         predefinedSources: "predefined_sources",
+     *         notSources: "not_sources",
+     *         lang: "lang",
+     *         notLang: "not_lang",
+     *         countries: "countries",
+     *         notCountries: "not_countries",
+     *         parentUrl: "parent_url",
+     *         allLinks: "all_links",
+     *         allDomainLinks: "all_domain_links",
+     *         iptcTags: "iptc_tags",
+     *         notIptcTags: "not_iptc_tags",
+     *         iabTags: "iab_tags",
+     *         notIabTags: "not_iab_tags"
      *     })
      */
     public async get(
@@ -68,8 +65,8 @@ export class Authors {
         const {
             authorName,
             notAuthorName,
-            predefinedSources,
             sources,
+            predefinedSources,
             notSources,
             lang,
             notLang,
@@ -97,7 +94,6 @@ export class Authors {
             hasNlp,
             theme,
             notTheme,
-            nerName,
             titleSentimentMin,
             titleSentimentMax,
             contentSentimentMin,
@@ -106,7 +102,6 @@ export class Authors {
             notIptcTags,
             iabTags,
             notIabTags,
-            customTags,
         } = request;
         const _queryParams: Record<string, string | string[] | object | object[]> = {};
         _queryParams["author_name"] = authorName;
@@ -114,40 +109,19 @@ export class Authors {
             _queryParams["not_author_name"] = notAuthorName;
         }
 
-        if (predefinedSources != null) {
-            _queryParams["predefined_sources"] = predefinedSources;
-        }
-
-        if (sources != null) {
-            _queryParams["sources"] = sources;
-        }
-
-        if (notSources != null) {
-            _queryParams["not_sources"] = notSources;
-        }
-
-        if (lang != null) {
-            _queryParams["lang"] = lang;
-        }
-
-        if (notLang != null) {
-            _queryParams["not_lang"] = notLang;
-        }
-
-        if (countries != null) {
-            _queryParams["countries"] = countries;
-        }
-
-        if (notCountries != null) {
-            _queryParams["not_countries"] = notCountries;
-        }
-
+        _queryParams["sources"] = sources;
+        _queryParams["predefined_sources"] = predefinedSources;
+        _queryParams["not_sources"] = notSources;
+        _queryParams["lang"] = lang;
+        _queryParams["not_lang"] = notLang;
+        _queryParams["countries"] = countries;
+        _queryParams["not_countries"] = notCountries;
         if (from_ != null) {
-            _queryParams["from_"] = from_.toISOString();
+            _queryParams["from_"] = from_;
         }
 
         if (to != null) {
-            _queryParams["to_"] = to.toISOString();
+            _queryParams["to_"] = to;
         }
 
         if (publishedDatePrecision != null) {
@@ -163,7 +137,7 @@ export class Authors {
         }
 
         if (rankedOnly != null) {
-            _queryParams["ranked_only"] = rankedOnly.toString();
+            _queryParams["ranked_only"] = rankedOnly;
         }
 
         if (fromRank != null) {
@@ -186,18 +160,9 @@ export class Authors {
             _queryParams["is_paid_content"] = isPaidContent.toString();
         }
 
-        if (parentUrl != null) {
-            _queryParams["parent_url"] = parentUrl;
-        }
-
-        if (allLinks != null) {
-            _queryParams["all_links"] = allLinks;
-        }
-
-        if (allDomainLinks != null) {
-            _queryParams["all_domain_links"] = allDomainLinks;
-        }
-
+        _queryParams["parent_url"] = parentUrl;
+        _queryParams["all_links"] = allLinks;
+        _queryParams["all_domain_links"] = allDomainLinks;
         if (wordCountMin != null) {
             _queryParams["word_count_min"] = wordCountMin.toString();
         }
@@ -230,10 +195,6 @@ export class Authors {
             _queryParams["not_theme"] = notTheme;
         }
 
-        if (nerName != null) {
-            _queryParams["ner_name"] = nerName;
-        }
-
         if (titleSentimentMin != null) {
             _queryParams["title_sentiment_min"] = titleSentimentMin.toString();
         }
@@ -250,26 +211,10 @@ export class Authors {
             _queryParams["content_sentiment_max"] = contentSentimentMax.toString();
         }
 
-        if (iptcTags != null) {
-            _queryParams["iptc_tags"] = iptcTags;
-        }
-
-        if (notIptcTags != null) {
-            _queryParams["not_iptc_tags"] = notIptcTags;
-        }
-
-        if (iabTags != null) {
-            _queryParams["iab_tags"] = iabTags;
-        }
-
-        if (notIabTags != null) {
-            _queryParams["not_iab_tags"] = notIabTags;
-        }
-
-        if (customTags != null) {
-            _queryParams["custom_tags"] = customTags;
-        }
-
+        _queryParams["iptc_tags"] = iptcTags;
+        _queryParams["not_iptc_tags"] = notIptcTags;
+        _queryParams["iab_tags"] = iabTags;
+        _queryParams["not_iab_tags"] = notIabTags;
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
@@ -277,13 +222,13 @@ export class Authors {
             ),
             method: "GET",
             headers: {
+                "x-api-token": await core.Supplier.get(this._options.apiToken),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.0.2",
+                "User-Agent": "newscatcher-sdk/1.0.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...(await this._getCustomAuthorizationHeaders()),
             },
             contentType: "application/json",
             queryParameters: _queryParams,
@@ -303,63 +248,9 @@ export class Authors {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
-                case 400:
-                    throw new NewscatcherApi.BadRequestError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 401:
-                    throw new NewscatcherApi.UnauthorizedError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 403:
-                    throw new NewscatcherApi.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 408:
-                    throw new NewscatcherApi.RequestTimeoutError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 429:
-                    throw new NewscatcherApi.TooManyRequestsError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 500:
-                    throw new NewscatcherApi.InternalServerError(
-                        serializers.InternalServerError.parseOrThrow(_response.error.body, {
+                        serializers.HttpValidationError.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
@@ -390,30 +281,20 @@ export class Authors {
     }
 
     /**
-     * Searches for articles by author. You can filter results by language, country, source, and more.
+     * This endpoint allows you to search for articles by author. You need to specify the author name. You can also filter by language, country, source, and more.
      *
-     * @param {NewscatcherApi.AuthorsPostRequest} request
+     * @param {NewscatcherApi.AuthorSearchRequest} request
      * @param {Authors.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link NewscatcherApi.BadRequestError}
-     * @throws {@link NewscatcherApi.UnauthorizedError}
-     * @throws {@link NewscatcherApi.ForbiddenError}
-     * @throws {@link NewscatcherApi.RequestTimeoutError}
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
-     * @throws {@link NewscatcherApi.TooManyRequestsError}
-     * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
      *     await client.authors.post({
-     *         authorName: "Joanna Stern",
-     *         sources: ["wsj.com", "nytimes.com"],
-     *         lang: "en",
-     *         from: new Date("2024-01-01T00:00:00.000Z"),
-     *         to: new Date("2024-06-30T00:00:00.000Z")
+     *         authorName: "author_name"
      *     })
      */
     public async post(
-        request: NewscatcherApi.AuthorsPostRequest,
+        request: NewscatcherApi.AuthorSearchRequest,
         requestOptions?: Authors.RequestOptions
     ): Promise<NewscatcherApi.AuthorsPostResponse> {
         const _response = await core.fetcher({
@@ -423,17 +304,17 @@ export class Authors {
             ),
             method: "POST",
             headers: {
+                "x-api-token": await core.Supplier.get(this._options.apiToken),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.0.2",
+                "User-Agent": "newscatcher-sdk/1.0.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...(await this._getCustomAuthorizationHeaders()),
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.AuthorsPostRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: serializers.AuthorSearchRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -449,63 +330,9 @@ export class Authors {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
-                case 400:
-                    throw new NewscatcherApi.BadRequestError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 401:
-                    throw new NewscatcherApi.UnauthorizedError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 403:
-                    throw new NewscatcherApi.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 408:
-                    throw new NewscatcherApi.RequestTimeoutError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 429:
-                    throw new NewscatcherApi.TooManyRequestsError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 500:
-                    throw new NewscatcherApi.InternalServerError(
-                        serializers.InternalServerError.parseOrThrow(_response.error.body, {
+                        serializers.HttpValidationError.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
@@ -533,10 +360,5 @@ export class Authors {
                     message: _response.error.errorMessage,
                 });
         }
-    }
-
-    protected async _getCustomAuthorizationHeaders() {
-        const apiKeyValue = await core.Supplier.get(this._options.apiKey);
-        return { "x-api-token": apiKeyValue };
     }
 }

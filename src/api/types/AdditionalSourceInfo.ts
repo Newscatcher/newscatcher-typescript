@@ -3,19 +3,13 @@
  */
 
 /**
- * The data model for additional information about a news source.
+ * AdditionalSourceInfo DTO class.
  */
 export interface AdditionalSourceInfo {
-    /** The number of articles published by the source in the last seven days. */
     nbArticlesFor7D?: number;
-    /** The country of origin of the news source. */
     country?: string;
-    /** The SEO rank of the news source. */
     rank?: number;
-    /** Indicates whether the source is a news domain. */
     isNewsDomain?: boolean;
-    /** The type of news domain. */
     newsDomainType?: string;
-    /** The category of news provided by the source. */
     newsType?: string;
 }

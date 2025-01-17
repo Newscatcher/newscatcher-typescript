@@ -3,15 +3,11 @@
  */
 
 /**
- * The data model for a similar document in the `Search similar` articles request.
+ * SimilarDocument DTO class.
  */
 export interface SimilarDocument {
-    /** The unique identifier of the similar document. */
     id: string;
-    /** The relevance score of the similar document. */
     score: number;
-    /** The title of the similar document. */
     title: string;
-    /** The link to the similar document. */
     link: string;
 }

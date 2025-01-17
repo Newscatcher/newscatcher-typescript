@@ -1,2 +1,2 @@
 export { type SearchSimilarGetRequest } from "./SearchSimilarGetRequest";
-export { type SearchSimilarPostRequest } from "./SearchSimilarPostRequest";
+export { type MoreLikeThisRequest } from "./MoreLikeThisRequest";

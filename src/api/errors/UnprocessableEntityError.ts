@@ -6,7 +6,7 @@ import * as errors from "../../errors/index";
 import * as NewscatcherApi from "../index";
 
 export class UnprocessableEntityError extends errors.NewscatcherApiError {
-    constructor(body: NewscatcherApi.Error_) {
+    constructor(body: NewscatcherApi.HttpValidationError) {
         super({
             message: "UnprocessableEntityError",
             statusCode: 422,

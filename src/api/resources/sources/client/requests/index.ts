@@ -1,2 +1,2 @@
 export { type SourcesGetRequest } from "./SourcesGetRequest";
-export { type SourcesPostRequest } from "./SourcesPostRequest";
+export { type SourcesRequest } from "./SourcesRequest";

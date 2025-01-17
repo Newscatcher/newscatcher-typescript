@@ -1,1 +1,1 @@
-export { SearchUrlPostRequest } from "./SearchUrlPostRequest";
+export { SearchUrlRequest } from "./SearchUrlRequest";

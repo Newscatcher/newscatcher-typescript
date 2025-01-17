@@ -4,4 +4,6 @@
 
 import * as NewscatcherApi from "../../../index";
 
-export type LatestHeadlinesGetResponse = NewscatcherApi.SearchResponseDto | NewscatcherApi.ClusteredSearchResponseDto;
+export type LatestHeadlinesGetResponse =
+    | NewscatcherApi.ClusteringSearchResponse
+    | NewscatcherApi.LatestHeadlinesResponse;

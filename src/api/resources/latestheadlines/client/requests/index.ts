@@ -1,2 +1,2 @@
 export { type LatestHeadlinesGetRequest } from "./LatestHeadlinesGetRequest";
-export { type LatestHeadlinesPostRequest } from "./LatestHeadlinesPostRequest";
+export { type LatestHeadlinesRequest } from "./LatestHeadlinesRequest";
