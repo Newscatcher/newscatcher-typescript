@@ -10,13 +10,13 @@ import { Authors } from "./api/resources/authors/client/Client";
 import { SearchLink } from "./api/resources/searchLink/client/Client";
 import { Searchsimilar } from "./api/resources/searchsimilar/client/Client";
 import { Sources } from "./api/resources/sources/client/Client";
+import { Aggregation } from "./api/resources/aggregation/client/Client";
 import { Subscription } from "./api/resources/subscription/client/Client";
 
 export declare namespace NewscatcherApiClient {
     interface Options {
         environment?: core.Supplier<environments.NewscatcherApiEnvironment | string>;
-        /** Override the x-api-token header */
-        apiToken: core.Supplier<string>;
+        apiKey: core.Supplier<string>;
     }
 
     interface RequestOptions {
@@ -26,8 +26,6 @@ export declare namespace NewscatcherApiClient {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
-        /** Override the x-api-token header */
-        apiToken?: string;
     }
 }
 
@@ -68,6 +66,12 @@ export class NewscatcherApiClient {
 
     public get sources(): Sources {
         return (this._sources ??= new Sources(this._options));
+    }
+
+    protected _aggregation: Aggregation | undefined;
+
+    public get aggregation(): Aggregation {
+        return (this._aggregation ??= new Aggregation(this._options));
     }
 
     protected _subscription: Subscription | undefined;

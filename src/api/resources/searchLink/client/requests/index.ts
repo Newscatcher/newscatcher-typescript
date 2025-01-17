@@ -1,2 +1,2 @@
 export { type SearchUrlGetRequest } from "./SearchUrlGetRequest";
-export { type SearchUrlRequest } from "./SearchUrlRequest";
+export { type SearchUrlPostRequest } from "./SearchUrlPostRequest";
