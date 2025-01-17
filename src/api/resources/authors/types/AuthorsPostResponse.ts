@@ -4,4 +4,4 @@
 
 import * as NewscatcherApi from "../../../index";
 
-export type AuthorsPostResponse = NewscatcherApi.SearchResponse | NewscatcherApi.FailedSearchResponse;
+export type AuthorsPostResponse = NewscatcherApi.SearchResponseDto | NewscatcherApi.FailedAuthorsResponseDto;

@@ -4,4 +4,6 @@
 
 import * as NewscatcherApi from "../../../index";
 
-export type SearchSimilarGetResponse = NewscatcherApi.SearchResponse | NewscatcherApi.FailedSearchResponse;
+export type SearchSimilarGetResponse =
+    | NewscatcherApi.SearchSimilarResponseDto
+    | NewscatcherApi.FailedSearchSimilarResponseDto;

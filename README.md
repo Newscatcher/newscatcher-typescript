@@ -22,9 +22,15 @@ Instantiate and use the client with the following:
 ```typescript
 import { NewscatcherApiClient } from "newscatcher-sdk";
 
-const client = new NewscatcherApiClient({ apiToken: "YOUR_API_TOKEN" });
+const client = new NewscatcherApiClient({ apiKey: "YOUR_API_KEY" });
 await client.search.post({
-    q: "q",
+    q: "renewable energy",
+    predefinedSources: ["top 50 US"],
+    lang: ["en"],
+    from: new Date("2024-01-01T00:00:00.000Z"),
+    to: new Date("2024-06-30T00:00:00.000Z"),
+    additionalDomainInfo: true,
+    isNewsDomain: true,
 });
 ```
 
