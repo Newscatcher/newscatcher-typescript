@@ -14,7 +14,7 @@
 <dl>
 <dd>
 
-This endpoint allows you to search for articles. You can search for articles by keyword, language, country, source, and more.
+Searches for articles based on specified criteria such as keyword, language, country, source, and more.
 
 </dd>
 </dl>
@@ -31,25 +31,17 @@ This endpoint allows you to search for articles. You can search for articles by 
 
 ```typescript
 await client.search.get({
-    q: "q",
-    predefinedSources: "predefined_sources",
-    sources: "sources",
-    notSources: "not_sources",
-    lang: "lang",
-    notLang: "not_lang",
-    countries: "countries",
-    notCountries: "not_countries",
-    notAuthorName: "not_author_name",
-    parentUrl: "parent_url",
-    allLinks: "all_links",
-    allDomainLinks: "all_domain_links",
-    iptcTags: "iptc_tags",
-    notIptcTags: "not_iptc_tags",
-    sourceName: "source_name",
-    iabTags: "iab_tags",
-    notIabTags: "not_iab_tags",
-    newsDomainType: "news_domain_type",
-    newsType: "news_type",
+    q: "technology AND (Apple OR Microsoft) NOT Google",
+    predefinedSources: "top 100 US, top 5 GB",
+    from: new Date("2024-07-01T00:00:00.000Z"),
+    to: new Date("2024-07-01T00:00:00.000Z"),
+    theme: "Business,Finance",
+    notTheme: "Crime",
+    iptcTags: "20000199,20000209",
+    notIptcTags: "20000205,20000209",
+    iabTags: "Business,Events",
+    notIabTags: "Agriculture,Metals",
+    customTags: "Tag1,Tag2,Tag3",
 });
 ```
 
@@ -97,7 +89,7 @@ await client.search.get({
 <dl>
 <dd>
 
-This endpoint allows you to search for articles. You can search for articles by keyword, language, country, source, and more.
+Searches for articles based on specified criteria such as keyword, language, country, source, and more.
 
 </dd>
 </dl>
@@ -114,7 +106,13 @@ This endpoint allows you to search for articles. You can search for articles by 
 
 ```typescript
 await client.search.post({
-    q: "q",
+    q: "renewable energy",
+    predefinedSources: ["top 50 US"],
+    lang: ["en"],
+    from: new Date("2024-01-01T00:00:00.000Z"),
+    to: new Date("2024-06-30T00:00:00.000Z"),
+    additionalDomainInfo: true,
+    isNewsDomain: true,
 });
 ```
 
@@ -131,7 +129,7 @@ await client.search.post({
 <dl>
 <dd>
 
-**request:** `NewscatcherApi.SearchRequest`
+**request:** `NewscatcherApi.SearchPostRequest`
 
 </dd>
 </dl>
@@ -150,7 +148,7 @@ await client.search.post({
 </dl>
 </details>
 
-## Latestheadlines
+## LatestHeadlines
 
 <details><summary><code>client.latestheadlines.<a href="/src/api/resources/latestheadlines/client/Client.ts">get</a>({ ...params }) -> NewscatcherApi.LatestHeadlinesGetResponse</code></summary>
 <dl>
@@ -164,7 +162,7 @@ await client.search.post({
 <dl>
 <dd>
 
-This endpoint allows you to get latest headlines. You need to specify since when you want to get the latest headlines. You can also filter by language, country, source, and more.
+Retrieves the latest headlines for the specified time period. You can filter results by language, country, source, and more.
 
 </dd>
 </dl>
@@ -181,21 +179,14 @@ This endpoint allows you to get latest headlines. You need to specify since when
 
 ```typescript
 await client.latestheadlines.get({
-    lang: "lang",
-    notLang: "not_lang",
-    countries: "countries",
-    notCountries: "not_countries",
-    sources: "sources",
-    predefinedSources: "predefined_sources",
-    notSources: "not_sources",
-    notAuthorName: "not_author_name",
-    parentUrl: "parent_url",
-    allLinks: "all_links",
-    allDomainLinks: "all_domain_links",
-    iptcTags: "iptc_tags",
-    notIptcTags: "not_iptc_tags",
-    iabTags: "iab_tags",
-    notIabTags: "not_iab_tags",
+    predefinedSources: "top 100 US, top 5 GB",
+    theme: "Business,Finance",
+    notTheme: "Crime",
+    iptcTags: "20000199,20000209",
+    notIptcTags: "20000205,20000209",
+    iabTags: "Business,Events",
+    notIabTags: "Agriculture,Metals",
+    customTags: "Tag1,Tag2,Tag3",
 });
 ```
 
@@ -243,7 +234,7 @@ await client.latestheadlines.get({
 <dl>
 <dd>
 
-This endpoint allows you to get latest headlines. You need to specify since when you want to get the latest headlines. You can also filter by language, country, source, and more.
+Retrieves the latest headlines for the specified time period. You can filter results by language, country, source, and more.
 
 </dd>
 </dl>
@@ -259,7 +250,12 @@ This endpoint allows you to get latest headlines. You need to specify since when
 <dd>
 
 ```typescript
-await client.latestheadlines.post();
+await client.latestheadlines.post({
+    lang: "en",
+    predefinedSources: ["top 50 US", "top 20 GB"],
+    isOpinion: false,
+    pageSize: 10,
+});
 ```
 
 </dd>
@@ -275,7 +271,7 @@ await client.latestheadlines.post();
 <dl>
 <dd>
 
-**request:** `NewscatcherApi.LatestHeadlinesRequest`
+**request:** `NewscatcherApi.LatestHeadlinesPostRequest`
 
 </dd>
 </dl>
@@ -308,7 +304,7 @@ await client.latestheadlines.post();
 <dl>
 <dd>
 
-This endpoint allows you to search for articles by author. You need to specify the author name. You can also filter by language, country, source, and more.
+Searches for articles written by a specified author. You can filter results by language, country, source, and more.
 
 </dd>
 </dl>
@@ -325,21 +321,18 @@ This endpoint allows you to search for articles by author. You need to specify t
 
 ```typescript
 await client.authors.get({
-    authorName: "author_name",
-    sources: "sources",
-    predefinedSources: "predefined_sources",
-    notSources: "not_sources",
-    lang: "lang",
-    notLang: "not_lang",
-    countries: "countries",
-    notCountries: "not_countries",
-    parentUrl: "parent_url",
-    allLinks: "all_links",
-    allDomainLinks: "all_domain_links",
-    iptcTags: "iptc_tags",
-    notIptcTags: "not_iptc_tags",
-    iabTags: "iab_tags",
-    notIabTags: "not_iab_tags",
+    authorName: "Jane Smith",
+    predefinedSources: "top 100 US, top 5 GB",
+    from: new Date("2024-07-01T00:00:00.000Z"),
+    to: new Date("2024-07-01T00:00:00.000Z"),
+    theme: "Business,Finance",
+    notTheme: "Crime",
+    nerName: "Tesla",
+    iptcTags: "20000199,20000209",
+    notIptcTags: "20000205,20000209",
+    iabTags: "Business,Events",
+    notIabTags: "Agriculture,Metals",
+    customTags: "Tag1,Tag2,Tag3",
 });
 ```
 
@@ -387,7 +380,7 @@ await client.authors.get({
 <dl>
 <dd>
 
-This endpoint allows you to search for articles by author. You need to specify the author name. You can also filter by language, country, source, and more.
+Searches for articles by author. You can filter results by language, country, source, and more.
 
 </dd>
 </dl>
@@ -404,7 +397,11 @@ This endpoint allows you to search for articles by author. You need to specify t
 
 ```typescript
 await client.authors.post({
-    authorName: "author_name",
+    authorName: "Joanna Stern",
+    sources: ["wsj.com", "nytimes.com"],
+    lang: "en",
+    from: new Date("2024-01-01T00:00:00.000Z"),
+    to: new Date("2024-06-30T00:00:00.000Z"),
 });
 ```
 
@@ -421,7 +418,7 @@ await client.authors.post({
 <dl>
 <dd>
 
-**request:** `NewscatcherApi.AuthorSearchRequest`
+**request:** `NewscatcherApi.AuthorsPostRequest`
 
 </dd>
 </dl>
@@ -442,7 +439,7 @@ await client.authors.post({
 
 ## SearchLink
 
-<details><summary><code>client.searchLink.<a href="/src/api/resources/searchLink/client/Client.ts">searchUrlGet</a>({ ...params }) -> NewscatcherApi.SearchResponse</code></summary>
+<details><summary><code>client.searchLink.<a href="/src/api/resources/searchLink/client/Client.ts">searchUrlGet</a>({ ...params }) -> NewscatcherApi.SearchResponseDto</code></summary>
 <dl>
 <dd>
 
@@ -454,7 +451,7 @@ await client.authors.post({
 <dl>
 <dd>
 
-This endpoint allows you to search for articles. You can search for articles by id(s) or link(s).
+Searches for articles based on specified links or IDs. You can filter results by date range.
 
 </dd>
 </dl>
@@ -471,8 +468,8 @@ This endpoint allows you to search for articles. You can search for articles by 
 
 ```typescript
 await client.searchLink.searchUrlGet({
-    ids: "ids",
-    links: "links",
+    from: new Date("2024-07-01T00:00:00.000Z"),
+    to: new Date("2024-01-01T00:00:00.000Z"),
 });
 ```
 
@@ -508,7 +505,7 @@ await client.searchLink.searchUrlGet({
 </dl>
 </details>
 
-<details><summary><code>client.searchLink.<a href="/src/api/resources/searchLink/client/Client.ts">searchUrlPost</a>({ ...params }) -> NewscatcherApi.SearchResponse</code></summary>
+<details><summary><code>client.searchLink.<a href="/src/api/resources/searchLink/client/Client.ts">searchUrlPost</a>({ ...params }) -> NewscatcherApi.SearchResponseDto</code></summary>
 <dl>
 <dd>
 
@@ -520,7 +517,7 @@ await client.searchLink.searchUrlGet({
 <dl>
 <dd>
 
-This endpoint allows you to search for articles. You can search for articles by id(s) or link(s).
+Searches for articles using their ID(s) or link(s).
 
 </dd>
 </dl>
@@ -536,7 +533,13 @@ This endpoint allows you to search for articles. You can search for articles by 
 <dd>
 
 ```typescript
-await client.searchLink.searchUrlPost();
+await client.searchLink.searchUrlPost({
+    ids: ["8ea8a784568ffaa05cb6d1ab2d2e84dd", "0146a551ef05ab1c494a55e806e3ce64"],
+    links: [
+        "https://www.nytimes.com/2024/08/30/technology/ai-chatbot-chatgpt-manipulation.html",
+        "https://www.bbc.com/news/articles/c39k379grzlo",
+    ],
+});
 ```
 
 </dd>
@@ -552,7 +555,7 @@ await client.searchLink.searchUrlPost();
 <dl>
 <dd>
 
-**request:** `NewscatcherApi.SearchUrlRequest`
+**request:** `NewscatcherApi.SearchUrlPostRequest`
 
 </dd>
 </dl>
@@ -571,7 +574,7 @@ await client.searchLink.searchUrlPost();
 </dl>
 </details>
 
-## Searchsimilar
+## SearchSimilar
 
 <details><summary><code>client.searchsimilar.<a href="/src/api/resources/searchsimilar/client/Client.ts">get</a>({ ...params }) -> NewscatcherApi.SearchSimilarGetResponse</code></summary>
 <dl>
@@ -585,7 +588,7 @@ await client.searchLink.searchUrlPost();
 <dl>
 <dd>
 
-This endpoint returns a list of articles that are similar to the query provided. You also have the option to get similar articles for the results of a search.
+Searches for articles similar to a specified query.
 
 </dd>
 </dl>
@@ -602,19 +605,17 @@ This endpoint returns a list of articles that are similar to the query provided.
 
 ```typescript
 await client.searchsimilar.get({
-    q: "q",
-    predefinedSources: "predefined_sources",
-    sources: "sources",
-    notSources: "not_sources",
-    lang: "lang",
-    notLang: "not_lang",
-    countries: "countries",
-    notCountries: "not_countries",
-    parentUrl: "parent_url",
-    allLinks: "all_links",
-    allDomainLinks: "all_domain_links",
-    iptcTags: "iptc_tags",
-    notIptcTags: "not_iptc_tags",
+    q: "technology AND (Apple OR Microsoft) NOT Google",
+    similarDocumentsFields: "title,summary",
+    predefinedSources: "top 100 US, top 5 GB",
+    from: new Date("2024-07-01T00:00:00.000Z"),
+    to: new Date("2024-07-01T00:00:00.000Z"),
+    theme: "Business,Finance",
+    notTheme: "Crime",
+    nerName: "Tesla",
+    iptcTags: "20000199,20000209",
+    notIptcTags: "20000205,20000209",
+    customTags: "Tag1,Tag2,Tag3",
 });
 ```
 
@@ -662,7 +663,7 @@ await client.searchsimilar.get({
 <dl>
 <dd>
 
-This endpoint returns a list of articles that are similar to the query provided. You also have the option to get similar articles for the results of a search.
+Searches for articles similar to the specified query. You can filter results by language, country, source, and more.
 
 </dd>
 </dl>
@@ -679,7 +680,9 @@ This endpoint returns a list of articles that are similar to the query provided.
 
 ```typescript
 await client.searchsimilar.post({
-    q: "q",
+    q: "artificial intelligence",
+    includeSimilarDocuments: true,
+    similarDocumentsNumber: 5,
 });
 ```
 
@@ -696,7 +699,7 @@ await client.searchsimilar.post({
 <dl>
 <dd>
 
-**request:** `NewscatcherApi.MoreLikeThisRequest`
+**request:** `NewscatcherApi.SearchSimilarPostRequest`
 
 </dd>
 </dl>
@@ -717,7 +720,7 @@ await client.searchsimilar.post({
 
 ## Sources
 
-<details><summary><code>client.sources.<a href="/src/api/resources/sources/client/Client.ts">get</a>({ ...params }) -> NewscatcherApi.SourceResponse</code></summary>
+<details><summary><code>client.sources.<a href="/src/api/resources/sources/client/Client.ts">get</a>({ ...params }) -> NewscatcherApi.SourcesResponseDto</code></summary>
 <dl>
 <dd>
 
@@ -729,7 +732,7 @@ await client.searchsimilar.post({
 <dl>
 <dd>
 
-This endpoint allows you to get the list of sources that are available in the database. You can filter the sources by language and country. The maximum number of sources displayed is set according to your plan. You can find the list of plans and their features here: https://newscatcherapi.com/news-api#news-api-pricing
+Retrieves a list of sources based on specified criteria such as language, country, rank, and more.
 
 </dd>
 </dl>
@@ -746,13 +749,8 @@ This endpoint allows you to get the list of sources that are available in the da
 
 ```typescript
 await client.sources.get({
-    lang: "lang",
-    countries: "countries",
-    predefinedSources: "predefined_sources",
-    sourceName: "source_name",
-    sourceUrl: "source_url",
-    newsDomainType: "news_domain_type",
-    newsType: "news_type",
+    predefinedSources: "top 100 US, top 5 GB",
+    sourceUrl: "bbc.com",
 });
 ```
 
@@ -788,7 +786,7 @@ await client.sources.get({
 </dl>
 </details>
 
-<details><summary><code>client.sources.<a href="/src/api/resources/sources/client/Client.ts">post</a>({ ...params }) -> NewscatcherApi.SourceResponse</code></summary>
+<details><summary><code>client.sources.<a href="/src/api/resources/sources/client/Client.ts">post</a>({ ...params }) -> NewscatcherApi.SourcesResponseDto</code></summary>
 <dl>
 <dd>
 
@@ -800,7 +798,7 @@ await client.sources.get({
 <dl>
 <dd>
 
-This endpoint allows you to get the list of sources that are available in the database. You can filter the sources by language and country. The maximum number of sources displayed is set according to your plan. You can find the list of plans and their features here: https://newscatcherapi.com/news-api#news-api-pricing
+Retrieves the list of sources available in the database. You can filter the sources by language, country, and more.
 
 </dd>
 </dl>
@@ -816,7 +814,13 @@ This endpoint allows you to get the list of sources that are available in the da
 <dd>
 
 ```typescript
-await client.sources.post();
+await client.sources.post({
+    predefinedSources: ["top 50 US"],
+    includeAdditionalInfo: true,
+    isNewsDomain: true,
+    newsDomainType: NewscatcherApi.NewsDomainType.OriginalContent,
+    newsType: "General News Outlets",
+});
 ```
 
 </dd>
@@ -832,7 +836,7 @@ await client.sources.post();
 <dl>
 <dd>
 
-**request:** `NewscatcherApi.SourcesRequest`
+**request:** `NewscatcherApi.SourcesPostRequest`
 
 </dd>
 </dl>
@@ -851,9 +855,9 @@ await client.sources.post();
 </dl>
 </details>
 
-## Subscription
+## Aggregation
 
-<details><summary><code>client.subscription.<a href="/src/api/resources/subscription/client/Client.ts">get</a>() -> NewscatcherApi.SubscriptionResponse</code></summary>
+<details><summary><code>client.aggregation.<a href="/src/api/resources/aggregation/client/Client.ts">get</a>({ ...params }) -> NewscatcherApi.AggregationGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -865,7 +869,150 @@ await client.sources.post();
 <dl>
 <dd>
 
-This endpoint allows you to get info about your subscription plan.
+Retrieves the count of articles aggregated by day or hour based on various search criteria, such as keyword, language, country, and source.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.aggregation.get({
+    q: "technology AND (Apple OR Microsoft) NOT Google",
+    predefinedSources: "top 100 US, top 5 GB",
+    from: new Date("2024-07-01T00:00:00.000Z"),
+    to: new Date("2024-07-01T00:00:00.000Z"),
+    theme: "Business,Finance",
+    notTheme: "Crime",
+    iptcTags: "20000199,20000209",
+    notIptcTags: "20000205,20000209",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `NewscatcherApi.AggregationGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Aggregation.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.aggregation.<a href="/src/api/resources/aggregation/client/Client.ts">post</a>({ ...params }) -> NewscatcherApi.AggregationPostResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieves the count of articles aggregated by day or hour based on various search criteria, such as keyword, language, country, and source.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.aggregation.post({
+    q: "renewable energy",
+    predefinedSources: "top 50 US",
+    from: new Date("2024-01-01T00:00:00.000Z"),
+    to: new Date("2024-06-30T00:00:00.000Z"),
+    aggregationBy: NewscatcherApi.AggregationBy.Day,
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `NewscatcherApi.AggregationPostRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Aggregation.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## Subscription
+
+<details><summary><code>client.subscription.<a href="/src/api/resources/subscription/client/Client.ts">get</a>() -> NewscatcherApi.SubscriptionResponseDto</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieves information about your subscription plan.
 
 </dd>
 </dl>
@@ -908,7 +1055,7 @@ await client.subscription.get();
 </dl>
 </details>
 
-<details><summary><code>client.subscription.<a href="/src/api/resources/subscription/client/Client.ts">post</a>() -> NewscatcherApi.SubscriptionResponse</code></summary>
+<details><summary><code>client.subscription.<a href="/src/api/resources/subscription/client/Client.ts">post</a>() -> NewscatcherApi.SubscriptionResponseDto</code></summary>
 <dl>
 <dd>
 
@@ -920,7 +1067,7 @@ await client.subscription.get();
 <dl>
 <dd>
 
-This endpoint allows you to get info about your subscription plan.
+Retrieves information about your subscription plan.
 
 </dd>
 </dl>

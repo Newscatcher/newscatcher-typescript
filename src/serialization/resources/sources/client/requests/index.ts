@@ -1,1 +1,1 @@
-export { SourcesRequest } from "./SourcesRequest";
+export { SourcesPostRequest } from "./SourcesPostRequest";
