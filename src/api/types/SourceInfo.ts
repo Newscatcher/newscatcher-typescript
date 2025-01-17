@@ -5,11 +5,14 @@
 import * as NewscatcherApi from "../index";
 
 /**
- * "SourceInfo DTO class.
+ * The data model for information about a news source.
  */
 export interface SourceInfo {
+    /** The name of the news source. */
     nameSource?: string;
+    /** The domain URL of the news source. */
     domainUrl: string;
+    /** The logo of the news source. */
     logo?: string;
     additionalInfo?: NewscatcherApi.AdditionalSourceInfo;
 }

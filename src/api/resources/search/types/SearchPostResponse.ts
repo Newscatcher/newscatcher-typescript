@@ -4,4 +4,4 @@
 
 import * as NewscatcherApi from "../../../index";
 
-export type SearchPostResponse = NewscatcherApi.SearchResponse | NewscatcherApi.ClusteringSearchResponse;
+export type SearchPostResponse = NewscatcherApi.SearchResponseDto | NewscatcherApi.ClusteredSearchResponseDto;
