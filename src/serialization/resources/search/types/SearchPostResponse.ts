@@ -14,5 +14,5 @@ export const SearchPostResponse: core.serialization.Schema<
 > = core.serialization.undiscriminatedUnion([SearchResponseDto, ClusteredSearchResponseDto]);
 
 export declare namespace SearchPostResponse {
-    type Raw = SearchResponseDto.Raw | ClusteredSearchResponseDto.Raw;
+    export type Raw = SearchResponseDto.Raw | ClusteredSearchResponseDto.Raw;
 }

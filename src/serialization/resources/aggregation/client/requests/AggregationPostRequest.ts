@@ -6,6 +6,7 @@ import * as serializers from "../../../../index";
 import * as NewscatcherApi from "../../../../../api/index";
 import * as core from "../../../../../core";
 import { Q } from "../../../../types/Q";
+import { AggregationBy } from "../../../../types/AggregationBy";
 import { SearchIn } from "../../../../types/SearchIn";
 import { PredefinedSources } from "../../../../types/PredefinedSources";
 import { Sources } from "../../../../types/Sources";
@@ -47,13 +48,14 @@ import { ContentSentimentMin } from "../../../../types/ContentSentimentMin";
 import { ContentSentimentMax } from "../../../../types/ContentSentimentMax";
 import { IptcTags } from "../../../../types/IptcTags";
 import { NotIptcTags } from "../../../../types/NotIptcTags";
-import { AggregationBy } from "../../../../types/AggregationBy";
+import { RobotsCompliant } from "../../../../types/RobotsCompliant";
 
 export const AggregationPostRequest: core.serialization.Schema<
     serializers.AggregationPostRequest.Raw,
     NewscatcherApi.AggregationPostRequest
 > = core.serialization.object({
     q: Q,
+    aggregationBy: core.serialization.property("aggregation_by", AggregationBy.optional()),
     searchIn: core.serialization.property("search_in", SearchIn.optional()),
     predefinedSources: core.serialization.property("predefined_sources", PredefinedSources.optional()),
     sources: Sources.optional(),
@@ -92,15 +94,16 @@ export const AggregationPostRequest: core.serialization.Schema<
     titleSentimentMin: core.serialization.property("title_sentiment_min", TitleSentimentMin.optional()),
     titleSentimentMax: core.serialization.property("title_sentiment_max", TitleSentimentMax.optional()),
     contentSentimentMin: core.serialization.property("content_sentiment_min", ContentSentimentMin.optional()),
-    contentSentientMax: core.serialization.property("content_sentient_max", ContentSentimentMax.optional()),
+    contentSentimentMax: core.serialization.property("content_sentiment_max", ContentSentimentMax.optional()),
     iptcTags: core.serialization.property("iptc_tags", IptcTags.optional()),
     notIptcTags: core.serialization.property("not_iptc_tags", NotIptcTags.optional()),
-    aggregationBy: core.serialization.property("aggregation_by", AggregationBy.optional()),
+    robotsCompliant: core.serialization.property("robots_compliant", RobotsCompliant.optional()),
 });
 
 export declare namespace AggregationPostRequest {
-    interface Raw {
+    export interface Raw {
         q: Q.Raw;
+        aggregation_by?: AggregationBy.Raw | null;
         search_in?: SearchIn.Raw | null;
         predefined_sources?: PredefinedSources.Raw | null;
         sources?: Sources.Raw | null;
@@ -139,9 +142,9 @@ export declare namespace AggregationPostRequest {
         title_sentiment_min?: TitleSentimentMin.Raw | null;
         title_sentiment_max?: TitleSentimentMax.Raw | null;
         content_sentiment_min?: ContentSentimentMin.Raw | null;
-        content_sentient_max?: ContentSentimentMax.Raw | null;
+        content_sentiment_max?: ContentSentimentMax.Raw | null;
         iptc_tags?: IptcTags.Raw | null;
         not_iptc_tags?: NotIptcTags.Raw | null;
-        aggregation_by?: AggregationBy.Raw | null;
+        robots_compliant?: RobotsCompliant.Raw | null;
     }
 }

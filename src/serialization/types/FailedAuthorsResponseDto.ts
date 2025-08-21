@@ -21,7 +21,7 @@ export const FailedAuthorsResponseDto: core.serialization.ObjectSchema<
     .extend(BaseSearchResponseDto);
 
 export declare namespace FailedAuthorsResponseDto {
-    interface Raw extends BaseSearchResponseDto.Raw {
+    export interface Raw extends BaseSearchResponseDto.Raw {
         articles?: Record<string, unknown>[] | null;
         user_input?: UserInputDto.Raw | null;
     }

@@ -14,5 +14,5 @@ export const AuthorsGetResponse: core.serialization.Schema<
 > = core.serialization.undiscriminatedUnion([SearchResponseDto, FailedAuthorsResponseDto]);
 
 export declare namespace AuthorsGetResponse {
-    type Raw = SearchResponseDto.Raw | FailedAuthorsResponseDto.Raw;
+    export type Raw = SearchResponseDto.Raw | FailedAuthorsResponseDto.Raw;
 }

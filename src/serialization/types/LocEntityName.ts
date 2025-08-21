@@ -7,11 +7,8 @@ import * as NewscatcherApi from "../../api/index";
 import * as core from "../../core";
 
 export const LocEntityName: core.serialization.Schema<serializers.LocEntityName.Raw, NewscatcherApi.LocEntityName> =
-    core.serialization.undiscriminatedUnion([
-        core.serialization.string(),
-        core.serialization.list(core.serialization.string()),
-    ]);
+    core.serialization.string();
 
 export declare namespace LocEntityName {
-    type Raw = string | string[];
+    export type Raw = string;
 }

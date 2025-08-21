@@ -12,5 +12,5 @@ export const SearchGetRequestNewsDomainType: core.serialization.Schema<
 > = core.serialization.enum_(["Original Content", "Aggregator", "Press Releases", "Republisher", "Other"]);
 
 export declare namespace SearchGetRequestNewsDomainType {
-    type Raw = "Original Content" | "Aggregator" | "Press Releases" | "Republisher" | "Other";
+    export type Raw = "Original Content" | "Aggregator" | "Press Releases" | "Republisher" | "Other";
 }

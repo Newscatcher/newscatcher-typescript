@@ -38,6 +38,7 @@ export interface LatestHeadlinesPostRequest {
     clusteringEnabled?: NewscatcherApi.ClusteringEnabled;
     clusteringVariable?: NewscatcherApi.ClusteringVariable;
     clusteringThreshold?: NewscatcherApi.ClusteringThreshold;
+    includeTranslationFields?: NewscatcherApi.IncludeTranslationFields;
     includeNlpData?: NewscatcherApi.IncludeNlpData;
     hasNlp?: NewscatcherApi.HasNlp;
     theme?: NewscatcherApi.Theme;
@@ -55,4 +56,5 @@ export interface LatestHeadlinesPostRequest {
     iabTags?: NewscatcherApi.IabTags;
     notIabTags?: NewscatcherApi.NotIabTags;
     customTags?: NewscatcherApi.CustomTags;
+    robotsCompliant?: NewscatcherApi.RobotsCompliant;
 }

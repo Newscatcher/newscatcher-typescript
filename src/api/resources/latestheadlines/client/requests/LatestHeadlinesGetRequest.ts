@@ -8,6 +8,9 @@ import * as NewscatcherApi from "../../../../index";
  * @example
  *     {
  *         predefinedSources: "top 100 US, top 5 GB",
+ *         includeTranslationFields: true,
+ *         includeNlpData: true,
+ *         hasNlp: true,
  *         theme: "Business,Finance",
  *         notTheme: "Crime",
  *         iptcTags: "20000199,20000209",
@@ -180,30 +183,9 @@ export interface LatestHeadlinesGetRequest {
      * To learn more, see [Clustering news articles](/docs/v3/documentation/guides-and-concepts/clustering-news-articles).
      */
     clusteringThreshold?: number;
-    /**
-     * If true, includes an NLP layer with each article in the response. This layer provides enhanced information such as theme classification, article summary, sentiment analysis, tags, and named entity recognition.
-     *
-     * The NLP layer includes:
-     * - Theme: General topic of the article.
-     * - Summary: A concise overview of the article content.
-     * - Sentiment: Separate scores for title and content (range: -1 to 1).
-     * - Named entities: Identified persons (PER), organizations (ORG), locations (LOC), and miscellaneous entities (MISC).
-     * - IPTC tags: Standardized news category tags.
-     * - IAB tags: Content categories for digital advertising.
-     *
-     * **Note**: The `include_nlp_data` parameter is only available if NLP is included in your subscription plan.
-     *
-     * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
-     */
-    includeNlpData?: boolean;
-    /**
-     * If true, filters the results to include only articles with an NLP layer. This allows you to focus on articles that have been processed with advanced NLP techniques.
-     *
-     * **Note**: The `has_nlp` parameter is only available if NLP is included in your subscription plan.
-     *
-     * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
-     */
-    hasNlp?: boolean;
+    includeTranslationFields?: NewscatcherApi.IncludeTranslationFields;
+    includeNlpData?: NewscatcherApi.IncludeNlpData;
+    hasNlp?: NewscatcherApi.HasNlp;
     /**
      * Filters articles based on their general topic, as determined by NLP analysis. To select multiple themes, use a comma-separated string.
      *
@@ -227,7 +209,7 @@ export interface LatestHeadlinesGetRequest {
      */
     notTheme?: string;
     /**
-     * Filters articles that mention specific organization names, as identified by NLP analysis. To specify multiple organizations, use a comma-separated string.
+     * Filters articles that mention specific organization names, as identified by NLP analysis. To specify multiple organizations, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
      *
      * Example: `"Apple, Microsoft"`
      *
@@ -237,7 +219,7 @@ export interface LatestHeadlinesGetRequest {
      */
     orgEntityName?: string;
     /**
-     * Filters articles that mention specific person names, as identified by NLP analysis. To specify multiple names, use a comma-separated string.
+     * Filters articles that mention specific person names, as identified by NLP analysis. To specify multiple names, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
      *
      * Example: `"Elon Musk, Jeff Bezos"`
      *
@@ -247,7 +229,7 @@ export interface LatestHeadlinesGetRequest {
      */
     perEntityName?: string;
     /**
-     * Filters articles that mention specific location names, as identified by NLP analysis. To specify multiple locations, use a comma-separated string.
+     * Filters articles that mention specific location names, as identified by NLP analysis. To specify multiple locations, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
      *
      * Example: `"California, New York"`
      *
@@ -257,7 +239,7 @@ export interface LatestHeadlinesGetRequest {
      */
     locEntityName?: string;
     /**
-     * Filters articles that mention other named entities not falling under person, organization, or location categories. Includes events, nationalities, products, works of art, and more. To specify multiple entities, use a comma-separated string.
+     * Filters articles that mention other named entities not falling under person, organization, or location categories. Includes events, nationalities, products, works of art, and more. To specify multiple entities, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
      *
      * Example: `"Bitcoin, Blockchain"`
      *
@@ -323,7 +305,7 @@ export interface LatestHeadlinesGetRequest {
      *
      * Example: `"20000199, 20000209"`
      *
-     * **Note**: The `iptc_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `iptc_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see [IPTC Media Topic NewsCodes](https://www.iptc.org/std/NewsCodes/treeview/mediatopic/mediatopic-en-GB.html).
      */
@@ -333,7 +315,7 @@ export interface LatestHeadlinesGetRequest {
      *
      * Example: `"20000205, 20000209"`
      *
-     * **Note**: The `not_iptc_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `not_iptc_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see [IPTC Media Topic NewsCodes](https://www.iptc.org/std/NewsCodes/treeview/mediatopic/mediatopic-en-GB.html).
      */
@@ -343,7 +325,7 @@ export interface LatestHeadlinesGetRequest {
      *
      * Example: `"Business, Events"`
      *
-     * **Note**: The `iab_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `iab_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see the [IAB Content taxonomy](https://iabtechlab.com/standards/content-taxonomy/).
      */
@@ -353,7 +335,7 @@ export interface LatestHeadlinesGetRequest {
      *
      * Example: `"Agriculture, Metals"`
      *
-     * **Note**: The `not_iab_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `not_iab_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see the [IAB Content taxonomy](https://iabtechlab.com/standards/content-taxonomy/).
      */
@@ -368,4 +350,8 @@ export interface LatestHeadlinesGetRequest {
      * To learn more, see the [Custom tags](/docs/v3/documentation/guides-and-concepts/custom-tags).
      */
     customTags?: string;
+    /**
+     * If true, returns only articles/sources that comply with the publisher's robots.txt rules. If false, returns only articles/sources that do not comply with robots.txt rules. If omitted, returns all articles/sources regardless of compliance status.
+     */
+    robotsCompliant?: boolean;
 }

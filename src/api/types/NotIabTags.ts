@@ -9,7 +9,7 @@
  * - `"Agriculture, Metals"`
  * - `["Agriculture", "Metals"]`
  *
- * **Note**: The `not_iab_tags` parameter is only available if tags are included in your subscription plan.
+ * **Note**: The `not_iab_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
  *
  * To learn more, see the [IAB Content taxonomy](https://iabtechlab.com/standards/content-taxonomy/).
  */

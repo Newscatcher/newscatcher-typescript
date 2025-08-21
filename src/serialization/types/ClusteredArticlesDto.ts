@@ -16,7 +16,7 @@ export const ClusteredArticlesDto: core.serialization.ObjectSchema<
 });
 
 export declare namespace ClusteredArticlesDto {
-    interface Raw {
+    export interface Raw {
         clusters_count: number;
         clusters: ClusterEntity.Raw[];
     }

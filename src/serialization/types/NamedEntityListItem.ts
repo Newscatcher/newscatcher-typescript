@@ -15,7 +15,7 @@ export const NamedEntityListItem: core.serialization.ObjectSchema<
 });
 
 export declare namespace NamedEntityListItem {
-    interface Raw {
+    export interface Raw {
         entity_name?: string | null;
         count?: number | null;
     }

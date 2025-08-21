@@ -13,5 +13,5 @@ export const AllDomainLinks: core.serialization.Schema<serializers.AllDomainLink
     ]);
 
 export declare namespace AllDomainLinks {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

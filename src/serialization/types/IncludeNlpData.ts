@@ -10,5 +10,5 @@ export const IncludeNlpData: core.serialization.Schema<serializers.IncludeNlpDat
     core.serialization.boolean();
 
 export declare namespace IncludeNlpData {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

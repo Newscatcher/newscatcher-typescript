@@ -10,5 +10,5 @@ export const AuthorName: core.serialization.Schema<serializers.AuthorName.Raw, N
     core.serialization.string();
 
 export declare namespace AuthorName {
-    type Raw = string;
+    export type Raw = string;
 }

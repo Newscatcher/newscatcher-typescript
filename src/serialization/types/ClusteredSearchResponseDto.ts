@@ -20,7 +20,7 @@ export const ClusteredSearchResponseDto: core.serialization.ObjectSchema<
     .extend(ClusteredArticlesDto);
 
 export declare namespace ClusteredSearchResponseDto {
-    interface Raw extends BaseSearchResponseDto.Raw, ClusteredArticlesDto.Raw {
+    export interface Raw extends BaseSearchResponseDto.Raw, ClusteredArticlesDto.Raw {
         user_input?: UserInputDto.Raw | null;
     }
 }

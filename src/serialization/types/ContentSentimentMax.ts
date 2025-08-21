@@ -12,5 +12,5 @@ export const ContentSentimentMax: core.serialization.Schema<
 > = core.serialization.number();
 
 export declare namespace ContentSentimentMax {
-    type Raw = number;
+    export type Raw = number;
 }

@@ -10,5 +10,5 @@ export const ToRank: core.serialization.Schema<serializers.ToRank.Raw, Newscatch
     core.serialization.number();
 
 export declare namespace ToRank {
-    type Raw = number;
+    export type Raw = number;
 }

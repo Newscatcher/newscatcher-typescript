@@ -10,5 +10,5 @@ export const IsHeadline: core.serialization.Schema<serializers.IsHeadline.Raw, N
     core.serialization.boolean();
 
 export declare namespace IsHeadline {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

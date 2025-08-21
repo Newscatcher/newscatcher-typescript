@@ -54,6 +54,10 @@ export interface ArticleEntity {
     description?: string;
     /** The content of the article. */
     content: string;
+    /** English translation of the article title. Available when using the `search_in` parameter with the `title_translated` option or by setting the `include_translation_fields` parameter to `true`. */
+    titleTranslatedEn?: string;
+    /** English translation of the article content. Available when using the `search_in` parameter with the `content_translated` option or by setting the `include_translation_fields` parameter to `true`. */
+    contentTranslatedEn?: string;
     /** The word count of the article. */
     wordCount?: number;
     /** Indicates if the article is an opinion piece. */
@@ -69,6 +73,8 @@ export interface ArticleEntity {
     id: string;
     /** The relevance score of the article. */
     score: number;
+    /** True if the article content can be safely accessed according to the publisher's robots.txt rules; false otherwise. */
+    robotsCompliant?: boolean;
     /** An object that contains custom tags associated with an article, where each key is a taxonomy name, and the value is an array of tags. */
     customTags?: Record<string, string[]>;
     additionalDomainInfo?: NewscatcherApi.AdditionalDomainInfoEntity;

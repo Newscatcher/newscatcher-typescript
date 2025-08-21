@@ -8,10 +8,14 @@ import * as NewscatcherApi from "../../../../index";
  * @example
  *     {
  *         q: "technology AND (Apple OR Microsoft) NOT Google",
+ *         searchIn: "title_content, title_content_translated",
+ *         includeTranslationFields: true,
  *         similarDocumentsFields: "title,summary",
  *         predefinedSources: "top 100 US, top 5 GB",
- *         from: new Date("2024-07-01T00:00:00.000Z"),
- *         to: new Date("2024-07-01T00:00:00.000Z"),
+ *         from: "2024-07-01T00:00:00Z",
+ *         to: "2024-07-01T00:00:00Z",
+ *         includeNlpData: true,
+ *         hasNlp: true,
  *         theme: "Business,Finance",
  *         notTheme: "Crime",
  *         nerName: "Tesla",
@@ -34,16 +38,8 @@ export interface SearchSimilarGetRequest {
      * For more details, see [Advanced querying](/docs/v3/documentation/guides-and-concepts/advanced-querying).
      */
     q: string;
-    /**
-     * The article fields to search in. To search in multiple fields, use a comma-separated string.
-     *
-     * Example: `"title, summary"`
-     *
-     * **Note**: The `summary` option is available if NLP is enabled in your plan.
-     *
-     * Available options: `title`, `summary`, `content`.
-     */
-    searchIn?: string;
+    searchIn?: NewscatcherApi.SearchIn;
+    includeTranslationFields?: NewscatcherApi.IncludeTranslationFields;
     /**
      * If true, includes similar documents in the response.
      */
@@ -122,7 +118,7 @@ export interface SearchSimilarGetRequest {
      * - YYYY-MM-dd: `2024-07-01`
      * - YYYY/mm/dd HH:MM:SS: `2024/07/01 00:00:00`
      * - YYYY/mm/dd: `2024/07/01`
-     * - English phrases: `1 day ago`, `today`
+     * - English phrases: `7 day ago`, `today`
      *
      * **Note**: By default, applied to the publication date of the article. To use the article's parse date instead, set the `by_parse_date` parameter to `true`.
      */
@@ -135,7 +131,7 @@ export interface SearchSimilarGetRequest {
      * - YYYY-MM-dd: `2024-07-01`
      * - YYYY/mm/dd HH:MM:SS: `2024/07/01 00:00:00`
      * - YYYY/mm/dd: `2024/07/01`
-     * - English phrases: `1 day ago`, `today`
+     * - English phrases: `1 day ago`, `now`
      *
      * **Note**: By default, applied to the publication date of the article. To use the article's parse date instead, set the `by_parse_date` parameter to `true`.
      */
@@ -222,30 +218,8 @@ export interface SearchSimilarGetRequest {
      * The number of articles to return per page.
      */
     pageSize?: number;
-    /**
-     * If true, includes an NLP layer with each article in the response. This layer provides enhanced information such as theme classification, article summary, sentiment analysis, tags, and named entity recognition.
-     *
-     * The NLP layer includes:
-     * - Theme: General topic of the article.
-     * - Summary: A concise overview of the article content.
-     * - Sentiment: Separate scores for title and content (range: -1 to 1).
-     * - Named entities: Identified persons (PER), organizations (ORG), locations (LOC), and miscellaneous entities (MISC).
-     * - IPTC tags: Standardized news category tags.
-     * - IAB tags: Content categories for digital advertising.
-     *
-     * **Note**: The `include_nlp_data` parameter is only available if NLP is included in your subscription plan.
-     *
-     * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
-     */
-    includeNlpData?: boolean;
-    /**
-     * If true, filters the results to include only articles with an NLP layer. This allows you to focus on articles that have been processed with advanced NLP techniques.
-     *
-     * **Note**: The `has_nlp` parameter is only available if NLP is included in your subscription plan.
-     *
-     * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
-     */
-    hasNlp?: boolean;
+    includeNlpData?: NewscatcherApi.IncludeNlpData;
+    hasNlp?: NewscatcherApi.HasNlp;
     /**
      * Filters articles based on their general topic, as determined by NLP analysis. To select multiple themes, use a comma-separated string.
      *
@@ -331,7 +305,7 @@ export interface SearchSimilarGetRequest {
      *
      * Example: `"20000199, 20000209"`
      *
-     * **Note**: The `iptc_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `iptc_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see [IPTC Media Topic NewsCodes](https://www.iptc.org/std/NewsCodes/treeview/mediatopic/mediatopic-en-GB.html).
      */
@@ -341,7 +315,7 @@ export interface SearchSimilarGetRequest {
      *
      * Example: `"20000205, 20000209"`
      *
-     * **Note**: The `not_iptc_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `not_iptc_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see [IPTC Media Topic NewsCodes](https://www.iptc.org/std/NewsCodes/treeview/mediatopic/mediatopic-en-GB.html).
      */
@@ -356,4 +330,8 @@ export interface SearchSimilarGetRequest {
      * To learn more, see the [Custom tags](/docs/v3/documentation/guides-and-concepts/custom-tags).
      */
     customTags?: string;
+    /**
+     * If true, returns only articles/sources that comply with the publisher's robots.txt rules. If false, returns only articles/sources that do not comply with robots.txt rules. If omitted, returns all articles/sources regardless of compliance status.
+     */
+    robotsCompliant?: boolean;
 }

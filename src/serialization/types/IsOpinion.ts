@@ -10,5 +10,5 @@ export const IsOpinion: core.serialization.Schema<serializers.IsOpinion.Raw, New
     core.serialization.boolean();
 
 export declare namespace IsOpinion {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

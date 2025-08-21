@@ -13,5 +13,5 @@ export const NotLang: core.serialization.Schema<serializers.NotLang.Raw, Newscat
     ]);
 
 export declare namespace NotLang {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

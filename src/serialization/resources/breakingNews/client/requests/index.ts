@@ -1,0 +1,1 @@
+export { BreakingNewsPostRequest } from "./BreakingNewsPostRequest";

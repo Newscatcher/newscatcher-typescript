@@ -12,5 +12,5 @@ export const AggregationGetRequestSortBy: core.serialization.Schema<
 > = core.serialization.enum_(["relevancy", "date", "rank"]);
 
 export declare namespace AggregationGetRequestSortBy {
-    type Raw = "relevancy" | "date" | "rank";
+    export type Raw = "relevancy" | "date" | "rank";
 }

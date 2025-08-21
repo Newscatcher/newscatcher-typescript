@@ -7,8 +7,7 @@ import * as NewscatcherApi from "../index";
 /**
  * The data model for an article result in the `Search similar` articles request. Response field behavior:
  * - Required fields are guaranteed to be present and non-null.
- * - Optional fields may be `null`/`undefined` if the data couldn't be extracted
- * during processing.
+ * - Optional fields may be `null` or `undefined` if the data point is not presented or couldn't be extracted during processing.
  */
 export interface SimilarArticleEntity extends NewscatcherApi.ArticleEntity {
     /** A list of documents similar to the article. */

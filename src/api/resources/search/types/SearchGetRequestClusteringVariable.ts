@@ -3,7 +3,6 @@
  */
 
 export type SearchGetRequestClusteringVariable = "content" | "title" | "summary";
-
 export const SearchGetRequestClusteringVariable = {
     Content: "content",
     Title: "title",

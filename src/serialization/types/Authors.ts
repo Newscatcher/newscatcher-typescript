@@ -13,5 +13,5 @@ export const Authors: core.serialization.Schema<serializers.Authors.Raw, Newscat
     ]);
 
 export declare namespace Authors {
-    type Raw = string[] | string;
+    export type Raw = string[] | string;
 }

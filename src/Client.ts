@@ -6,6 +6,7 @@ import * as environments from "./environments";
 import * as core from "./core";
 import { Search } from "./api/resources/search/client/Client";
 import { Latestheadlines } from "./api/resources/latestheadlines/client/Client";
+import { BreakingNews } from "./api/resources/breakingNews/client/Client";
 import { Authors } from "./api/resources/authors/client/Client";
 import { SearchLink } from "./api/resources/searchLink/client/Client";
 import { Searchsimilar } from "./api/resources/searchsimilar/client/Client";
@@ -14,67 +15,69 @@ import { Aggregation } from "./api/resources/aggregation/client/Client";
 import { Subscription } from "./api/resources/subscription/client/Client";
 
 export declare namespace NewscatcherApiClient {
-    interface Options {
+    export interface Options {
         environment?: core.Supplier<environments.NewscatcherApiEnvironment | string>;
+        /** Specify a custom URL to connect the client to. */
+        baseUrl?: core.Supplier<string>;
         apiKey: core.Supplier<string>;
     }
 
-    interface RequestOptions {
+    export interface RequestOptions {
         /** The maximum time to wait for a response in seconds. */
         timeoutInSeconds?: number;
         /** The number of times to retry the request. Defaults to 2. */
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
 export class NewscatcherApiClient {
-    constructor(protected readonly _options: NewscatcherApiClient.Options) {}
-
     protected _search: Search | undefined;
+    protected _latestheadlines: Latestheadlines | undefined;
+    protected _breakingNews: BreakingNews | undefined;
+    protected _authors: Authors | undefined;
+    protected _searchLink: SearchLink | undefined;
+    protected _searchsimilar: Searchsimilar | undefined;
+    protected _sources: Sources | undefined;
+    protected _aggregation: Aggregation | undefined;
+    protected _subscription: Subscription | undefined;
+
+    constructor(protected readonly _options: NewscatcherApiClient.Options) {}
 
     public get search(): Search {
         return (this._search ??= new Search(this._options));
     }
 
-    protected _latestheadlines: Latestheadlines | undefined;
-
     public get latestheadlines(): Latestheadlines {
         return (this._latestheadlines ??= new Latestheadlines(this._options));
     }
 
-    protected _authors: Authors | undefined;
+    public get breakingNews(): BreakingNews {
+        return (this._breakingNews ??= new BreakingNews(this._options));
+    }
 
     public get authors(): Authors {
         return (this._authors ??= new Authors(this._options));
     }
 
-    protected _searchLink: SearchLink | undefined;
-
     public get searchLink(): SearchLink {
         return (this._searchLink ??= new SearchLink(this._options));
     }
-
-    protected _searchsimilar: Searchsimilar | undefined;
 
     public get searchsimilar(): Searchsimilar {
         return (this._searchsimilar ??= new Searchsimilar(this._options));
     }
 
-    protected _sources: Sources | undefined;
-
     public get sources(): Sources {
         return (this._sources ??= new Sources(this._options));
     }
 
-    protected _aggregation: Aggregation | undefined;
-
     public get aggregation(): Aggregation {
         return (this._aggregation ??= new Aggregation(this._options));
     }
-
-    protected _subscription: Subscription | undefined;
 
     public get subscription(): Subscription {
         return (this._subscription ??= new Subscription(this._options));

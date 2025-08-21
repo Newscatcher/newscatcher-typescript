@@ -15,7 +15,7 @@ export const AggregationItem: core.serialization.ObjectSchema<
 });
 
 export declare namespace AggregationItem {
-    interface Raw {
+    export interface Raw {
         aggregation_count: TimeFrameCount.Raw[];
     }
 }

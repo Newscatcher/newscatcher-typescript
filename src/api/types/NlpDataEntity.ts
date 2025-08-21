@@ -8,6 +8,8 @@ import * as NewscatcherApi from "../index";
  * Natural Language Processing data for the article.
  */
 export interface NlpDataEntity {
+    /** A brief AI-generated summary of the article's English translation. */
+    summaryTranslated?: string;
     /** The themes or categories identified in the article. */
     theme?: string;
     /** A brief AI-generated summary of the article content. */
@@ -27,10 +29,30 @@ export interface NlpDataEntity {
     nerMisc?: NewscatcherApi.NamedEntityList;
     /** Named Entity Recognition for location entities (cities, countries, geographic features). */
     nerLoc?: NewscatcherApi.NamedEntityList;
-    /** IPTC media topic taxonomy paths identified in the article content. Each path represents a hierarchical category following the IPTC standard. */
+    /** Named Entity Recognition for person entities (individuals' names) extracted from the English translation of the article. */
+    translationNerPer?: NewscatcherApi.NamedEntityList;
+    /** Named Entity Recognition for organization entities (company names, institutions) extracted from the English translation of the article. */
+    translationNerOrg?: NewscatcherApi.NamedEntityList;
+    /** Named Entity Recognition for miscellaneous entities (events, nationalities, products) extracted from the English translation of the article. */
+    translationNerMisc?: NewscatcherApi.NamedEntityList;
+    /** Named Entity Recognition for location entities (cities, countries, geographic features) extracted from the English translation of the article. */
+    translationNerLoc?: NewscatcherApi.NamedEntityList;
+    /**
+     * IPTC media topic taxonomy paths identified in the article content. Each path represents a hierarchical category following the IPTC standard.
+     *
+     * **Note**: The `iptc_tags_name` field is only available in the `v3_nlp_iptc_tags` subscription plan.
+     */
     iptcTagsName?: string[];
-    /** IPTC media topic numeric codes identified in the article content. These codes correspond to the standardized IPTC media topic taxonomy. */
+    /**
+     * IPTC media topic numeric codes identified in the article content. These codes correspond to the standardized IPTC media topic taxonomy.
+     *
+     * **Note**: The `iptc_tags_id` field is only available in the `v3_nlp_iptc_tags` subscription plan.
+     */
     iptcTagsId?: string[];
-    /** IAB content taxonomy paths identified in the article content. Each path represents a hierarchical category following the IAB content standard. */
+    /**
+     * IAB content taxonomy paths identified in the article content. Each path represents a hierarchical category following the IAB content standard.
+     *
+     * **Note**: The `iab_tags_name` field is only available in the `v3_nlp_iptc_tags` subscription plan.
+     */
     iabTagsName?: string[];
 }

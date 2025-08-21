@@ -13,5 +13,5 @@ export const NotCountries: core.serialization.Schema<serializers.NotCountries.Ra
     ]);
 
 export declare namespace NotCountries {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

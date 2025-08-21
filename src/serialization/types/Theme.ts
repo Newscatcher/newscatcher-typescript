@@ -13,5 +13,5 @@ export const Theme: core.serialization.Schema<serializers.Theme.Raw, Newscatcher
     ]);
 
 export declare namespace Theme {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

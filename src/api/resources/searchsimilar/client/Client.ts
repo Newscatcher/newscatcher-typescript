@@ -5,23 +5,27 @@
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
 import * as NewscatcherApi from "../../../index";
-import urlJoin from "url-join";
 import * as serializers from "../../../../serialization/index";
+import urlJoin from "url-join";
 import * as errors from "../../../../errors/index";
 
 export declare namespace Searchsimilar {
-    interface Options {
+    export interface Options {
         environment?: core.Supplier<environments.NewscatcherApiEnvironment | string>;
+        /** Specify a custom URL to connect the client to. */
+        baseUrl?: core.Supplier<string>;
         apiKey: core.Supplier<string>;
     }
 
-    interface RequestOptions {
+    export interface RequestOptions {
         /** The maximum time to wait for a response in seconds. */
         timeoutInSeconds?: number;
         /** The number of times to retry the request. Defaults to 2. */
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
@@ -48,10 +52,14 @@ export class Searchsimilar {
      * @example
      *     await client.searchsimilar.get({
      *         q: "technology AND (Apple OR Microsoft) NOT Google",
+     *         searchIn: "title_content, title_content_translated",
+     *         includeTranslationFields: true,
      *         similarDocumentsFields: "title,summary",
      *         predefinedSources: "top 100 US, top 5 GB",
-     *         from: new Date("2024-07-01T00:00:00.000Z"),
-     *         to: new Date("2024-07-01T00:00:00.000Z"),
+     *         from: "2024-07-01T00:00:00Z",
+     *         to: "2024-07-01T00:00:00Z",
+     *         includeNlpData: true,
+     *         hasNlp: true,
      *         theme: "Business,Finance",
      *         notTheme: "Crime",
      *         nerName: "Tesla",
@@ -60,13 +68,21 @@ export class Searchsimilar {
      *         customTags: "Tag1,Tag2,Tag3"
      *     })
      */
-    public async get(
+    public get(
         request: NewscatcherApi.SearchSimilarGetRequest,
-        requestOptions?: Searchsimilar.RequestOptions
-    ): Promise<NewscatcherApi.SearchSimilarGetResponse> {
+        requestOptions?: Searchsimilar.RequestOptions,
+    ): core.HttpResponsePromise<NewscatcherApi.SearchSimilarGetResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
+    }
+
+    private async __get(
+        request: NewscatcherApi.SearchSimilarGetRequest,
+        requestOptions?: Searchsimilar.RequestOptions,
+    ): Promise<core.WithRawResponse<NewscatcherApi.SearchSimilarGetResponse>> {
         const {
             q,
             searchIn,
+            includeTranslationFields,
             includeSimilarDocuments,
             similarDocumentsNumber,
             similarDocumentsFields,
@@ -107,11 +123,16 @@ export class Searchsimilar {
             iptcTags,
             notIptcTags,
             customTags,
+            robotsCompliant,
         } = request;
-        const _queryParams: Record<string, string | string[] | object | object[]> = {};
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         _queryParams["q"] = q;
         if (searchIn != null) {
             _queryParams["search_in"] = searchIn;
+        }
+
+        if (includeTranslationFields != null) {
+            _queryParams["include_translation_fields"] = includeTranslationFields.toString();
         }
 
         if (includeSimilarDocuments != null) {
@@ -167,11 +188,16 @@ export class Searchsimilar {
         }
 
         if (publishedDatePrecision != null) {
-            _queryParams["published_date_precision"] = publishedDatePrecision;
+            _queryParams["published_date_precision"] =
+                serializers.SearchSimilarGetRequestPublishedDatePrecision.jsonOrThrow(publishedDatePrecision, {
+                    unrecognizedObjectKeys: "strip",
+                });
         }
 
         if (sortBy != null) {
-            _queryParams["sort_by"] = sortBy;
+            _queryParams["sort_by"] = serializers.SearchSimilarGetRequestSortBy.jsonOrThrow(sortBy, {
+                unrecognizedObjectKeys: "strip",
+            });
         }
 
         if (rankedOnly != null) {
@@ -274,20 +300,27 @@ export class Searchsimilar {
             _queryParams["custom_tags"] = customTags;
         }
 
+        if (robotsCompliant != null) {
+            _queryParams["robots_compliant"] = robotsCompliant.toString();
+        }
+
         const _response = await core.fetcher({
             url: urlJoin(
-                (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
-                "api/search_similar"
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.NewscatcherApiEnvironment.Default,
+                "api/search_similar",
             ),
             method: "GET",
             headers: {
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.2.0",
+                "User-Agent": "newscatcher-sdk/1.2.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...(await this._getCustomAuthorizationHeaders()),
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             queryParameters: _queryParams,
@@ -297,12 +330,15 @@ export class Searchsimilar {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.SearchSimilarGetResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                breadcrumbsPrefix: ["response"],
-            });
+            return {
+                data: serializers.SearchSimilarGetResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -314,7 +350,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 401:
                     throw new NewscatcherApi.UnauthorizedError(
@@ -323,7 +360,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 403:
                     throw new NewscatcherApi.ForbiddenError(
@@ -332,7 +370,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 408:
                     throw new NewscatcherApi.RequestTimeoutError(
@@ -341,7 +380,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
@@ -350,7 +390,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 429:
                     throw new NewscatcherApi.TooManyRequestsError(
@@ -359,7 +400,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 500:
                     throw new NewscatcherApi.InternalServerError(
@@ -368,12 +410,14 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 default:
                     throw new errors.NewscatcherApiError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -383,12 +427,14 @@ export class Searchsimilar {
                 throw new errors.NewscatcherApiError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.NewscatcherApiTimeoutError();
+                throw new errors.NewscatcherApiTimeoutError("Timeout exceeded when calling GET /api/search_similar.");
             case "unknown":
                 throw new errors.NewscatcherApiError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -414,24 +460,34 @@ export class Searchsimilar {
      *         similarDocumentsNumber: 5
      *     })
      */
-    public async post(
+    public post(
         request: NewscatcherApi.SearchSimilarPostRequest,
-        requestOptions?: Searchsimilar.RequestOptions
-    ): Promise<NewscatcherApi.SearchSimilarPostResponse> {
+        requestOptions?: Searchsimilar.RequestOptions,
+    ): core.HttpResponsePromise<NewscatcherApi.SearchSimilarPostResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__post(request, requestOptions));
+    }
+
+    private async __post(
+        request: NewscatcherApi.SearchSimilarPostRequest,
+        requestOptions?: Searchsimilar.RequestOptions,
+    ): Promise<core.WithRawResponse<NewscatcherApi.SearchSimilarPostResponse>> {
         const _response = await core.fetcher({
             url: urlJoin(
-                (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
-                "api/search_similar"
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.NewscatcherApiEnvironment.Default,
+                "api/search_similar",
             ),
             method: "POST",
             headers: {
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.2.0",
+                "User-Agent": "newscatcher-sdk/1.2.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...(await this._getCustomAuthorizationHeaders()),
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -441,12 +497,15 @@ export class Searchsimilar {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.SearchSimilarPostResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                breadcrumbsPrefix: ["response"],
-            });
+            return {
+                data: serializers.SearchSimilarPostResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -458,7 +517,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 401:
                     throw new NewscatcherApi.UnauthorizedError(
@@ -467,7 +527,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 403:
                     throw new NewscatcherApi.ForbiddenError(
@@ -476,7 +537,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 408:
                     throw new NewscatcherApi.RequestTimeoutError(
@@ -485,7 +547,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
@@ -494,7 +557,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 429:
                     throw new NewscatcherApi.TooManyRequestsError(
@@ -503,7 +567,8 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 500:
                     throw new NewscatcherApi.InternalServerError(
@@ -512,12 +577,14 @@ export class Searchsimilar {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 default:
                     throw new errors.NewscatcherApiError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -527,12 +594,14 @@ export class Searchsimilar {
                 throw new errors.NewscatcherApiError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.NewscatcherApiTimeoutError();
+                throw new errors.NewscatcherApiTimeoutError("Timeout exceeded when calling POST /api/search_similar.");
             case "unknown":
                 throw new errors.NewscatcherApiError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }

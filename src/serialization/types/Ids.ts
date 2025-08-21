@@ -13,5 +13,5 @@ export const Ids: core.serialization.Schema<serializers.Ids.Raw, NewscatcherApi.
     ]);
 
 export declare namespace Ids {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

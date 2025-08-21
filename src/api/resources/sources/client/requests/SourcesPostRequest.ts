@@ -10,7 +10,7 @@ import * as NewscatcherApi from "../../../../index";
  *         predefinedSources: ["top 50 US"],
  *         includeAdditionalInfo: true,
  *         isNewsDomain: true,
- *         newsDomainType: NewscatcherApi.NewsDomainType.OriginalContent,
+ *         newsDomainType: "Original Content",
  *         newsType: "General News Outlets"
  *     }
  */

@@ -12,5 +12,5 @@ export const IncludeSimilarDocuments: core.serialization.Schema<
 > = core.serialization.boolean();
 
 export declare namespace IncludeSimilarDocuments {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

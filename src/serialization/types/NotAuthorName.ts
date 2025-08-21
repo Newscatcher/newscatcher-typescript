@@ -13,5 +13,5 @@ export const NotAuthorName: core.serialization.Schema<serializers.NotAuthorName.
     ]);
 
 export declare namespace NotAuthorName {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

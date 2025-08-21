@@ -7,6 +7,7 @@ import * as NewscatcherApi from "../../../../../api/index";
 import * as core from "../../../../../core";
 import { Q } from "../../../../types/Q";
 import { SearchIn } from "../../../../types/SearchIn";
+import { IncludeTranslationFields } from "../../../../types/IncludeTranslationFields";
 import { IncludeSimilarDocuments } from "../../../../types/IncludeSimilarDocuments";
 import { SimilarDocumentsNumber } from "../../../../types/SimilarDocumentsNumber";
 import { SimilarDocumentsFields } from "../../../../types/SimilarDocumentsFields";
@@ -47,6 +48,7 @@ import { ContentSentimentMax } from "../../../../types/ContentSentimentMax";
 import { IptcTags } from "../../../../types/IptcTags";
 import { NotIptcTags } from "../../../../types/NotIptcTags";
 import { CustomTags } from "../../../../types/CustomTags";
+import { RobotsCompliant } from "../../../../types/RobotsCompliant";
 
 export const SearchSimilarPostRequest: core.serialization.Schema<
     serializers.SearchSimilarPostRequest.Raw,
@@ -54,9 +56,13 @@ export const SearchSimilarPostRequest: core.serialization.Schema<
 > = core.serialization.object({
     q: Q,
     searchIn: core.serialization.property("search_in", SearchIn.optional()),
+    includeTranslationFields: core.serialization.property(
+        "include_translation_fields",
+        IncludeTranslationFields.optional(),
+    ),
     includeSimilarDocuments: core.serialization.property(
         "include_similar_documents",
-        IncludeSimilarDocuments.optional()
+        IncludeSimilarDocuments.optional(),
     ),
     similarDocumentsNumber: core.serialization.property("similar_documents_number", SimilarDocumentsNumber.optional()),
     similarDocumentsFields: core.serialization.property("similar_documents_fields", SimilarDocumentsFields.optional()),
@@ -97,12 +103,14 @@ export const SearchSimilarPostRequest: core.serialization.Schema<
     iptcTags: core.serialization.property("iptc_tags", IptcTags.optional()),
     notIptcTags: core.serialization.property("not_iptc_tags", NotIptcTags.optional()),
     customTags: core.serialization.property("custom_tags", CustomTags.optional()),
+    robotsCompliant: core.serialization.property("robots_compliant", RobotsCompliant.optional()),
 });
 
 export declare namespace SearchSimilarPostRequest {
-    interface Raw {
+    export interface Raw {
         q: Q.Raw;
         search_in?: SearchIn.Raw | null;
+        include_translation_fields?: IncludeTranslationFields.Raw | null;
         include_similar_documents?: IncludeSimilarDocuments.Raw | null;
         similar_documents_number?: SimilarDocumentsNumber.Raw | null;
         similar_documents_fields?: SimilarDocumentsFields.Raw | null;
@@ -143,5 +151,6 @@ export declare namespace SearchSimilarPostRequest {
         iptc_tags?: IptcTags.Raw | null;
         not_iptc_tags?: NotIptcTags.Raw | null;
         custom_tags?: CustomTags.Raw | null;
+        robots_compliant?: RobotsCompliant.Raw | null;
     }
 }

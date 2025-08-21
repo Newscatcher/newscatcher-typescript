@@ -13,5 +13,5 @@ export const Journalists: core.serialization.Schema<serializers.Journalists.Raw,
     ]);
 
 export declare namespace Journalists {
-    type Raw = string[] | string;
+    export type Raw = string[] | string;
 }

@@ -7,11 +7,8 @@ import * as NewscatcherApi from "../../api/index";
 import * as core from "../../core";
 
 export const PerEntityName: core.serialization.Schema<serializers.PerEntityName.Raw, NewscatcherApi.PerEntityName> =
-    core.serialization.undiscriminatedUnion([
-        core.serialization.string(),
-        core.serialization.list(core.serialization.string()),
-    ]);
+    core.serialization.string();
 
 export declare namespace PerEntityName {
-    type Raw = string | string[];
+    export type Raw = string;
 }

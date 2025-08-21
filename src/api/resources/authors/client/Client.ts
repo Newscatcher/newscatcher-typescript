@@ -5,23 +5,27 @@
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
 import * as NewscatcherApi from "../../../index";
-import urlJoin from "url-join";
 import * as serializers from "../../../../serialization/index";
+import urlJoin from "url-join";
 import * as errors from "../../../../errors/index";
 
 export declare namespace Authors {
-    interface Options {
+    export interface Options {
         environment?: core.Supplier<environments.NewscatcherApiEnvironment | string>;
+        /** Specify a custom URL to connect the client to. */
+        baseUrl?: core.Supplier<string>;
         apiKey: core.Supplier<string>;
     }
 
-    interface RequestOptions {
+    export interface RequestOptions {
         /** The maximum time to wait for a response in seconds. */
         timeoutInSeconds?: number;
         /** The number of times to retry the request. Defaults to 2. */
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
@@ -49,8 +53,11 @@ export class Authors {
      *     await client.authors.get({
      *         authorName: "Jane Smith",
      *         predefinedSources: "top 100 US, top 5 GB",
-     *         from: new Date("2024-07-01T00:00:00.000Z"),
-     *         to: new Date("2024-07-01T00:00:00.000Z"),
+     *         from: "2024-07-01T00:00:00Z",
+     *         to: "2024-07-01T00:00:00Z",
+     *         includeTranslationFields: true,
+     *         includeNlpData: true,
+     *         hasNlp: true,
      *         theme: "Business,Finance",
      *         notTheme: "Crime",
      *         nerName: "Tesla",
@@ -61,10 +68,17 @@ export class Authors {
      *         customTags: "Tag1,Tag2,Tag3"
      *     })
      */
-    public async get(
+    public get(
         request: NewscatcherApi.AuthorsGetRequest,
-        requestOptions?: Authors.RequestOptions
-    ): Promise<NewscatcherApi.AuthorsGetResponse> {
+        requestOptions?: Authors.RequestOptions,
+    ): core.HttpResponsePromise<NewscatcherApi.AuthorsGetResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
+    }
+
+    private async __get(
+        request: NewscatcherApi.AuthorsGetRequest,
+        requestOptions?: Authors.RequestOptions,
+    ): Promise<core.WithRawResponse<NewscatcherApi.AuthorsGetResponse>> {
         const {
             authorName,
             notAuthorName,
@@ -93,6 +107,7 @@ export class Authors {
             wordCountMax,
             page,
             pageSize,
+            includeTranslationFields,
             includeNlpData,
             hasNlp,
             theme,
@@ -107,8 +122,9 @@ export class Authors {
             iabTags,
             notIabTags,
             customTags,
+            robotsCompliant,
         } = request;
-        const _queryParams: Record<string, string | string[] | object | object[]> = {};
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         _queryParams["author_name"] = authorName;
         if (notAuthorName != null) {
             _queryParams["not_author_name"] = notAuthorName;
@@ -151,7 +167,10 @@ export class Authors {
         }
 
         if (publishedDatePrecision != null) {
-            _queryParams["published_date_precision"] = publishedDatePrecision;
+            _queryParams["published_date_precision"] = serializers.AuthorsGetRequestPublishedDatePrecision.jsonOrThrow(
+                publishedDatePrecision,
+                { unrecognizedObjectKeys: "strip" },
+            );
         }
 
         if (byParseDate != null) {
@@ -159,7 +178,9 @@ export class Authors {
         }
 
         if (sortBy != null) {
-            _queryParams["sort_by"] = sortBy;
+            _queryParams["sort_by"] = serializers.AuthorsGetRequestSortBy.jsonOrThrow(sortBy, {
+                unrecognizedObjectKeys: "strip",
+            });
         }
 
         if (rankedOnly != null) {
@@ -212,6 +233,10 @@ export class Authors {
 
         if (pageSize != null) {
             _queryParams["page_size"] = pageSize.toString();
+        }
+
+        if (includeTranslationFields != null) {
+            _queryParams["include_translation_fields"] = includeTranslationFields.toString();
         }
 
         if (includeNlpData != null) {
@@ -270,20 +295,27 @@ export class Authors {
             _queryParams["custom_tags"] = customTags;
         }
 
+        if (robotsCompliant != null) {
+            _queryParams["robots_compliant"] = robotsCompliant.toString();
+        }
+
         const _response = await core.fetcher({
             url: urlJoin(
-                (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
-                "api/authors"
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.NewscatcherApiEnvironment.Default,
+                "api/authors",
             ),
             method: "GET",
             headers: {
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.2.0",
+                "User-Agent": "newscatcher-sdk/1.2.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...(await this._getCustomAuthorizationHeaders()),
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             queryParameters: _queryParams,
@@ -293,12 +325,15 @@ export class Authors {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.AuthorsGetResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                breadcrumbsPrefix: ["response"],
-            });
+            return {
+                data: serializers.AuthorsGetResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -310,7 +345,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 401:
                     throw new NewscatcherApi.UnauthorizedError(
@@ -319,7 +355,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 403:
                     throw new NewscatcherApi.ForbiddenError(
@@ -328,7 +365,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 408:
                     throw new NewscatcherApi.RequestTimeoutError(
@@ -337,7 +375,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
@@ -346,7 +385,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 429:
                     throw new NewscatcherApi.TooManyRequestsError(
@@ -355,7 +395,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 500:
                     throw new NewscatcherApi.InternalServerError(
@@ -364,12 +405,14 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 default:
                     throw new errors.NewscatcherApiError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -379,12 +422,14 @@ export class Authors {
                 throw new errors.NewscatcherApiError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.NewscatcherApiTimeoutError();
+                throw new errors.NewscatcherApiTimeoutError("Timeout exceeded when calling GET /api/authors.");
             case "unknown":
                 throw new errors.NewscatcherApiError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -408,28 +453,38 @@ export class Authors {
      *         authorName: "Joanna Stern",
      *         sources: ["wsj.com", "nytimes.com"],
      *         lang: "en",
-     *         from: new Date("2024-01-01T00:00:00.000Z"),
-     *         to: new Date("2024-06-30T00:00:00.000Z")
+     *         from: "2024-01-01T00:00:00Z",
+     *         to: "2024-06-30T00:00:00Z"
      *     })
      */
-    public async post(
+    public post(
         request: NewscatcherApi.AuthorsPostRequest,
-        requestOptions?: Authors.RequestOptions
-    ): Promise<NewscatcherApi.AuthorsPostResponse> {
+        requestOptions?: Authors.RequestOptions,
+    ): core.HttpResponsePromise<NewscatcherApi.AuthorsPostResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__post(request, requestOptions));
+    }
+
+    private async __post(
+        request: NewscatcherApi.AuthorsPostRequest,
+        requestOptions?: Authors.RequestOptions,
+    ): Promise<core.WithRawResponse<NewscatcherApi.AuthorsPostResponse>> {
         const _response = await core.fetcher({
             url: urlJoin(
-                (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
-                "api/authors"
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.NewscatcherApiEnvironment.Default,
+                "api/authors",
             ),
             method: "POST",
             headers: {
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.2.0",
+                "User-Agent": "newscatcher-sdk/1.2.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...(await this._getCustomAuthorizationHeaders()),
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -439,12 +494,15 @@ export class Authors {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.AuthorsPostResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                breadcrumbsPrefix: ["response"],
-            });
+            return {
+                data: serializers.AuthorsPostResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -456,7 +514,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 401:
                     throw new NewscatcherApi.UnauthorizedError(
@@ -465,7 +524,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 403:
                     throw new NewscatcherApi.ForbiddenError(
@@ -474,7 +534,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 408:
                     throw new NewscatcherApi.RequestTimeoutError(
@@ -483,7 +544,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
@@ -492,7 +554,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 429:
                     throw new NewscatcherApi.TooManyRequestsError(
@@ -501,7 +564,8 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 500:
                     throw new NewscatcherApi.InternalServerError(
@@ -510,12 +574,14 @@ export class Authors {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 default:
                     throw new errors.NewscatcherApiError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -525,12 +591,14 @@ export class Authors {
                 throw new errors.NewscatcherApiError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.NewscatcherApiTimeoutError();
+                throw new errors.NewscatcherApiTimeoutError("Timeout exceeded when calling POST /api/authors.");
             case "unknown":
                 throw new errors.NewscatcherApiError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }

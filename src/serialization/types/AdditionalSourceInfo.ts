@@ -19,7 +19,7 @@ export const AdditionalSourceInfo: core.serialization.ObjectSchema<
 });
 
 export declare namespace AdditionalSourceInfo {
-    interface Raw {
+    export interface Raw {
         nb_articles_for_7d?: number | null;
         country?: string | null;
         rank?: number | null;

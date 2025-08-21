@@ -10,5 +10,5 @@ export const WordCountMin: core.serialization.Schema<serializers.WordCountMin.Ra
     core.serialization.number();
 
 export declare namespace WordCountMin {
-    type Raw = number;
+    export type Raw = number;
 }

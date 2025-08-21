@@ -13,33 +13,39 @@ export const NlpDataEntity: core.serialization.ObjectSchema<
     serializers.NlpDataEntity.Raw,
     NewscatcherApi.NlpDataEntity
 > = core.serialization.object({
+    summaryTranslated: core.serialization.property("summary_translated", core.serialization.string().optional()),
     theme: core.serialization.string().optional(),
     summary: core.serialization.string().optional(),
     sentiment: SentimentScores.optional(),
     newEmbedding: core.serialization.property(
         "new_embedding",
-        core.serialization.list(core.serialization.number()).optional()
+        core.serialization.list(core.serialization.number()).optional(),
     ),
     nerPer: core.serialization.property("ner_PER", NamedEntityList.optional()),
     nerOrg: core.serialization.property("ner_ORG", NamedEntityList.optional()),
     nerMisc: core.serialization.property("ner_MISC", NamedEntityList.optional()),
     nerLoc: core.serialization.property("ner_LOC", NamedEntityList.optional()),
+    translationNerPer: core.serialization.property("translation_ner_PER", NamedEntityList.optional()),
+    translationNerOrg: core.serialization.property("translation_ner_ORG", NamedEntityList.optional()),
+    translationNerMisc: core.serialization.property("translation_ner_MISC", NamedEntityList.optional()),
+    translationNerLoc: core.serialization.property("translation_ner_LOC", NamedEntityList.optional()),
     iptcTagsName: core.serialization.property(
         "iptc_tags_name",
-        core.serialization.list(core.serialization.string()).optional()
+        core.serialization.list(core.serialization.string()).optional(),
     ),
     iptcTagsId: core.serialization.property(
         "iptc_tags_id",
-        core.serialization.list(core.serialization.string()).optional()
+        core.serialization.list(core.serialization.string()).optional(),
     ),
     iabTagsName: core.serialization.property(
         "iab_tags_name",
-        core.serialization.list(core.serialization.string()).optional()
+        core.serialization.list(core.serialization.string()).optional(),
     ),
 });
 
 export declare namespace NlpDataEntity {
-    interface Raw {
+    export interface Raw {
+        summary_translated?: string | null;
         theme?: string | null;
         summary?: string | null;
         sentiment?: SentimentScores.Raw | null;
@@ -48,6 +54,10 @@ export declare namespace NlpDataEntity {
         ner_ORG?: NamedEntityList.Raw | null;
         ner_MISC?: NamedEntityList.Raw | null;
         ner_LOC?: NamedEntityList.Raw | null;
+        translation_ner_PER?: NamedEntityList.Raw | null;
+        translation_ner_ORG?: NamedEntityList.Raw | null;
+        translation_ner_MISC?: NamedEntityList.Raw | null;
+        translation_ner_LOC?: NamedEntityList.Raw | null;
         iptc_tags_name?: string[] | null;
         iptc_tags_id?: string[] | null;
         iab_tags_name?: string[] | null;

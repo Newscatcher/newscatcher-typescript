@@ -3,7 +3,6 @@
  */
 
 export type SearchSimilarGetRequestSortBy = "relevancy" | "date" | "rank";
-
 export const SearchSimilarGetRequestSortBy = {
     Relevancy: "relevancy",
     Date: "date",

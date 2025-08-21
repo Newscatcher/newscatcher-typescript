@@ -16,7 +16,7 @@ export const AdditionalDomainInfoEntity: core.serialization.ObjectSchema<
 });
 
 export declare namespace AdditionalDomainInfoEntity {
-    interface Raw {
+    export interface Raw {
         is_news_domain?: boolean | null;
         news_type?: string | null;
         news_domain_type?: string | null;

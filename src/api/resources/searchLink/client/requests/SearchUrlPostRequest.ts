@@ -23,7 +23,6 @@ export interface SearchUrlPostRequest {
      * - YYYY/mm/dd HH:MM:SS: `2024/07/01 00:00:00`
      * - YYYY/mm/dd: `2024/07/01`
      * - English phrases: `1 day ago`, `today`
-     *
      */
     from?: NewscatcherApi.From;
     /**
@@ -34,10 +33,10 @@ export interface SearchUrlPostRequest {
      * - YYYY-MM-dd: `2024-07-01`
      * - YYYY/mm/dd HH:MM:SS: `2024/07/01 00:00:00`
      * - YYYY/mm/dd: `2024/07/01`
-     * - English phrases: `1 day ago`, `today`
-     *
+     * - English phrases: `1 day ago`, `now`
      */
     to?: NewscatcherApi.To;
     page?: NewscatcherApi.Page;
     pageSize?: NewscatcherApi.PageSize;
+    robotsCompliant?: NewscatcherApi.RobotsCompliant;
 }

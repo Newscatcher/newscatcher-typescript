@@ -10,5 +10,5 @@ export const WordCountMax: core.serialization.Schema<serializers.WordCountMax.Ra
     core.serialization.number();
 
 export declare namespace WordCountMax {
-    type Raw = number;
+    export type Raw = number;
 }

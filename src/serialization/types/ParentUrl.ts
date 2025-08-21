@@ -13,5 +13,5 @@ export const ParentUrl: core.serialization.Schema<serializers.ParentUrl.Raw, New
     ]);
 
 export declare namespace ParentUrl {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

@@ -12,5 +12,5 @@ export const ClusteringVariable: core.serialization.Schema<
 > = core.serialization.enum_(["content", "title", "summary"]);
 
 export declare namespace ClusteringVariable {
-    type Raw = "content" | "title" | "summary";
+    export type Raw = "content" | "title" | "summary";
 }

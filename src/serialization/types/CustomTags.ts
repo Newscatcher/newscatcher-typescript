@@ -13,5 +13,5 @@ export const CustomTags: core.serialization.Schema<serializers.CustomTags.Raw, N
     ]);
 
 export declare namespace CustomTags {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

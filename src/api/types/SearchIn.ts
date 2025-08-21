@@ -3,12 +3,12 @@
  */
 
 /**
- * The article fields to search in. To search in multiple fields, use a comma-separated string.
+ * The article fields to search in. Use a comma-separated string for multiple options, with a maximum of 2 in a single request.
  *
- * Example: `"title, summary"`
+ * Available options:
+ * - Standard fields: `title`, `content`, `summary`, `title_content`
+ * - Translation fields: `title_translated`, `content_translated`, `summary_translated`, `title_content_translated`
  *
- * **Note**: The `summary` option is available if NLP is enabled in your plan.
- *
- * Available options: `title`, `summary`, `content`.
+ * **Note**: Search in summaries and translations is only available for NLP subscription plans.
  */
 export type SearchIn = string;

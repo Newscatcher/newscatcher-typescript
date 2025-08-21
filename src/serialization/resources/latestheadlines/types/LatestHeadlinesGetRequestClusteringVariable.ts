@@ -12,5 +12,5 @@ export const LatestHeadlinesGetRequestClusteringVariable: core.serialization.Sch
 > = core.serialization.enum_(["content", "title", "summary"]);
 
 export declare namespace LatestHeadlinesGetRequestClusteringVariable {
-    type Raw = "content" | "title" | "summary";
+    export type Raw = "content" | "title" | "summary";
 }

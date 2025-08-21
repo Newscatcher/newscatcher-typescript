@@ -3,7 +3,6 @@
  */
 
 export type AggregationGetRequestSortBy = "relevancy" | "date" | "rank";
-
 export const AggregationGetRequestSortBy = {
     Relevancy: "relevancy",
     Date: "date",

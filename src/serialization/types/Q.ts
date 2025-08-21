@@ -9,5 +9,5 @@ import * as core from "../../core";
 export const Q: core.serialization.Schema<serializers.Q.Raw, NewscatcherApi.Q> = core.serialization.string();
 
 export declare namespace Q {
-    type Raw = string;
+    export type Raw = string;
 }

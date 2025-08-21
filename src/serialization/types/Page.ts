@@ -9,5 +9,5 @@ import * as core from "../../core";
 export const Page: core.serialization.Schema<serializers.Page.Raw, NewscatcherApi.Page> = core.serialization.number();
 
 export declare namespace Page {
-    type Raw = number;
+    export type Raw = number;
 }

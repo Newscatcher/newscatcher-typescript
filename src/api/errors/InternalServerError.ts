@@ -3,13 +3,15 @@
  */
 
 import * as errors from "../../errors/index";
+import * as core from "../../core";
 
 export class InternalServerError extends errors.NewscatcherApiError {
-    constructor(body: string) {
+    constructor(body: string, rawResponse?: core.RawResponse) {
         super({
             message: "InternalServerError",
             statusCode: 500,
             body: body,
+            rawResponse: rawResponse,
         });
         Object.setPrototypeOf(this, InternalServerError.prototype);
     }

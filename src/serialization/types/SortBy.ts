@@ -10,5 +10,5 @@ export const SortBy: core.serialization.Schema<serializers.SortBy.Raw, Newscatch
     core.serialization.enum_(["relevancy", "date", "rank"]);
 
 export declare namespace SortBy {
-    type Raw = "relevancy" | "date" | "rank";
+    export type Raw = "relevancy" | "date" | "rank";
 }

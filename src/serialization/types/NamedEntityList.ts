@@ -13,5 +13,5 @@ export const NamedEntityList: core.serialization.Schema<
 > = core.serialization.list(NamedEntityListItem);
 
 export declare namespace NamedEntityList {
-    type Raw = NamedEntityListItem.Raw[];
+    export type Raw = NamedEntityListItem.Raw[];
 }

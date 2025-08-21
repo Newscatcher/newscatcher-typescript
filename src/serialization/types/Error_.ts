@@ -14,7 +14,7 @@ export const Error_: core.serialization.ObjectSchema<serializers.Error_.Raw, New
     });
 
 export declare namespace Error_ {
-    interface Raw {
+    export interface Raw {
         message: string;
         status_code: number;
         status: string;

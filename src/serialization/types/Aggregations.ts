@@ -11,5 +11,5 @@ export const Aggregations: core.serialization.Schema<serializers.Aggregations.Ra
     core.serialization.undiscriminatedUnion([AggregationItem, core.serialization.list(AggregationItem)]);
 
 export declare namespace Aggregations {
-    type Raw = AggregationItem.Raw | AggregationItem.Raw[];
+    export type Raw = AggregationItem.Raw | AggregationItem.Raw[];
 }

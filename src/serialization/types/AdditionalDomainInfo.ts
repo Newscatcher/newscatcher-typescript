@@ -12,5 +12,5 @@ export const AdditionalDomainInfo: core.serialization.Schema<
 > = core.serialization.boolean();
 
 export declare namespace AdditionalDomainInfo {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

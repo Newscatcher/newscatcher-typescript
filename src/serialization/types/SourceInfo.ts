@@ -16,7 +16,7 @@ export const SourceInfo: core.serialization.ObjectSchema<serializers.SourceInfo.
     });
 
 export declare namespace SourceInfo {
-    interface Raw {
+    export interface Raw {
         name_source?: string | null;
         domain_url: string;
         logo?: string | null;

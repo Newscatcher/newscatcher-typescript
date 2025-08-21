@@ -10,5 +10,5 @@ export const FromRank: core.serialization.Schema<serializers.FromRank.Raw, Newsc
     core.serialization.number();
 
 export declare namespace FromRank {
-    type Raw = number;
+    export type Raw = number;
 }

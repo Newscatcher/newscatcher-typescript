@@ -3,17 +3,9 @@
  */
 
 /**
- * If true, includes an NLP layer with each article in the response.  This layer provides enhanced information such as theme classification, article summary, sentiment analysis, tags, and named entity recognition.
+ * If true, includes an NLP object for each article in the response. This object provides results of NLP analysis, including article theme, summary, sentiment, tags, and named entity recognition if available.
  *
- * The NLP layer includes:
- * - Theme: General topic of the article.
- * - Summary: A concise overview of the article content.
- * - Sentiment: Separate scores for title and content (range: -1 to 1).
- * - Named entities: Identified persons (PER), organizations (ORG), locations (LOC), and miscellaneous entities (MISC).
- * - IPTC tags: Standardized news category tags.
- * - IAB tags: Content categories for digital advertising.
- *
- * **Note**: The `include_nlp_data` parameter is only available if NLP is included in your subscription plan.
+ * **Note**: NLP coverage and analysis completeness may vary by language, with full data available for articles in English and Arabic. The `include_nlp_data` parameter is available only in NLP subscription plans.
  *
  * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
  */

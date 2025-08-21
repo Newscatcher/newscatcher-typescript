@@ -10,5 +10,5 @@ export const To: core.serialization.Schema<serializers.To.Raw, NewscatcherApi.To
     core.serialization.undiscriminatedUnion([core.serialization.date(), core.serialization.string()]);
 
 export declare namespace To {
-    type Raw = string | string;
+    export type Raw = string | string;
 }

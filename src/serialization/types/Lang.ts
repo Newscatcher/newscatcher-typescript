@@ -13,5 +13,5 @@ export const Lang: core.serialization.Schema<serializers.Lang.Raw, NewscatcherAp
     ]);
 
 export declare namespace Lang {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

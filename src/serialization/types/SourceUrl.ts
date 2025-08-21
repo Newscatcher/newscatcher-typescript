@@ -13,5 +13,5 @@ export const SourceUrl: core.serialization.Schema<serializers.SourceUrl.Raw, New
     ]);
 
 export declare namespace SourceUrl {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

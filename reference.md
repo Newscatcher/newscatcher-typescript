@@ -32,9 +32,13 @@ Searches for articles based on specified criteria such as keyword, language, cou
 ```typescript
 await client.search.get({
     q: "technology AND (Apple OR Microsoft) NOT Google",
+    searchIn: "title_content, title_content_translated",
+    includeTranslationFields: true,
     predefinedSources: "top 100 US, top 5 GB",
-    from: new Date("2024-07-01T00:00:00.000Z"),
-    to: new Date("2024-07-01T00:00:00.000Z"),
+    from: "2024-07-01T00:00:00Z",
+    to: "2024-07-01T00:00:00Z",
+    includeNlpData: true,
+    hasNlp: true,
     theme: "Business,Finance",
     notTheme: "Crime",
     iptcTags: "20000199,20000209",
@@ -109,8 +113,8 @@ await client.search.post({
     q: "renewable energy",
     predefinedSources: ["top 50 US"],
     lang: ["en"],
-    from: new Date("2024-01-01T00:00:00.000Z"),
-    to: new Date("2024-06-30T00:00:00.000Z"),
+    from: "2024-01-01T00:00:00Z",
+    to: "2024-06-30T00:00:00Z",
     additionalDomainInfo: true,
     isNewsDomain: true,
 });
@@ -180,6 +184,9 @@ Retrieves the latest headlines for the specified time period. You can filter res
 ```typescript
 await client.latestheadlines.get({
     predefinedSources: "top 100 US, top 5 GB",
+    includeTranslationFields: true,
+    includeNlpData: true,
+    hasNlp: true,
     theme: "Business,Finance",
     notTheme: "Crime",
     iptcTags: "20000199,20000209",
@@ -290,6 +297,146 @@ await client.latestheadlines.post({
 </dl>
 </details>
 
+## Breaking News
+
+<details><summary><code>client.breakingNews.<a href="/src/api/resources/breakingNews/client/Client.ts">breakingNewsGet</a>({ ...params }) -> NewscatcherApi.BreakingNewsResponseDto</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieves breaking news articles and sorts them based on specified criteria.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.breakingNews.breakingNewsGet({
+    topNArticles: 5,
+    includeTranslationFields: true,
+    includeNlpData: true,
+    hasNlp: true,
+    theme: "Business,Finance",
+    notTheme: "Crime",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `NewscatcherApi.BreakingNewsGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `BreakingNews.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.breakingNews.<a href="/src/api/resources/breakingNews/client/Client.ts">breakingNewsPost</a>({ ...params }) -> NewscatcherApi.BreakingNewsResponseDto</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieves breaking news articles and sorts them based on specified criteria.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.breakingNews.breakingNewsPost({
+    sortBy: "relevancy",
+    page: 1,
+    pageSize: 100,
+    includeNlpData: true,
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `NewscatcherApi.BreakingNewsPostRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `BreakingNews.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 ## Authors
 
 <details><summary><code>client.authors.<a href="/src/api/resources/authors/client/Client.ts">get</a>({ ...params }) -> NewscatcherApi.AuthorsGetResponse</code></summary>
@@ -323,8 +470,11 @@ Searches for articles written by a specified author. You can filter results by l
 await client.authors.get({
     authorName: "Jane Smith",
     predefinedSources: "top 100 US, top 5 GB",
-    from: new Date("2024-07-01T00:00:00.000Z"),
-    to: new Date("2024-07-01T00:00:00.000Z"),
+    from: "2024-07-01T00:00:00Z",
+    to: "2024-07-01T00:00:00Z",
+    includeTranslationFields: true,
+    includeNlpData: true,
+    hasNlp: true,
     theme: "Business,Finance",
     notTheme: "Crime",
     nerName: "Tesla",
@@ -400,8 +550,8 @@ await client.authors.post({
     authorName: "Joanna Stern",
     sources: ["wsj.com", "nytimes.com"],
     lang: "en",
-    from: new Date("2024-01-01T00:00:00.000Z"),
-    to: new Date("2024-06-30T00:00:00.000Z"),
+    from: "2024-01-01T00:00:00Z",
+    to: "2024-06-30T00:00:00Z",
 });
 ```
 
@@ -468,8 +618,8 @@ Searches for articles based on specified links or IDs. You can filter results by
 
 ```typescript
 await client.searchLink.searchUrlGet({
-    from: new Date("2024-07-01T00:00:00.000Z"),
-    to: new Date("2024-01-01T00:00:00.000Z"),
+    from: "2024-07-01T00:00:00Z",
+    to: "2024-01-01T00:00:00Z",
 });
 ```
 
@@ -606,10 +756,14 @@ Searches for articles similar to a specified query.
 ```typescript
 await client.searchsimilar.get({
     q: "technology AND (Apple OR Microsoft) NOT Google",
+    searchIn: "title_content, title_content_translated",
+    includeTranslationFields: true,
     similarDocumentsFields: "title,summary",
     predefinedSources: "top 100 US, top 5 GB",
-    from: new Date("2024-07-01T00:00:00.000Z"),
-    to: new Date("2024-07-01T00:00:00.000Z"),
+    from: "2024-07-01T00:00:00Z",
+    to: "2024-07-01T00:00:00Z",
+    includeNlpData: true,
+    hasNlp: true,
     theme: "Business,Finance",
     notTheme: "Crime",
     nerName: "Tesla",
@@ -818,7 +972,7 @@ await client.sources.post({
     predefinedSources: ["top 50 US"],
     includeAdditionalInfo: true,
     isNewsDomain: true,
-    newsDomainType: NewscatcherApi.NewsDomainType.OriginalContent,
+    newsDomainType: "Original Content",
     newsType: "General News Outlets",
 });
 ```
@@ -887,9 +1041,12 @@ Retrieves the count of articles aggregated by day or hour based on various searc
 ```typescript
 await client.aggregation.get({
     q: "technology AND (Apple OR Microsoft) NOT Google",
+    searchIn: "title_content, title_content_translated",
     predefinedSources: "top 100 US, top 5 GB",
-    from: new Date("2024-07-01T00:00:00.000Z"),
-    to: new Date("2024-07-01T00:00:00.000Z"),
+    from: "2024-07-01T00:00:00Z",
+    to: "2024-07-01T00:00:00Z",
+    includeNlpData: true,
+    hasNlp: true,
     theme: "Business,Finance",
     notTheme: "Crime",
     iptcTags: "20000199,20000209",
@@ -959,10 +1116,10 @@ Retrieves the count of articles aggregated by day or hour based on various searc
 ```typescript
 await client.aggregation.post({
     q: "renewable energy",
+    aggregationBy: "day",
     predefinedSources: "top 50 US",
-    from: new Date("2024-01-01T00:00:00.000Z"),
-    to: new Date("2024-06-30T00:00:00.000Z"),
-    aggregationBy: NewscatcherApi.AggregationBy.Day,
+    from: "2024-01-01T00:00:00Z",
+    to: "2024-06-30T00:00:00Z",
 });
 ```
 

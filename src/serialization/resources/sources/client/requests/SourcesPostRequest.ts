@@ -35,7 +35,7 @@ export const SourcesPostRequest: core.serialization.Schema<
 });
 
 export declare namespace SourcesPostRequest {
-    interface Raw {
+    export interface Raw {
         lang?: Lang.Raw | null;
         countries?: Countries.Raw | null;
         predefined_sources?: PredefinedSources.Raw | null;

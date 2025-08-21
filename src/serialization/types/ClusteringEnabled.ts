@@ -12,5 +12,5 @@ export const ClusteringEnabled: core.serialization.Schema<
 > = core.serialization.boolean();
 
 export declare namespace ClusteringEnabled {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

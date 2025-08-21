@@ -13,5 +13,5 @@ export const NotTheme: core.serialization.Schema<serializers.NotTheme.Raw, Newsc
     ]);
 
 export declare namespace NotTheme {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

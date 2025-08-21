@@ -15,5 +15,5 @@ export const PredefinedSources: core.serialization.Schema<
 ]);
 
 export declare namespace PredefinedSources {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

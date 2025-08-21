@@ -13,5 +13,5 @@ export const Links: core.serialization.Schema<serializers.Links.Raw, Newscatcher
     ]);
 
 export declare namespace Links {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

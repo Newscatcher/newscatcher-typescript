@@ -10,5 +10,5 @@ export const UserInputDto: core.serialization.Schema<serializers.UserInputDto.Ra
     core.serialization.record(core.serialization.string(), core.serialization.unknown());
 
 export declare namespace UserInputDto {
-    type Raw = Record<string, unknown>;
+    export type Raw = Record<string, unknown>;
 }

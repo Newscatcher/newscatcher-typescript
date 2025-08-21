@@ -13,5 +13,5 @@ export const SourceName: core.serialization.Schema<serializers.SourceName.Raw, N
     ]);
 
 export declare namespace SourceName {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

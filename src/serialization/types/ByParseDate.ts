@@ -10,5 +10,5 @@ export const ByParseDate: core.serialization.Schema<serializers.ByParseDate.Raw,
     core.serialization.boolean();
 
 export declare namespace ByParseDate {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

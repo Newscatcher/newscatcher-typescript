@@ -8,14 +8,15 @@ import * as NewscatcherApi from "../../../../index";
  * @example
  *     {
  *         q: "renewable energy",
+ *         aggregationBy: "day",
  *         predefinedSources: "top 50 US",
- *         from: new Date("2024-01-01T00:00:00.000Z"),
- *         to: new Date("2024-06-30T00:00:00.000Z"),
- *         aggregationBy: NewscatcherApi.AggregationBy.Day
+ *         from: "2024-01-01T00:00:00Z",
+ *         to: "2024-06-30T00:00:00Z"
  *     }
  */
 export interface AggregationPostRequest {
     q: NewscatcherApi.Q;
+    aggregationBy?: NewscatcherApi.AggregationBy;
     searchIn?: NewscatcherApi.SearchIn;
     predefinedSources?: NewscatcherApi.PredefinedSources;
     sources?: NewscatcherApi.Sources;
@@ -54,8 +55,8 @@ export interface AggregationPostRequest {
     titleSentimentMin?: NewscatcherApi.TitleSentimentMin;
     titleSentimentMax?: NewscatcherApi.TitleSentimentMax;
     contentSentimentMin?: NewscatcherApi.ContentSentimentMin;
-    contentSentientMax?: NewscatcherApi.ContentSentimentMax;
+    contentSentimentMax?: NewscatcherApi.ContentSentimentMax;
     iptcTags?: NewscatcherApi.IptcTags;
     notIptcTags?: NewscatcherApi.NotIptcTags;
-    aggregationBy?: NewscatcherApi.AggregationBy;
+    robotsCompliant?: NewscatcherApi.RobotsCompliant;
 }

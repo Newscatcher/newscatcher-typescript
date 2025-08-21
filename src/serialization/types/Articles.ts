@@ -11,5 +11,5 @@ export const Articles: core.serialization.Schema<serializers.Articles.Raw, Newsc
     core.serialization.list(ArticleEntity);
 
 export declare namespace Articles {
-    type Raw = ArticleEntity.Raw[];
+    export type Raw = ArticleEntity.Raw[];
 }

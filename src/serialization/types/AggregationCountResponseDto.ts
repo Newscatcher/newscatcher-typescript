@@ -20,7 +20,7 @@ export const AggregationCountResponseDto: core.serialization.ObjectSchema<
     .extend(BaseSearchResponseDto);
 
 export declare namespace AggregationCountResponseDto {
-    interface Raw extends BaseSearchResponseDto.Raw {
+    export interface Raw extends BaseSearchResponseDto.Raw {
         aggregations?: Aggregations.Raw | null;
         user_input?: UserInputDto.Raw | null;
     }

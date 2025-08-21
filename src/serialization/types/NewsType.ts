@@ -13,5 +13,5 @@ export const NewsType: core.serialization.Schema<serializers.NewsType.Raw, Newsc
     ]);
 
 export declare namespace NewsType {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

@@ -21,7 +21,7 @@ export const SearchResponseDto: core.serialization.ObjectSchema<
     .extend(BaseSearchResponseDto);
 
 export declare namespace SearchResponseDto {
-    interface Raw extends BaseSearchResponseDto.Raw {
+    export interface Raw extends BaseSearchResponseDto.Raw {
         articles?: Articles.Raw | null;
         user_input?: UserInputDto.Raw | null;
     }

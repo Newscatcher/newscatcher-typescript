@@ -13,5 +13,5 @@ export const Sources: core.serialization.Schema<serializers.Sources.Raw, Newscat
     ]);
 
 export declare namespace Sources {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }
