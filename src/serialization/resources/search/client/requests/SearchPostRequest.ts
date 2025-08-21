@@ -7,6 +7,7 @@ import * as NewscatcherApi from "../../../../../api/index";
 import * as core from "../../../../../core";
 import { Q } from "../../../../types/Q";
 import { SearchIn } from "../../../../types/SearchIn";
+import { IncludeTranslationFields } from "../../../../types/IncludeTranslationFields";
 import { PredefinedSources } from "../../../../types/PredefinedSources";
 import { SourceName } from "../../../../types/SourceName";
 import { Sources } from "../../../../types/Sources";
@@ -59,6 +60,7 @@ import { IabTags } from "../../../../types/IabTags";
 import { NotIabTags } from "../../../../types/NotIabTags";
 import { CustomTags } from "../../../../types/CustomTags";
 import { ExcludeDuplicates } from "../../../../types/ExcludeDuplicates";
+import { RobotsCompliant } from "../../../../types/RobotsCompliant";
 
 export const SearchPostRequest: core.serialization.Schema<
     serializers.SearchPostRequest.Raw,
@@ -66,6 +68,10 @@ export const SearchPostRequest: core.serialization.Schema<
 > = core.serialization.object({
     q: Q,
     searchIn: core.serialization.property("search_in", SearchIn.optional()),
+    includeTranslationFields: core.serialization.property(
+        "include_translation_fields",
+        IncludeTranslationFields.optional(),
+    ),
     predefinedSources: core.serialization.property("predefined_sources", PredefinedSources.optional()),
     sourceName: core.serialization.property("source_name", SourceName.optional()),
     sources: Sources.optional(),
@@ -111,19 +117,21 @@ export const SearchPostRequest: core.serialization.Schema<
     titleSentimentMin: core.serialization.property("title_sentiment_min", TitleSentimentMin.optional()),
     titleSentimentMax: core.serialization.property("title_sentiment_max", TitleSentimentMax.optional()),
     contentSentimentMin: core.serialization.property("content_sentiment_min", ContentSentimentMin.optional()),
-    contentSentientMax: core.serialization.property("content_sentient_max", ContentSentimentMax.optional()),
+    contentSentimentMax: core.serialization.property("content_sentiment_max", ContentSentimentMax.optional()),
     iptcTags: core.serialization.property("iptc_tags", IptcTags.optional()),
     notIptcTags: core.serialization.property("not_iptc_tags", NotIptcTags.optional()),
     iabTags: core.serialization.property("iab_tags", IabTags.optional()),
     notIabTags: core.serialization.property("not_iab_tags", NotIabTags.optional()),
     customTags: core.serialization.property("custom_tags", CustomTags.optional()),
     excludeDuplicates: core.serialization.property("exclude_duplicates", ExcludeDuplicates.optional()),
+    robotsCompliant: core.serialization.property("robots_compliant", RobotsCompliant.optional()),
 });
 
 export declare namespace SearchPostRequest {
-    interface Raw {
+    export interface Raw {
         q: Q.Raw;
         search_in?: SearchIn.Raw | null;
+        include_translation_fields?: IncludeTranslationFields.Raw | null;
         predefined_sources?: PredefinedSources.Raw | null;
         source_name?: SourceName.Raw | null;
         sources?: Sources.Raw | null;
@@ -169,12 +177,13 @@ export declare namespace SearchPostRequest {
         title_sentiment_min?: TitleSentimentMin.Raw | null;
         title_sentiment_max?: TitleSentimentMax.Raw | null;
         content_sentiment_min?: ContentSentimentMin.Raw | null;
-        content_sentient_max?: ContentSentimentMax.Raw | null;
+        content_sentiment_max?: ContentSentimentMax.Raw | null;
         iptc_tags?: IptcTags.Raw | null;
         not_iptc_tags?: NotIptcTags.Raw | null;
         iab_tags?: IabTags.Raw | null;
         not_iab_tags?: NotIabTags.Raw | null;
         custom_tags?: CustomTags.Raw | null;
         exclude_duplicates?: ExcludeDuplicates.Raw | null;
+        robots_compliant?: RobotsCompliant.Raw | null;
     }
 }

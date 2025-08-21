@@ -5,23 +5,27 @@
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
 import * as NewscatcherApi from "../../../index";
-import urlJoin from "url-join";
 import * as serializers from "../../../../serialization/index";
+import urlJoin from "url-join";
 import * as errors from "../../../../errors/index";
 
 export declare namespace Latestheadlines {
-    interface Options {
+    export interface Options {
         environment?: core.Supplier<environments.NewscatcherApiEnvironment | string>;
+        /** Specify a custom URL to connect the client to. */
+        baseUrl?: core.Supplier<string>;
         apiKey: core.Supplier<string>;
     }
 
-    interface RequestOptions {
+    export interface RequestOptions {
         /** The maximum time to wait for a response in seconds. */
         timeoutInSeconds?: number;
         /** The number of times to retry the request. Defaults to 2. */
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
@@ -48,6 +52,9 @@ export class Latestheadlines {
      * @example
      *     await client.latestheadlines.get({
      *         predefinedSources: "top 100 US, top 5 GB",
+     *         includeTranslationFields: true,
+     *         includeNlpData: true,
+     *         hasNlp: true,
      *         theme: "Business,Finance",
      *         notTheme: "Crime",
      *         iptcTags: "20000199,20000209",
@@ -57,10 +64,17 @@ export class Latestheadlines {
      *         customTags: "Tag1,Tag2,Tag3"
      *     })
      */
-    public async get(
+    public get(
         request: NewscatcherApi.LatestHeadlinesGetRequest = {},
-        requestOptions?: Latestheadlines.RequestOptions
-    ): Promise<NewscatcherApi.LatestHeadlinesGetResponse> {
+        requestOptions?: Latestheadlines.RequestOptions,
+    ): core.HttpResponsePromise<NewscatcherApi.LatestHeadlinesGetResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
+    }
+
+    private async __get(
+        request: NewscatcherApi.LatestHeadlinesGetRequest = {},
+        requestOptions?: Latestheadlines.RequestOptions,
+    ): Promise<core.WithRawResponse<NewscatcherApi.LatestHeadlinesGetResponse>> {
         const {
             when,
             byParseDate,
@@ -86,6 +100,7 @@ export class Latestheadlines {
             clusteringEnabled,
             clusteringVariable,
             clusteringThreshold,
+            includeTranslationFields,
             includeNlpData,
             hasNlp,
             theme,
@@ -103,8 +118,9 @@ export class Latestheadlines {
             iabTags,
             notIabTags,
             customTags,
+            robotsCompliant,
         } = request;
-        const _queryParams: Record<string, string | string[] | object | object[]> = {};
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (when != null) {
             _queryParams["when"] = when;
         }
@@ -194,11 +210,18 @@ export class Latestheadlines {
         }
 
         if (clusteringVariable != null) {
-            _queryParams["clustering_variable"] = clusteringVariable;
+            _queryParams["clustering_variable"] = serializers.LatestHeadlinesGetRequestClusteringVariable.jsonOrThrow(
+                clusteringVariable,
+                { unrecognizedObjectKeys: "strip" },
+            );
         }
 
         if (clusteringThreshold != null) {
             _queryParams["clustering_threshold"] = clusteringThreshold.toString();
+        }
+
+        if (includeTranslationFields != null) {
+            _queryParams["include_translation_fields"] = includeTranslationFields.toString();
         }
 
         if (includeNlpData != null) {
@@ -269,20 +292,27 @@ export class Latestheadlines {
             _queryParams["custom_tags"] = customTags;
         }
 
+        if (robotsCompliant != null) {
+            _queryParams["robots_compliant"] = robotsCompliant.toString();
+        }
+
         const _response = await core.fetcher({
             url: urlJoin(
-                (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
-                "api/latest_headlines"
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.NewscatcherApiEnvironment.Default,
+                "api/latest_headlines",
             ),
             method: "GET",
             headers: {
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.2.0",
+                "User-Agent": "newscatcher-sdk/1.2.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...(await this._getCustomAuthorizationHeaders()),
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             queryParameters: _queryParams,
@@ -292,12 +322,15 @@ export class Latestheadlines {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.LatestHeadlinesGetResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                breadcrumbsPrefix: ["response"],
-            });
+            return {
+                data: serializers.LatestHeadlinesGetResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -309,7 +342,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 401:
                     throw new NewscatcherApi.UnauthorizedError(
@@ -318,7 +352,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 403:
                     throw new NewscatcherApi.ForbiddenError(
@@ -327,7 +362,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 408:
                     throw new NewscatcherApi.RequestTimeoutError(
@@ -336,7 +372,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
@@ -345,7 +382,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 429:
                     throw new NewscatcherApi.TooManyRequestsError(
@@ -354,7 +392,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 500:
                     throw new NewscatcherApi.InternalServerError(
@@ -363,12 +402,14 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 default:
                     throw new errors.NewscatcherApiError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -378,12 +419,14 @@ export class Latestheadlines {
                 throw new errors.NewscatcherApiError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.NewscatcherApiTimeoutError();
+                throw new errors.NewscatcherApiTimeoutError("Timeout exceeded when calling GET /api/latest_headlines.");
             case "unknown":
                 throw new errors.NewscatcherApiError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -410,24 +453,34 @@ export class Latestheadlines {
      *         pageSize: 10
      *     })
      */
-    public async post(
+    public post(
         request: NewscatcherApi.LatestHeadlinesPostRequest = {},
-        requestOptions?: Latestheadlines.RequestOptions
-    ): Promise<NewscatcherApi.LatestHeadlinesPostResponse> {
+        requestOptions?: Latestheadlines.RequestOptions,
+    ): core.HttpResponsePromise<NewscatcherApi.LatestHeadlinesPostResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__post(request, requestOptions));
+    }
+
+    private async __post(
+        request: NewscatcherApi.LatestHeadlinesPostRequest = {},
+        requestOptions?: Latestheadlines.RequestOptions,
+    ): Promise<core.WithRawResponse<NewscatcherApi.LatestHeadlinesPostResponse>> {
         const _response = await core.fetcher({
             url: urlJoin(
-                (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
-                "api/latest_headlines"
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.NewscatcherApiEnvironment.Default,
+                "api/latest_headlines",
             ),
             method: "POST",
             headers: {
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.2.0",
+                "User-Agent": "newscatcher-sdk/1.2.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...(await this._getCustomAuthorizationHeaders()),
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -437,12 +490,15 @@ export class Latestheadlines {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.LatestHeadlinesPostResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                breadcrumbsPrefix: ["response"],
-            });
+            return {
+                data: serializers.LatestHeadlinesPostResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -454,7 +510,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 401:
                     throw new NewscatcherApi.UnauthorizedError(
@@ -463,7 +520,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 403:
                     throw new NewscatcherApi.ForbiddenError(
@@ -472,7 +530,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 408:
                     throw new NewscatcherApi.RequestTimeoutError(
@@ -481,7 +540,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
@@ -490,7 +550,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 429:
                     throw new NewscatcherApi.TooManyRequestsError(
@@ -499,7 +560,8 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 500:
                     throw new NewscatcherApi.InternalServerError(
@@ -508,12 +570,14 @@ export class Latestheadlines {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 default:
                     throw new errors.NewscatcherApiError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -523,12 +587,16 @@ export class Latestheadlines {
                 throw new errors.NewscatcherApiError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.NewscatcherApiTimeoutError();
+                throw new errors.NewscatcherApiTimeoutError(
+                    "Timeout exceeded when calling POST /api/latest_headlines.",
+                );
             case "unknown":
                 throw new errors.NewscatcherApiError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }

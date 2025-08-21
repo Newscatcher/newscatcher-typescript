@@ -10,5 +10,5 @@ export const From: core.serialization.Schema<serializers.From.Raw, NewscatcherAp
     core.serialization.undiscriminatedUnion([core.serialization.date(), core.serialization.string()]);
 
 export declare namespace From {
-    type Raw = string | string;
+    export type Raw = string | string;
 }

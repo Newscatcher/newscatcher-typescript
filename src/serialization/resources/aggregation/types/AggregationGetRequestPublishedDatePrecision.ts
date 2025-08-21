@@ -12,5 +12,5 @@ export const AggregationGetRequestPublishedDatePrecision: core.serialization.Sch
 > = core.serialization.enum_(["full", "timezone unknown", "date"]);
 
 export declare namespace AggregationGetRequestPublishedDatePrecision {
-    type Raw = "full" | "timezone unknown" | "date";
+    export type Raw = "full" | "timezone unknown" | "date";
 }

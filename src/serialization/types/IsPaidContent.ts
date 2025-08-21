@@ -10,5 +10,5 @@ export const IsPaidContent: core.serialization.Schema<serializers.IsPaidContent.
     core.serialization.boolean();
 
 export declare namespace IsPaidContent {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

@@ -13,5 +13,5 @@ export const IptcTags: core.serialization.Schema<serializers.IptcTags.Raw, Newsc
     ]);
 
 export declare namespace IptcTags {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

@@ -17,7 +17,7 @@ export const SimilarDocument: core.serialization.ObjectSchema<
 });
 
 export declare namespace SimilarDocument {
-    interface Raw {
+    export interface Raw {
         id: string;
         score: number;
         title: string;

@@ -11,7 +11,6 @@
  * - `Other`: Sources that don't fit into main categories.
  */
 export type NewsDomainType = "Original Content" | "Aggregator" | "Press Releases" | "Republisher" | "Other";
-
 export const NewsDomainType = {
     OriginalContent: "Original Content",
     Aggregator: "Aggregator",

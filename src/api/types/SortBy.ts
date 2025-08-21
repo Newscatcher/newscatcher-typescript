@@ -9,7 +9,6 @@
  * - `rank`: The results from the highest-ranked sources first.
  */
 export type SortBy = "relevancy" | "date" | "rank";
-
 export const SortBy = {
     Relevancy: "relevancy",
     Date: "date",

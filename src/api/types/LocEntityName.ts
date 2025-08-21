@@ -3,14 +3,10 @@
  */
 
 /**
- * Filters articles that mention specific location names, as identified by NLP analysis. To specify multiple locations, use a comma-separated string or an array of strings.
- *
- * Examples:
- * - `"California, New York"`
- * - `["California", "New York"]`
+ * Filters articles that mention specific location names, as identified by NLP analysis. To specify multiple locations, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
  *
  * **Note**: The `LOC_entity_name` parameter is only available if NLP is included in your subscription plan.
  *
  * To learn more, see [Search by entity](/docs/v3/documentation/how-to/search-by-entity).
  */
-export type LocEntityName = string | string[];
+export type LocEntityName = string;

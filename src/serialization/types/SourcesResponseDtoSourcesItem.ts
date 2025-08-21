@@ -13,5 +13,5 @@ export const SourcesResponseDtoSourcesItem: core.serialization.Schema<
 > = core.serialization.undiscriminatedUnion([SourceInfo, core.serialization.string()]);
 
 export declare namespace SourcesResponseDtoSourcesItem {
-    type Raw = SourceInfo.Raw | string;
+    export type Raw = SourceInfo.Raw | string;
 }

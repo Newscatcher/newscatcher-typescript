@@ -9,7 +9,6 @@
  * - `date`: Only the day is identified without an exact time.
  */
 export type PublishedDatePrecision = "full" | "timezone unknown" | "date";
-
 export const PublishedDatePrecision = {
     Full: "full",
     TimezoneUnknown: "timezone unknown",

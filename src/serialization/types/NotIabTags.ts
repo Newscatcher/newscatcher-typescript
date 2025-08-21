@@ -13,5 +13,5 @@ export const NotIabTags: core.serialization.Schema<serializers.NotIabTags.Raw, N
     ]);
 
 export declare namespace NotIabTags {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

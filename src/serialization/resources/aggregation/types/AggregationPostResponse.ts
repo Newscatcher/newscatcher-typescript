@@ -14,5 +14,5 @@ export const AggregationPostResponse: core.serialization.Schema<
 > = core.serialization.undiscriminatedUnion([AggregationCountResponseDto, FailedAggregationCountResponseDto]);
 
 export declare namespace AggregationPostResponse {
-    type Raw = AggregationCountResponseDto.Raw | FailedAggregationCountResponseDto.Raw;
+    export type Raw = AggregationCountResponseDto.Raw | FailedAggregationCountResponseDto.Raw;
 }

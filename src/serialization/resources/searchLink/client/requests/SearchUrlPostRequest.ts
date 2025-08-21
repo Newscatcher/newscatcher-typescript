@@ -11,6 +11,7 @@ import { From } from "../../../../types/From";
 import { To } from "../../../../types/To";
 import { Page } from "../../../../types/Page";
 import { PageSize } from "../../../../types/PageSize";
+import { RobotsCompliant } from "../../../../types/RobotsCompliant";
 
 export const SearchUrlPostRequest: core.serialization.Schema<
     serializers.SearchUrlPostRequest.Raw,
@@ -22,15 +23,17 @@ export const SearchUrlPostRequest: core.serialization.Schema<
     to: core.serialization.property("to_", To.optional()),
     page: Page.optional(),
     pageSize: core.serialization.property("page_size", PageSize.optional()),
+    robotsCompliant: core.serialization.property("robots_compliant", RobotsCompliant.optional()),
 });
 
 export declare namespace SearchUrlPostRequest {
-    interface Raw {
+    export interface Raw {
         ids?: Ids.Raw | null;
         links?: Links.Raw | null;
         from_?: From.Raw | null;
         to_?: To.Raw | null;
         page?: Page.Raw | null;
         page_size?: PageSize.Raw | null;
+        robots_compliant?: RobotsCompliant.Raw | null;
     }
 }

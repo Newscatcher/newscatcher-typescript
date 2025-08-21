@@ -11,7 +11,6 @@
  * To learn more, see [Clustering news articles](/docs/v3/documentation/guides-and-concepts/clustering-news-articles).
  */
 export type ClusteringVariable = "content" | "title" | "summary";
-
 export const ClusteringVariable = {
     Content: "content",
     Title: "title",

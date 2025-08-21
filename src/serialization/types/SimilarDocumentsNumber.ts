@@ -12,5 +12,5 @@ export const SimilarDocumentsNumber: core.serialization.Schema<
 > = core.serialization.number();
 
 export declare namespace SimilarDocumentsNumber {
-    type Raw = number;
+    export type Raw = number;
 }

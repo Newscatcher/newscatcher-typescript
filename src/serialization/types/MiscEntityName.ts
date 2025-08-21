@@ -7,11 +7,8 @@ import * as NewscatcherApi from "../../api/index";
 import * as core from "../../core";
 
 export const MiscEntityName: core.serialization.Schema<serializers.MiscEntityName.Raw, NewscatcherApi.MiscEntityName> =
-    core.serialization.undiscriminatedUnion([
-        core.serialization.string(),
-        core.serialization.list(core.serialization.string()),
-    ]);
+    core.serialization.string();
 
 export declare namespace MiscEntityName {
-    type Raw = string | string[];
+    export type Raw = string;
 }

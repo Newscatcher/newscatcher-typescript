@@ -4,13 +4,15 @@
 
 import * as errors from "../../errors/index";
 import * as NewscatcherApi from "../index";
+import * as core from "../../core";
 
 export class RequestTimeoutError extends errors.NewscatcherApiError {
-    constructor(body: NewscatcherApi.Error_) {
+    constructor(body: NewscatcherApi.Error_, rawResponse?: core.RawResponse) {
         super({
             message: "RequestTimeoutError",
             statusCode: 408,
             body: body,
+            rawResponse: rawResponse,
         });
         Object.setPrototypeOf(this, RequestTimeoutError.prototype);
     }

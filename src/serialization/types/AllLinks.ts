@@ -13,5 +13,5 @@ export const AllLinks: core.serialization.Schema<serializers.AllLinks.Raw, Newsc
     ]);
 
 export declare namespace AllLinks {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

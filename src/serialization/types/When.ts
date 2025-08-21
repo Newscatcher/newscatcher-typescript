@@ -9,5 +9,5 @@ import * as core from "../../core";
 export const When: core.serialization.Schema<serializers.When.Raw, NewscatcherApi.When> = core.serialization.string();
 
 export declare namespace When {
-    type Raw = string;
+    export type Raw = string;
 }

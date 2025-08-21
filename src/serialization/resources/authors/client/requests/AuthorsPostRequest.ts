@@ -32,6 +32,7 @@ import { WordCountMin } from "../../../../types/WordCountMin";
 import { WordCountMax } from "../../../../types/WordCountMax";
 import { Page } from "../../../../types/Page";
 import { PageSize } from "../../../../types/PageSize";
+import { IncludeTranslationFields } from "../../../../types/IncludeTranslationFields";
 import { IncludeNlpData } from "../../../../types/IncludeNlpData";
 import { HasNlp } from "../../../../types/HasNlp";
 import { Theme } from "../../../../types/Theme";
@@ -46,6 +47,7 @@ import { NotIptcTags } from "../../../../types/NotIptcTags";
 import { IabTags } from "../../../../types/IabTags";
 import { NotIabTags } from "../../../../types/NotIabTags";
 import { CustomTags } from "../../../../types/CustomTags";
+import { RobotsCompliant } from "../../../../types/RobotsCompliant";
 
 export const AuthorsPostRequest: core.serialization.Schema<
     serializers.AuthorsPostRequest.Raw,
@@ -78,6 +80,10 @@ export const AuthorsPostRequest: core.serialization.Schema<
     wordCountMax: core.serialization.property("word_count_max", WordCountMax.optional()),
     page: Page.optional(),
     pageSize: core.serialization.property("page_size", PageSize.optional()),
+    includeTranslationFields: core.serialization.property(
+        "include_translation_fields",
+        IncludeTranslationFields.optional(),
+    ),
     includeNlpData: core.serialization.property("include_nlp_data", IncludeNlpData.optional()),
     hasNlp: core.serialization.property("has_nlp", HasNlp.optional()),
     theme: Theme.optional(),
@@ -92,10 +98,11 @@ export const AuthorsPostRequest: core.serialization.Schema<
     iabTags: core.serialization.property("iab_tags", IabTags.optional()),
     notIabTags: core.serialization.property("not_iab_tags", NotIabTags.optional()),
     customTags: core.serialization.property("custom_tags", CustomTags.optional()),
+    robotsCompliant: core.serialization.property("robots_compliant", RobotsCompliant.optional()),
 });
 
 export declare namespace AuthorsPostRequest {
-    interface Raw {
+    export interface Raw {
         author_name: AuthorName.Raw;
         not_author_name?: NotAuthorName.Raw | null;
         predefined_sources?: PredefinedSources.Raw | null;
@@ -123,6 +130,7 @@ export declare namespace AuthorsPostRequest {
         word_count_max?: WordCountMax.Raw | null;
         page?: Page.Raw | null;
         page_size?: PageSize.Raw | null;
+        include_translation_fields?: IncludeTranslationFields.Raw | null;
         include_nlp_data?: IncludeNlpData.Raw | null;
         has_nlp?: HasNlp.Raw | null;
         theme?: Theme.Raw | null;
@@ -137,5 +145,6 @@ export declare namespace AuthorsPostRequest {
         iab_tags?: IabTags.Raw | null;
         not_iab_tags?: NotIabTags.Raw | null;
         custom_tags?: CustomTags.Raw | null;
+        robots_compliant?: RobotsCompliant.Raw | null;
     }
 }

@@ -9,7 +9,7 @@
  * - `"20000199, 20000209"`
  * - `["20000199", "20000209"]`
  *
- * **Note**: The `iptc_tags` parameter is only available if tags are included in your subscription plan.
+ * **Note**: The `iptc_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
  *
  * To learn more, see [IPTC Media Topic NewsCodes](https://www.iptc.org/std/NewsCodes/treeview/mediatopic/mediatopic-en-GB.html).
  */

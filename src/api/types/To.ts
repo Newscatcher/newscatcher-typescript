@@ -10,7 +10,7 @@
  * - YYYY-MM-dd: `2024-07-01`
  * - YYYY/mm/dd HH:MM:SS: `2024/07/01 00:00:00`
  * - YYYY/mm/dd: `2024/07/01`
- * - English phrases: `1 day ago`, `today`
+ * - English phrases: `1 day ago`, `now`
  *
  * **Note**: By default, applied to the publication date of the article. To use the article's parse date instead, set the `by_parse_date` parameter to `true`.
  */

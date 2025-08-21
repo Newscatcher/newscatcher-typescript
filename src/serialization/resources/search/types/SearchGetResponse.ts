@@ -14,5 +14,5 @@ export const SearchGetResponse: core.serialization.Schema<
 > = core.serialization.undiscriminatedUnion([SearchResponseDto, ClusteredSearchResponseDto]);
 
 export declare namespace SearchGetResponse {
-    type Raw = SearchResponseDto.Raw | ClusteredSearchResponseDto.Raw;
+    export type Raw = SearchResponseDto.Raw | ClusteredSearchResponseDto.Raw;
 }

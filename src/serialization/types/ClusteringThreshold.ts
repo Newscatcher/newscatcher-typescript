@@ -12,5 +12,5 @@ export const ClusteringThreshold: core.serialization.Schema<
 > = core.serialization.number();
 
 export declare namespace ClusteringThreshold {
-    type Raw = number;
+    export type Raw = number;
 }

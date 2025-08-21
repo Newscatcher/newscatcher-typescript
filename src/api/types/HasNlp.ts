@@ -3,9 +3,9 @@
  */
 
 /**
- * If true, filters the results to include only articles with an NLP layer. This allows you to focus on articles that have been processed with advanced NLP techniques.
+ * If true, filters results to include only articles that have NLP data.
  *
- * **Note**: The `has_nlp` parameter is only available if NLP is included in your subscription plan.
+ * **Note**: NLP coverage and analysis completeness may vary by language, with full data available for articles in English and Arabic. The `has_nlp` parameter is available only in NLP subscription plans.
  *
  * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
  */

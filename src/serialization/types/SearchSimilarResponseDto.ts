@@ -20,7 +20,7 @@ export const SearchSimilarResponseDto: core.serialization.ObjectSchema<
     .extend(BaseSearchResponseDto);
 
 export declare namespace SearchSimilarResponseDto {
-    interface Raw extends BaseSearchResponseDto.Raw {
+    export interface Raw extends BaseSearchResponseDto.Raw {
         articles?: SimilarArticleEntity.Raw[] | null;
         user_input?: UserInputDto.Raw | null;
     }

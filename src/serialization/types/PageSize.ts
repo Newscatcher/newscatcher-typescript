@@ -10,5 +10,5 @@ export const PageSize: core.serialization.Schema<serializers.PageSize.Raw, Newsc
     core.serialization.number();
 
 export declare namespace PageSize {
-    type Raw = number;
+    export type Raw = number;
 }

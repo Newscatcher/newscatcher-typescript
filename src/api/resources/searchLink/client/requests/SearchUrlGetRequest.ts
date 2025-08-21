@@ -7,8 +7,8 @@ import * as NewscatcherApi from "../../../../index";
 /**
  * @example
  *     {
- *         from: new Date("2024-07-01T00:00:00.000Z"),
- *         to: new Date("2024-01-01T00:00:00.000Z")
+ *         from: "2024-07-01T00:00:00Z",
+ *         to: "2024-01-01T00:00:00Z"
  *     }
  */
 export interface SearchUrlGetRequest {
@@ -40,4 +40,8 @@ export interface SearchUrlGetRequest {
      * The number of articles to return per page.
      */
     pageSize?: number;
+    /**
+     * If true, returns only articles/sources that comply with the publisher's robots.txt rules. If false, returns only articles/sources that do not comply with robots.txt rules. If omitted, returns all articles/sources regardless of compliance status.
+     */
+    robotsCompliant?: boolean;
 }

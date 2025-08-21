@@ -15,5 +15,5 @@ export const ArticleEntityAllLinks: core.serialization.Schema<
 ]);
 
 export declare namespace ArticleEntityAllLinks {
-    type Raw = string[] | string;
+    export type Raw = string[] | string;
 }

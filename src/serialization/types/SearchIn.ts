@@ -10,5 +10,5 @@ export const SearchIn: core.serialization.Schema<serializers.SearchIn.Raw, Newsc
     core.serialization.string();
 
 export declare namespace SearchIn {
-    type Raw = string;
+    export type Raw = string;
 }

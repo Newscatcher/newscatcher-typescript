@@ -15,12 +15,12 @@ export const SourcesResponseDto: core.serialization.ObjectSchema<
     sources: core.serialization.list(SourcesResponseDtoSourcesItem),
     userInput: core.serialization.property(
         "user_input",
-        core.serialization.record(core.serialization.string(), core.serialization.unknown())
+        core.serialization.record(core.serialization.string(), core.serialization.unknown()),
     ),
 });
 
 export declare namespace SourcesResponseDto {
-    interface Raw {
+    export interface Raw {
         message: string;
         sources: SourcesResponseDtoSourcesItem.Raw[];
         user_input: Record<string, unknown>;

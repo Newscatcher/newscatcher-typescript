@@ -7,8 +7,8 @@ import * as NewscatcherApi from "../../api/index";
 import * as core from "../../core";
 
 export const AggregationBy: core.serialization.Schema<serializers.AggregationBy.Raw, NewscatcherApi.AggregationBy> =
-    core.serialization.enum_(["day", "hour"]);
+    core.serialization.enum_(["day", "hour", "month"]);
 
 export declare namespace AggregationBy {
-    type Raw = "day" | "hour";
+    export type Raw = "day" | "hour" | "month";
 }

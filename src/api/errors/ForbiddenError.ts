@@ -4,13 +4,15 @@
 
 import * as errors from "../../errors/index";
 import * as NewscatcherApi from "../index";
+import * as core from "../../core";
 
 export class ForbiddenError extends errors.NewscatcherApiError {
-    constructor(body: NewscatcherApi.Error_) {
+    constructor(body: NewscatcherApi.Error_, rawResponse?: core.RawResponse) {
         super({
             message: "ForbiddenError",
             statusCode: 403,
             body: body,
+            rawResponse: rawResponse,
         });
         Object.setPrototypeOf(this, ForbiddenError.prototype);
     }

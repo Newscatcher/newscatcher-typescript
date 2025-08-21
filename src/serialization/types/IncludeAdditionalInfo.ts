@@ -12,5 +12,5 @@ export const IncludeAdditionalInfo: core.serialization.Schema<
 > = core.serialization.boolean();
 
 export declare namespace IncludeAdditionalInfo {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

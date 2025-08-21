@@ -14,5 +14,5 @@ export const LatestHeadlinesGetResponse: core.serialization.Schema<
 > = core.serialization.undiscriminatedUnion([SearchResponseDto, ClusteredSearchResponseDto]);
 
 export declare namespace LatestHeadlinesGetResponse {
-    type Raw = SearchResponseDto.Raw | ClusteredSearchResponseDto.Raw;
+    export type Raw = SearchResponseDto.Raw | ClusteredSearchResponseDto.Raw;
 }

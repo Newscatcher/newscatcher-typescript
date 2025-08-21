@@ -15,7 +15,7 @@ export const TimeFrameCount: core.serialization.ObjectSchema<
 });
 
 export declare namespace TimeFrameCount {
-    interface Raw {
+    export interface Raw {
         time_frame: string;
         article_count: number;
     }

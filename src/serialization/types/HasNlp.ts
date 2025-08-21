@@ -10,5 +10,5 @@ export const HasNlp: core.serialization.Schema<serializers.HasNlp.Raw, Newscatch
     core.serialization.boolean();
 
 export declare namespace HasNlp {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

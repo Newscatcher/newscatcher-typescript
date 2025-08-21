@@ -12,5 +12,5 @@ export const ExcludeDuplicates: core.serialization.Schema<
 > = core.serialization.boolean();
 
 export declare namespace ExcludeDuplicates {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

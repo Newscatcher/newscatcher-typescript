@@ -14,5 +14,5 @@ export const SearchSimilarGetResponse: core.serialization.Schema<
 > = core.serialization.undiscriminatedUnion([SearchSimilarResponseDto, FailedSearchSimilarResponseDto]);
 
 export declare namespace SearchSimilarGetResponse {
-    type Raw = SearchSimilarResponseDto.Raw | FailedSearchSimilarResponseDto.Raw;
+    export type Raw = SearchSimilarResponseDto.Raw | FailedSearchSimilarResponseDto.Raw;
 }

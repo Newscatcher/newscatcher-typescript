@@ -13,5 +13,5 @@ export const IabTags: core.serialization.Schema<serializers.IabTags.Raw, Newscat
     ]);
 
 export declare namespace IabTags {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

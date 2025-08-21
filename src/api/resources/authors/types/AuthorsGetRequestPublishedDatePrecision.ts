@@ -3,7 +3,6 @@
  */
 
 export type AuthorsGetRequestPublishedDatePrecision = "full" | "timezone unknown" | "date";
-
 export const AuthorsGetRequestPublishedDatePrecision = {
     Full: "full",
     TimezoneUnknown: "timezone unknown",

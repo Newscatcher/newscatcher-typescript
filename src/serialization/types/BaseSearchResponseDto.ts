@@ -18,7 +18,7 @@ export const BaseSearchResponseDto: core.serialization.ObjectSchema<
 });
 
 export declare namespace BaseSearchResponseDto {
-    interface Raw {
+    export interface Raw {
         status: string;
         total_hits: number;
         page: number;

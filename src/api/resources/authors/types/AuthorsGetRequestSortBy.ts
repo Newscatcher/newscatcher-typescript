@@ -3,7 +3,6 @@
  */
 
 export type AuthorsGetRequestSortBy = "relevancy" | "date" | "rank";
-
 export const AuthorsGetRequestSortBy = {
     Relevancy: "relevancy",
     Date: "date",

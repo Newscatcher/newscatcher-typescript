@@ -13,5 +13,5 @@ export const NotSources: core.serialization.Schema<serializers.NotSources.Raw, N
     ]);
 
 export declare namespace NotSources {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

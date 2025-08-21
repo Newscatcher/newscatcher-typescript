@@ -15,13 +15,13 @@ export const SimilarArticleEntity: core.serialization.ObjectSchema<
     .object({
         similarDocuments: core.serialization.property(
             "similar_documents",
-            core.serialization.list(SimilarDocument).optional()
+            core.serialization.list(SimilarDocument).optional(),
         ),
     })
     .extend(ArticleEntity);
 
 export declare namespace SimilarArticleEntity {
-    interface Raw extends ArticleEntity.Raw {
+    export interface Raw extends ArticleEntity.Raw {
         similar_documents?: SimilarDocument.Raw[] | null;
     }
 }

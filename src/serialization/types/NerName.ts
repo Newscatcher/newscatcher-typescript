@@ -10,5 +10,5 @@ export const NerName: core.serialization.Schema<serializers.NerName.Raw, Newscat
     core.serialization.string();
 
 export declare namespace NerName {
-    type Raw = string;
+    export type Raw = string;
 }

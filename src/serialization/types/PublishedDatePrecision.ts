@@ -12,5 +12,5 @@ export const PublishedDatePrecision: core.serialization.Schema<
 > = core.serialization.enum_(["full", "timezone unknown", "date"]);
 
 export declare namespace PublishedDatePrecision {
-    type Raw = "full" | "timezone unknown" | "date";
+    export type Raw = "full" | "timezone unknown" | "date";
 }

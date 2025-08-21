@@ -29,6 +29,7 @@ import { PageSize } from "../../../../types/PageSize";
 import { ClusteringEnabled } from "../../../../types/ClusteringEnabled";
 import { ClusteringVariable } from "../../../../types/ClusteringVariable";
 import { ClusteringThreshold } from "../../../../types/ClusteringThreshold";
+import { IncludeTranslationFields } from "../../../../types/IncludeTranslationFields";
 import { IncludeNlpData } from "../../../../types/IncludeNlpData";
 import { HasNlp } from "../../../../types/HasNlp";
 import { Theme } from "../../../../types/Theme";
@@ -46,6 +47,7 @@ import { NotIptcTags } from "../../../../types/NotIptcTags";
 import { IabTags } from "../../../../types/IabTags";
 import { NotIabTags } from "../../../../types/NotIabTags";
 import { CustomTags } from "../../../../types/CustomTags";
+import { RobotsCompliant } from "../../../../types/RobotsCompliant";
 
 export const LatestHeadlinesPostRequest: core.serialization.Schema<
     serializers.LatestHeadlinesPostRequest.Raw,
@@ -75,6 +77,10 @@ export const LatestHeadlinesPostRequest: core.serialization.Schema<
     clusteringEnabled: core.serialization.property("clustering_enabled", ClusteringEnabled.optional()),
     clusteringVariable: core.serialization.property("clustering_variable", ClusteringVariable.optional()),
     clusteringThreshold: core.serialization.property("clustering_threshold", ClusteringThreshold.optional()),
+    includeTranslationFields: core.serialization.property(
+        "include_translation_fields",
+        IncludeTranslationFields.optional(),
+    ),
     includeNlpData: core.serialization.property("include_nlp_data", IncludeNlpData.optional()),
     hasNlp: core.serialization.property("has_nlp", HasNlp.optional()),
     theme: Theme.optional(),
@@ -92,10 +98,11 @@ export const LatestHeadlinesPostRequest: core.serialization.Schema<
     iabTags: core.serialization.property("iab_tags", IabTags.optional()),
     notIabTags: core.serialization.property("not_iab_tags", NotIabTags.optional()),
     customTags: core.serialization.property("custom_tags", CustomTags.optional()),
+    robotsCompliant: core.serialization.property("robots_compliant", RobotsCompliant.optional()),
 });
 
 export declare namespace LatestHeadlinesPostRequest {
-    interface Raw {
+    export interface Raw {
         when?: When.Raw | null;
         by_parse_date?: ByParseDate.Raw | null;
         lang?: Lang.Raw | null;
@@ -120,6 +127,7 @@ export declare namespace LatestHeadlinesPostRequest {
         clustering_enabled?: ClusteringEnabled.Raw | null;
         clustering_variable?: ClusteringVariable.Raw | null;
         clustering_threshold?: ClusteringThreshold.Raw | null;
+        include_translation_fields?: IncludeTranslationFields.Raw | null;
         include_nlp_data?: IncludeNlpData.Raw | null;
         has_nlp?: HasNlp.Raw | null;
         theme?: Theme.Raw | null;
@@ -137,5 +145,6 @@ export declare namespace LatestHeadlinesPostRequest {
         iab_tags?: IabTags.Raw | null;
         not_iab_tags?: NotIabTags.Raw | null;
         custom_tags?: CustomTags.Raw | null;
+        robots_compliant?: RobotsCompliant.Raw | null;
     }
 }

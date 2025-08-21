@@ -3,7 +3,6 @@
  */
 
 export type AggregationGetRequestPublishedDatePrecision = "full" | "timezone unknown" | "date";
-
 export const AggregationGetRequestPublishedDatePrecision = {
     Full: "full",
     TimezoneUnknown: "timezone unknown",

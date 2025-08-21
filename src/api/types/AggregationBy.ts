@@ -3,13 +3,11 @@
  */
 
 /**
- * The aggregation interval for the results. Possible values are:
- * - `day`: Aggregates results by day.
- * - `hour`: Aggregates results by hour.
+ * The aggregation interval for the results.
  */
-export type AggregationBy = "day" | "hour";
-
+export type AggregationBy = "day" | "hour" | "month";
 export const AggregationBy = {
     Day: "day",
     Hour: "hour",
+    Month: "month",
 } as const;

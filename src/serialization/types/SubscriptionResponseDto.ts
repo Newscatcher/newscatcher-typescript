@@ -19,7 +19,7 @@ export const SubscriptionResponseDto: core.serialization.ObjectSchema<
 });
 
 export declare namespace SubscriptionResponseDto {
-    interface Raw {
+    export interface Raw {
         active: boolean;
         concurrent_calls: number;
         plan: string;

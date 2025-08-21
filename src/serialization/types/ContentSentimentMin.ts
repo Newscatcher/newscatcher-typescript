@@ -12,5 +12,5 @@ export const ContentSentimentMin: core.serialization.Schema<
 > = core.serialization.number();
 
 export declare namespace ContentSentimentMin {
-    type Raw = number;
+    export type Raw = number;
 }

@@ -8,9 +8,13 @@ import * as NewscatcherApi from "../../../../index";
  * @example
  *     {
  *         q: "technology AND (Apple OR Microsoft) NOT Google",
+ *         searchIn: "title_content, title_content_translated",
+ *         includeTranslationFields: true,
  *         predefinedSources: "top 100 US, top 5 GB",
- *         from: new Date("2024-07-01T00:00:00.000Z"),
- *         to: new Date("2024-07-01T00:00:00.000Z"),
+ *         from: "2024-07-01T00:00:00Z",
+ *         to: "2024-07-01T00:00:00Z",
+ *         includeNlpData: true,
+ *         hasNlp: true,
  *         theme: "Business,Finance",
  *         notTheme: "Crime",
  *         iptcTags: "20000199,20000209",
@@ -34,16 +38,8 @@ export interface SearchGetRequest {
      * For more details, see [Advanced querying](/docs/v3/documentation/guides-and-concepts/advanced-querying).
      */
     q: string;
-    /**
-     * The article fields to search in. To search in multiple fields, use a comma-separated string.
-     *
-     * Example: `"title, summary"`
-     *
-     * **Note**: The `summary` option is available if NLP is enabled in your plan.
-     *
-     * Available options: `title`, `summary`, `content`.
-     */
-    searchIn?: string;
+    searchIn?: NewscatcherApi.SearchIn;
+    includeTranslationFields?: NewscatcherApi.IncludeTranslationFields;
     /**
      * Predefined top news sources per country.
      *
@@ -124,7 +120,7 @@ export interface SearchGetRequest {
      * - YYYY-MM-dd: `2024-07-01`
      * - YYYY/mm/dd HH:MM:SS: `2024/07/01 00:00:00`
      * - YYYY/mm/dd: `2024/07/01`
-     * - English phrases: `1 day ago`, `today`
+     * - English phrases: `7 day ago`, `today`
      *
      * **Note**: By default, applied to the publication date of the article. To use the article's parse date instead, set the `by_parse_date` parameter to `true`.
      */
@@ -137,7 +133,7 @@ export interface SearchGetRequest {
      * - YYYY-MM-dd: `2024-07-01`
      * - YYYY/mm/dd HH:MM:SS: `2024/07/01 00:00:00`
      * - YYYY/mm/dd: `2024/07/01`
-     * - English phrases: `1 day ago`, `today`
+     * - English phrases: `1 day ago`, `now`
      *
      * **Note**: By default, applied to the publication date of the article. To use the article's parse date instead, set the `by_parse_date` parameter to `true`.
      */
@@ -280,30 +276,8 @@ export interface SearchGetRequest {
      * To learn more, see [Clustering news articles](/docs/v3/documentation/guides-and-concepts/clustering-news-articles).
      */
     clusteringThreshold?: number;
-    /**
-     * If true, includes an NLP layer with each article in the response. This layer provides enhanced information such as theme classification, article summary, sentiment analysis, tags, and named entity recognition.
-     *
-     * The NLP layer includes:
-     * - Theme: General topic of the article.
-     * - Summary: A concise overview of the article content.
-     * - Sentiment: Separate scores for title and content (range: -1 to 1).
-     * - Named entities: Identified persons (PER), organizations (ORG), locations (LOC), and miscellaneous entities (MISC).
-     * - IPTC tags: Standardized news category tags.
-     * - IAB tags: Content categories for digital advertising.
-     *
-     * **Note**: The `include_nlp_data` parameter is only available if NLP is included in your subscription plan.
-     *
-     * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
-     */
-    includeNlpData?: boolean;
-    /**
-     * If true, filters the results to include only articles with an NLP layer. This allows you to focus on articles that have been processed with advanced NLP techniques.
-     *
-     * **Note**: The `has_nlp` parameter is only available if NLP is included in your subscription plan.
-     *
-     * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
-     */
-    hasNlp?: boolean;
+    includeNlpData?: NewscatcherApi.IncludeNlpData;
+    hasNlp?: NewscatcherApi.HasNlp;
     /**
      * Filters articles based on their general topic, as determined by NLP analysis. To select multiple themes, use a comma-separated string.
      *
@@ -327,7 +301,7 @@ export interface SearchGetRequest {
      */
     notTheme?: string;
     /**
-     * Filters articles that mention specific organization names, as identified by NLP analysis. To specify multiple organizations, use a comma-separated string.
+     * Filters articles that mention specific organization names, as identified by NLP analysis. To specify multiple organizations, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
      *
      * Example: `"Apple, Microsoft"`
      *
@@ -337,7 +311,7 @@ export interface SearchGetRequest {
      */
     orgEntityName?: string;
     /**
-     * Filters articles that mention specific person names, as identified by NLP analysis. To specify multiple names, use a comma-separated string.
+     * Filters articles that mention specific person names, as identified by NLP analysis. To specify multiple names, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
      *
      * Example: `"Elon Musk, Jeff Bezos"`
      *
@@ -347,7 +321,7 @@ export interface SearchGetRequest {
      */
     perEntityName?: string;
     /**
-     * Filters articles that mention specific location names, as identified by NLP analysis. To specify multiple locations, use a comma-separated string.
+     * Filters articles that mention specific location names, as identified by NLP analysis. To specify multiple locations, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
      *
      * Example: `"California, New York"`
      *
@@ -357,7 +331,7 @@ export interface SearchGetRequest {
      */
     locEntityName?: string;
     /**
-     * Filters articles that mention other named entities not falling under person, organization, or location categories. Includes events, nationalities, products, works of art, and more. To specify multiple entities, use a comma-separated string.
+     * Filters articles that mention other named entities not falling under person, organization, or location categories. Includes events, nationalities, products, works of art, and more. To specify multiple entities, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
      *
      * Example: `"Bitcoin, Blockchain"`
      *
@@ -423,7 +397,7 @@ export interface SearchGetRequest {
      *
      * Example: `"20000199, 20000209"`
      *
-     * **Note**: The `iptc_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `iptc_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see [IPTC Media Topic NewsCodes](https://www.iptc.org/std/NewsCodes/treeview/mediatopic/mediatopic-en-GB.html).
      */
@@ -433,7 +407,7 @@ export interface SearchGetRequest {
      *
      * Example: `"20000205, 20000209"`
      *
-     * **Note**: The `not_iptc_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `not_iptc_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see [IPTC Media Topic NewsCodes](https://www.iptc.org/std/NewsCodes/treeview/mediatopic/mediatopic-en-GB.html).
      */
@@ -443,7 +417,7 @@ export interface SearchGetRequest {
      *
      * Example: `"Business, Events"`
      *
-     * **Note**: The `iab_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `iab_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see the [IAB Content taxonomy](https://iabtechlab.com/standards/content-taxonomy/).
      */
@@ -453,7 +427,7 @@ export interface SearchGetRequest {
      *
      * Example: `"Agriculture, Metals"`
      *
-     * **Note**: The `not_iab_tags` parameter is only available if tags are included in your subscription plan.
+     * **Note**: The `not_iab_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
      *
      * To learn more, see the [IAB Content taxonomy](https://iabtechlab.com/standards/content-taxonomy/).
      */
@@ -474,4 +448,8 @@ export interface SearchGetRequest {
      * To learn more, see [Articles deduplication](/docs/v3/documentation/guides-and-concepts/articles-deduplication).
      */
     excludeDuplicates?: boolean;
+    /**
+     * If true, returns only articles/sources that comply with the publisher's robots.txt rules. If false, returns only articles/sources that do not comply with robots.txt rules. If omitted, returns all articles/sources regardless of compliance status.
+     */
+    robotsCompliant?: boolean;
 }

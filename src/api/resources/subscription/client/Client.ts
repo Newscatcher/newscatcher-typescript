@@ -10,18 +10,22 @@ import * as serializers from "../../../../serialization/index";
 import * as errors from "../../../../errors/index";
 
 export declare namespace Subscription {
-    interface Options {
+    export interface Options {
         environment?: core.Supplier<environments.NewscatcherApiEnvironment | string>;
+        /** Specify a custom URL to connect the client to. */
+        baseUrl?: core.Supplier<string>;
         apiKey: core.Supplier<string>;
     }
 
-    interface RequestOptions {
+    export interface RequestOptions {
         /** The maximum time to wait for a response in seconds. */
         timeoutInSeconds?: number;
         /** The number of times to retry the request. Defaults to 2. */
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
@@ -47,21 +51,32 @@ export class Subscription {
      * @example
      *     await client.subscription.get()
      */
-    public async get(requestOptions?: Subscription.RequestOptions): Promise<NewscatcherApi.SubscriptionResponseDto> {
+    public get(
+        requestOptions?: Subscription.RequestOptions,
+    ): core.HttpResponsePromise<NewscatcherApi.SubscriptionResponseDto> {
+        return core.HttpResponsePromise.fromPromise(this.__get(requestOptions));
+    }
+
+    private async __get(
+        requestOptions?: Subscription.RequestOptions,
+    ): Promise<core.WithRawResponse<NewscatcherApi.SubscriptionResponseDto>> {
         const _response = await core.fetcher({
             url: urlJoin(
-                (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
-                "api/subscription"
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.NewscatcherApiEnvironment.Default,
+                "api/subscription",
             ),
             method: "GET",
             headers: {
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.2.0",
+                "User-Agent": "newscatcher-sdk/1.2.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...(await this._getCustomAuthorizationHeaders()),
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -70,12 +85,15 @@ export class Subscription {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.SubscriptionResponseDto.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                breadcrumbsPrefix: ["response"],
-            });
+            return {
+                data: serializers.SubscriptionResponseDto.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -87,7 +105,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 401:
                     throw new NewscatcherApi.UnauthorizedError(
@@ -96,7 +115,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 403:
                     throw new NewscatcherApi.ForbiddenError(
@@ -105,7 +125,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 408:
                     throw new NewscatcherApi.RequestTimeoutError(
@@ -114,7 +135,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
@@ -123,7 +145,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 429:
                     throw new NewscatcherApi.TooManyRequestsError(
@@ -132,7 +155,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 500:
                     throw new NewscatcherApi.InternalServerError(
@@ -141,12 +165,14 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 default:
                     throw new errors.NewscatcherApiError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -156,12 +182,14 @@ export class Subscription {
                 throw new errors.NewscatcherApiError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.NewscatcherApiTimeoutError();
+                throw new errors.NewscatcherApiTimeoutError("Timeout exceeded when calling GET /api/subscription.");
             case "unknown":
                 throw new errors.NewscatcherApiError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -182,21 +210,32 @@ export class Subscription {
      * @example
      *     await client.subscription.post()
      */
-    public async post(requestOptions?: Subscription.RequestOptions): Promise<NewscatcherApi.SubscriptionResponseDto> {
+    public post(
+        requestOptions?: Subscription.RequestOptions,
+    ): core.HttpResponsePromise<NewscatcherApi.SubscriptionResponseDto> {
+        return core.HttpResponsePromise.fromPromise(this.__post(requestOptions));
+    }
+
+    private async __post(
+        requestOptions?: Subscription.RequestOptions,
+    ): Promise<core.WithRawResponse<NewscatcherApi.SubscriptionResponseDto>> {
         const _response = await core.fetcher({
             url: urlJoin(
-                (await core.Supplier.get(this._options.environment)) ?? environments.NewscatcherApiEnvironment.Default,
-                "api/subscription"
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.NewscatcherApiEnvironment.Default,
+                "api/subscription",
             ),
             method: "POST",
             headers: {
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "newscatcher-sdk",
-                "X-Fern-SDK-Version": "1.1.0",
-                "User-Agent": "newscatcher-sdk/1.1.0",
+                "X-Fern-SDK-Version": "1.2.0",
+                "User-Agent": "newscatcher-sdk/1.2.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...(await this._getCustomAuthorizationHeaders()),
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -205,12 +244,15 @@ export class Subscription {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.SubscriptionResponseDto.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                breadcrumbsPrefix: ["response"],
-            });
+            return {
+                data: serializers.SubscriptionResponseDto.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -222,7 +264,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 401:
                     throw new NewscatcherApi.UnauthorizedError(
@@ -231,7 +274,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 403:
                     throw new NewscatcherApi.ForbiddenError(
@@ -240,7 +284,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 408:
                     throw new NewscatcherApi.RequestTimeoutError(
@@ -249,7 +294,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 422:
                     throw new NewscatcherApi.UnprocessableEntityError(
@@ -258,7 +304,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 429:
                     throw new NewscatcherApi.TooManyRequestsError(
@@ -267,7 +314,8 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 case 500:
                     throw new NewscatcherApi.InternalServerError(
@@ -276,12 +324,14 @@ export class Subscription {
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
                             breadcrumbsPrefix: ["response"],
-                        })
+                        }),
+                        _response.rawResponse,
                     );
                 default:
                     throw new errors.NewscatcherApiError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -291,12 +341,14 @@ export class Subscription {
                 throw new errors.NewscatcherApiError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.NewscatcherApiTimeoutError();
+                throw new errors.NewscatcherApiTimeoutError("Timeout exceeded when calling POST /api/subscription.");
             case "unknown":
                 throw new errors.NewscatcherApiError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }

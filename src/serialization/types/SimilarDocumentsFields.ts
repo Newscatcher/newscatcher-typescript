@@ -12,5 +12,5 @@ export const SimilarDocumentsFields: core.serialization.Schema<
 > = core.serialization.string();
 
 export declare namespace SimilarDocumentsFields {
-    type Raw = string;
+    export type Raw = string;
 }

@@ -3,7 +3,6 @@
  */
 
 export type SearchSimilarGetRequestPublishedDatePrecision = "full" | "timezone unknown" | "date";
-
 export const SearchSimilarGetRequestPublishedDatePrecision = {
     Full: "full",
     TimezoneUnknown: "timezone unknown",

@@ -10,5 +10,5 @@ export const IsNewsDomain: core.serialization.Schema<serializers.IsNewsDomain.Ra
     core.serialization.boolean();
 
 export declare namespace IsNewsDomain {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

@@ -15,6 +15,7 @@ import * as NewscatcherApi from "../../../../index";
 export interface SearchSimilarPostRequest {
     q: NewscatcherApi.Q;
     searchIn?: NewscatcherApi.SearchIn;
+    includeTranslationFields?: NewscatcherApi.IncludeTranslationFields;
     includeSimilarDocuments?: NewscatcherApi.IncludeSimilarDocuments;
     similarDocumentsNumber?: NewscatcherApi.SimilarDocumentsNumber;
     similarDocumentsFields?: NewscatcherApi.SimilarDocumentsFields;
@@ -55,4 +56,5 @@ export interface SearchSimilarPostRequest {
     iptcTags?: NewscatcherApi.IptcTags;
     notIptcTags?: NewscatcherApi.NotIptcTags;
     customTags?: NewscatcherApi.CustomTags;
+    robotsCompliant?: NewscatcherApi.RobotsCompliant;
 }

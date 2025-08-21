@@ -8,7 +8,6 @@ export type SearchGetRequestNewsDomainType =
     | "Press Releases"
     | "Republisher"
     | "Other";
-
 export const SearchGetRequestNewsDomainType = {
     OriginalContent: "Original Content",
     Aggregator: "Aggregator",

@@ -10,8 +10,8 @@ import * as NewscatcherApi from "../../../../index";
  *         authorName: "Joanna Stern",
  *         sources: ["wsj.com", "nytimes.com"],
  *         lang: "en",
- *         from: new Date("2024-01-01T00:00:00.000Z"),
- *         to: new Date("2024-06-30T00:00:00.000Z")
+ *         from: "2024-01-01T00:00:00Z",
+ *         to: "2024-06-30T00:00:00Z"
  *     }
  */
 export interface AuthorsPostRequest {
@@ -42,6 +42,7 @@ export interface AuthorsPostRequest {
     wordCountMax?: NewscatcherApi.WordCountMax;
     page?: NewscatcherApi.Page;
     pageSize?: NewscatcherApi.PageSize;
+    includeTranslationFields?: NewscatcherApi.IncludeTranslationFields;
     includeNlpData?: NewscatcherApi.IncludeNlpData;
     hasNlp?: NewscatcherApi.HasNlp;
     theme?: NewscatcherApi.Theme;
@@ -56,4 +57,5 @@ export interface AuthorsPostRequest {
     iabTags?: NewscatcherApi.IabTags;
     notIabTags?: NewscatcherApi.NotIabTags;
     customTags?: NewscatcherApi.CustomTags;
+    robotsCompliant?: NewscatcherApi.RobotsCompliant;
 }

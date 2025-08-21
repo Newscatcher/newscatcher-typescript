@@ -10,5 +10,5 @@ export const RankedOnly: core.serialization.Schema<serializers.RankedOnly.Raw, N
     core.serialization.boolean();
 
 export declare namespace RankedOnly {
-    type Raw = boolean;
+    export type Raw = boolean;
 }

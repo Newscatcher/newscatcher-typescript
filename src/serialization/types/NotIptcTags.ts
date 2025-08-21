@@ -13,5 +13,5 @@ export const NotIptcTags: core.serialization.Schema<serializers.NotIptcTags.Raw,
     ]);
 
 export declare namespace NotIptcTags {
-    type Raw = string | string[];
+    export type Raw = string | string[];
 }

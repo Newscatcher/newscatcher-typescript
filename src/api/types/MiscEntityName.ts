@@ -3,14 +3,10 @@
  */
 
 /**
- * Filters articles that mention other named entities not falling under person, organization, or location categories. Includes events, nationalities, products, works of art, and more. To specify multiple entities, use a comma-separated string or an array of strings.
- *
- * Examples:
- * - `"Bitcoin, Blockchain"`
- * - `["Bitcoin", "Blockchain"]`
+ * Filters articles that mention other named entities not falling under person, organization, or location categories. Includes events, nationalities, products, works of art, and more. To specify multiple entities, use a comma-separated string. To search named entities in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
  *
  * **Note**: The `MISC_entity_name` parameter is only available if NLP is included in your subscription plan.
  *
  * To learn more, see [Search by entity](/docs/v3/documentation/how-to/search-by-entity).
  */
-export type MiscEntityName = string | string[];
+export type MiscEntityName = string;

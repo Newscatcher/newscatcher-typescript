@@ -17,7 +17,7 @@ export const ClusterEntity: core.serialization.ObjectSchema<
 });
 
 export declare namespace ClusterEntity {
-    interface Raw {
+    export interface Raw {
         cluster_id: string;
         cluster_size: number;
         articles: ArticleEntity.Raw[];

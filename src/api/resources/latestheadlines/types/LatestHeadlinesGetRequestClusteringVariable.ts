@@ -3,7 +3,6 @@
  */
 
 export type LatestHeadlinesGetRequestClusteringVariable = "content" | "title" | "summary";
-
 export const LatestHeadlinesGetRequestClusteringVariable = {
     Content: "content",
     Title: "title",

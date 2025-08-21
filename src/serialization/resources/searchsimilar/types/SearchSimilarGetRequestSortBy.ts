@@ -12,5 +12,5 @@ export const SearchSimilarGetRequestSortBy: core.serialization.Schema<
 > = core.serialization.enum_(["relevancy", "date", "rank"]);
 
 export declare namespace SearchSimilarGetRequestSortBy {
-    type Raw = "relevancy" | "date" | "rank";
+    export type Raw = "relevancy" | "date" | "rank";
 }

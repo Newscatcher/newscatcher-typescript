@@ -23,7 +23,7 @@ export const ArticleEntity: core.serialization.ObjectSchema<
     publishedDate: core.serialization.property("published_date", core.serialization.string().optional()),
     publishedDatePrecision: core.serialization.property(
         "published_date_precision",
-        core.serialization.string().optional()
+        core.serialization.string().optional(),
     ),
     updatedDate: core.serialization.property("updated_date", core.serialization.string().optional()),
     updatedDatePrecision: core.serialization.property("updated_date_precision", core.serialization.string().optional()),
@@ -42,6 +42,8 @@ export const ArticleEntity: core.serialization.ObjectSchema<
     language: core.serialization.string().optional(),
     description: core.serialization.string().optional(),
     content: core.serialization.string(),
+    titleTranslatedEn: core.serialization.property("title_translated_en", core.serialization.string().optional()),
+    contentTranslatedEn: core.serialization.property("content_translated_en", core.serialization.string().optional()),
     wordCount: core.serialization.property("word_count", core.serialization.number().optional()),
     isOpinion: core.serialization.property("is_opinion", core.serialization.boolean().optional()),
     twitterAccount: core.serialization.property("twitter_account", core.serialization.string().optional()),
@@ -50,17 +52,18 @@ export const ArticleEntity: core.serialization.ObjectSchema<
     nlp: NlpDataEntity.optional(),
     id: core.serialization.string(),
     score: core.serialization.number(),
+    robotsCompliant: core.serialization.property("robots_compliant", core.serialization.boolean().optional()),
     customTags: core.serialization.property(
         "custom_tags",
         core.serialization
             .record(core.serialization.string(), core.serialization.list(core.serialization.string()))
-            .optional()
+            .optional(),
     ),
     additionalDomainInfo: core.serialization.property("additional_domain_info", AdditionalDomainInfoEntity.optional()),
 });
 
 export declare namespace ArticleEntity {
-    interface Raw {
+    export interface Raw {
         title: string;
         author?: string | null;
         authors?: Authors.Raw | null;
@@ -84,6 +87,8 @@ export declare namespace ArticleEntity {
         language?: string | null;
         description?: string | null;
         content: string;
+        title_translated_en?: string | null;
+        content_translated_en?: string | null;
         word_count?: number | null;
         is_opinion?: boolean | null;
         twitter_account?: string | null;
@@ -92,6 +97,7 @@ export declare namespace ArticleEntity {
         nlp?: NlpDataEntity.Raw | null;
         id: string;
         score: number;
+        robots_compliant?: boolean | null;
         custom_tags?: Record<string, string[]> | null;
         additional_domain_info?: AdditionalDomainInfoEntity.Raw | null;
     }
