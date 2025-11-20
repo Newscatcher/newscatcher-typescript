@@ -71,7 +71,7 @@ jobs:
 
       # Ensure npm 11.5.1 or later for OIDC support
       - name: Update npm
-        run: npm install -g npm@latest
+        run: sudo npm install -g npm@latest
 
       - name: Publish to npm
         run: |
