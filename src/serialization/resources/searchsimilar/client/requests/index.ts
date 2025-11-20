@@ -1,1 +1,0 @@
-export { SearchSimilarPostRequest } from "./SearchSimilarPostRequest";

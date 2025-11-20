@@ -3,7 +3,7 @@
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2FNewscatcher%2Fnewscatcher-typescript)
 [![npm shield](https://img.shields.io/npm/v/newscatcher-sdk)](https://www.npmjs.com/package/newscatcher-sdk)
 
-The Newscatcher TypeScript library provides convenient access to the Newscatcher API from TypeScript.
+The Newscatcher TypeScript library provides convenient access to the Newscatcher APIs from TypeScript.
 
 ## Documentation
 
@@ -24,13 +24,8 @@ import { NewscatcherApiClient } from "newscatcher-sdk";
 
 const client = new NewscatcherApiClient({ apiKey: "YOUR_API_KEY" });
 await client.search.post({
-    q: "renewable energy",
-    predefinedSources: ["top 50 US"],
-    lang: ["en"],
-    from: "2024-01-01T00:00:00Z",
-    to: "2024-06-30T00:00:00Z",
-    additionalDomainInfo: true,
-    isNewsDomain: true,
+    q: "\"supply chain\" AND Amazon NOT China",
+    page_size: 1
 });
 ```
 
@@ -77,6 +72,18 @@ If you would like to send additional headers as part of the request, use the `he
 const response = await client.search.post(..., {
     headers: {
         'X-Custom-Header': 'custom value'
+    }
+});
+```
+
+### Additional Query String Parameters
+
+If you would like to send additional query string parameters as part of the request, use the `queryParams` request option.
+
+```typescript
+const response = await client.search.post(..., {
+    queryParams: {
+        'customQueryParamKey': 'custom query param value'
     }
 });
 ```
@@ -135,10 +142,75 @@ console.log(data);
 console.log(rawResponse.headers['X-My-Header']);
 ```
 
+### Logging
+
+The SDK supports logging. You can configure the logger by passing in a `logging` object to the client options.
+
+```typescript
+import { NewscatcherApiClient, logging } from "newscatcher-sdk";
+
+const client = new NewscatcherApiClient({
+    ...
+    logging: {
+        level: logging.LogLevel.Debug, // defaults to logging.LogLevel.Info
+        logger: new logging.ConsoleLogger(), // defaults to ConsoleLogger
+        silent: false, // defaults to true, set to false to enable logging
+    }
+});
+```
+The `logging` object can have the following properties:
+- `level`: The log level to use. Defaults to `logging.LogLevel.Info`.
+- `logger`: The logger to use. Defaults to a `logging.ConsoleLogger`.
+- `silent`: Whether to silence the logger. Defaults to `true`.
+
+The `level` property can be one of the following values:
+- `logging.LogLevel.Debug`
+- `logging.LogLevel.Info`
+- `logging.LogLevel.Warn`
+- `logging.LogLevel.Error`
+
+To provide a custom logger, you can pass in an object that implements the `logging.ILogger` interface.
+
+<details>
+<summary>Custom logger examples</summary>
+
+Here's an example using the popular `winston` logging library.
+```ts
+import winston from 'winston';
+
+const winstonLogger = winston.createLogger({...});
+
+const logger: logging.ILogger = {
+    debug: (msg, ...args) => winstonLogger.debug(msg, ...args),
+    info: (msg, ...args) => winstonLogger.info(msg, ...args),
+    warn: (msg, ...args) => winstonLogger.warn(msg, ...args),
+    error: (msg, ...args) => winstonLogger.error(msg, ...args),
+};
+```
+
+Here's an example using the popular `pino` logging library.
+
+```ts
+import pino from 'pino';
+
+const pinoLogger = pino({...});
+
+const logger: logging.ILogger = {
+  debug: (msg, ...args) => pinoLogger.debug(args, msg),
+  info: (msg, ...args) => pinoLogger.info(args, msg),
+  warn: (msg, ...args) => pinoLogger.warn(args, msg),
+  error: (msg, ...args) => pinoLogger.error(args, msg),
+};
+```
+</details>
+
+
 ### Runtime Compatibility
 
-The SDK defaults to `node-fetch` but will use the global fetch client if present. The SDK works in the following
-runtimes:
+
+The SDK works in the following runtimes:
+
+
 
 - Node.js 18+
 - Vercel
@@ -170,7 +242,6 @@ a proof of concept, but know that we will not be able to merge it as-is. We sugg
 an issue first to discuss with us!
 
 On the other hand, contributions to the README are always very welcome!
-
 ## Reference
 
 A full reference for this library is available [here](https://github.com/Newscatcher/newscatcher-typescript/blob/HEAD/./reference.md).

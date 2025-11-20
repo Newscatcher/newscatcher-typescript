@@ -1,3 +1,3 @@
-export * from "./LatestHeadlinesGetRequestClusteringVariable";
-export * from "./LatestHeadlinesGetResponse";
-export * from "./LatestHeadlinesPostResponse";
+export * from "./LatestHeadlinesGetRequestClusteringVariable.js";
+export * from "./LatestHeadlinesGetResponse.js";
+export * from "./LatestHeadlinesPostResponse.js";

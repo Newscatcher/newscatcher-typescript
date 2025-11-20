@@ -1,2 +1,2 @@
-export { NewscatcherApiError } from "./NewscatcherApiError";
-export { NewscatcherApiTimeoutError } from "./NewscatcherApiTimeoutError";
+export { NewscatcherApiError } from "./NewscatcherApiError.js";
+export { NewscatcherApiTimeoutError } from "./NewscatcherApiTimeoutError.js";

@@ -1,1 +1,0 @@
-export { SearchPostRequest } from "./SearchPostRequest";

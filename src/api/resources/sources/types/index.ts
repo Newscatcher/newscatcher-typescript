@@ -1,1 +1,1 @@
-export * from "./SourcesGetRequestNewsDomainType";
+export * from "./SourcesGetRequestNewsDomainType.js";
