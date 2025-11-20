@@ -1,1 +1,1 @@
-export * from "./BreakingNewsGetRequestSortBy";
+export * from "./BreakingNewsGetRequestSortBy.js";

@@ -1,2 +1,2 @@
-export { type AuthorsGetRequest } from "./AuthorsGetRequest";
-export { type AuthorsPostRequest } from "./AuthorsPostRequest";
+export type { AuthorsGetRequest } from "./AuthorsGetRequest.js";
+export type { AuthorsPostRequest } from "./AuthorsPostRequest.js";

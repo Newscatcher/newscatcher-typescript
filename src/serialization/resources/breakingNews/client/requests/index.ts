@@ -1,1 +1,0 @@
-export { BreakingNewsPostRequest } from "./BreakingNewsPostRequest";

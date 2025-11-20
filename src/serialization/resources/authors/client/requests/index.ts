@@ -1,1 +1,0 @@
-export { AuthorsPostRequest } from "./AuthorsPostRequest";

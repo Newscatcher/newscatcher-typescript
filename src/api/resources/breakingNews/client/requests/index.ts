@@ -1,2 +1,2 @@
-export { type BreakingNewsGetRequest } from "./BreakingNewsGetRequest";
-export { type BreakingNewsPostRequest } from "./BreakingNewsPostRequest";
+export type { BreakingNewsGetRequest } from "./BreakingNewsGetRequest.js";
+export type { BreakingNewsPostRequest } from "./BreakingNewsPostRequest.js";
