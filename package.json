@@ -1,8 +1,11 @@
 {
     "name": "newscatcher-sdk",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "private": false,
-    "repository": "github:Newscatcher/newscatcher-typescript",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Newscatcher/newscatcher-typescript.git"
+    },
     "license": "MIT",
     "type": "commonjs",
     "main": "./dist/cjs/index.js",

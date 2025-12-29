@@ -7,7 +7,7 @@ import { mockServerPool } from "../mock-server/MockServerPool";
 describe("SubscriptionClient", () => {
     test("get (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = {
             active: true,
@@ -32,7 +32,7 @@ describe("SubscriptionClient", () => {
 
     test("get (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
@@ -44,7 +44,7 @@ describe("SubscriptionClient", () => {
 
     test("get (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
@@ -56,7 +56,7 @@ describe("SubscriptionClient", () => {
 
     test("get (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
@@ -68,7 +68,7 @@ describe("SubscriptionClient", () => {
 
     test("get (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(408).jsonBody(rawResponseBody).build();
@@ -80,7 +80,7 @@ describe("SubscriptionClient", () => {
 
     test("get (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
@@ -92,7 +92,7 @@ describe("SubscriptionClient", () => {
 
     test("get (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
@@ -104,7 +104,7 @@ describe("SubscriptionClient", () => {
 
     test("get (8)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
@@ -116,7 +116,7 @@ describe("SubscriptionClient", () => {
 
     test("post (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = {
             active: true,
@@ -141,7 +141,7 @@ describe("SubscriptionClient", () => {
 
     test("post (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
@@ -153,7 +153,7 @@ describe("SubscriptionClient", () => {
 
     test("post (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
@@ -165,7 +165,7 @@ describe("SubscriptionClient", () => {
 
     test("post (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
@@ -177,7 +177,7 @@ describe("SubscriptionClient", () => {
 
     test("post (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(408).jsonBody(rawResponseBody).build();
@@ -189,7 +189,7 @@ describe("SubscriptionClient", () => {
 
     test("post (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
@@ -201,7 +201,7 @@ describe("SubscriptionClient", () => {
 
     test("post (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
@@ -213,7 +213,7 @@ describe("SubscriptionClient", () => {
 
     test("post (8)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
