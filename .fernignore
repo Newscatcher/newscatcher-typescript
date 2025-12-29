@@ -1,5 +1,1 @@
-LICENSE
 .gitignore
-
-# CI/CD
-.github/workflows/ci.yml
