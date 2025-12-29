@@ -7,7 +7,7 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface ArticleEntity {
     /** The title of the article. */
-    title: string;
+    title?: string;
     /** The primary author of the article. */
     author?: string;
     /** A list of authors of the article. */
@@ -25,11 +25,13 @@ export interface ArticleEntity {
     /** The date the article was parsed. */
     parse_date?: string;
     /** The URL link to the article. */
-    link: string;
+    link?: string;
+    /** Indicates whether the article URL is canonical. */
+    canonical_url?: boolean;
     /** The domain URL of the article. */
-    domain_url: string;
+    domain_url?: string;
     /** The full domain URL of the article. */
-    full_domain_url: string;
+    full_domain_url?: string;
     /** The name of the source where the article was published. */
     name_source?: string;
     /** Indicates if the article is a headline. */
@@ -37,13 +39,13 @@ export interface ArticleEntity {
     /** Indicates if the article is paid content. */
     paid_content?: boolean;
     /** The categorical URL of the article. */
-    parent_url: string;
+    parent_url?: string;
     /** The country where the article was published. */
     country?: string;
     /** The rights information for the article. */
     rights?: string;
     /** The rank of the article's source. */
-    rank: number;
+    rank?: number;
     /** The media associated with the article. */
     media?: string;
     /** The language in which the article is written. */
@@ -51,7 +53,7 @@ export interface ArticleEntity {
     /** A brief description of the article. */
     description?: string;
     /** The content of the article. */
-    content: string;
+    content?: string;
     /** English translation of the article title. Available when using the `search_in` parameter with the `title_translated` option or by setting the `include_translation_fields` parameter to `true`. */
     title_translated_en?: string;
     /** English translation of the article content. Available when using the `search_in` parameter with the `content_translated` option or by setting the `include_translation_fields` parameter to `true`. */
@@ -68,9 +70,9 @@ export interface ArticleEntity {
     all_domain_links?: ArticleEntity.AllDomainLinks;
     nlp?: NewscatcherApi.NlpDataEntity;
     /** The unique identifier for the article. */
-    id: string;
+    id?: string;
     /** The relevance score of the article. */
-    score: number;
+    score?: number;
     /** True if the article content can be safely accessed according to the publisher's robots.txt rules; false otherwise. */
     robots_compliant?: boolean;
     /** An object that contains custom tags associated with an article, where each key is a taxonomy name, and the value is an array of tags. */
