@@ -646,6 +646,7 @@ Searches for articles based on specified links or IDs. You can filter results by
 await client.searchLink.searchUrlGet({
     ids: "5f8d0d55b6e45e00179c6e7e",
     links: "https://nytimes.com/article1",
+    _source: "articles.id,articles.title,articles.link,articles.published_date",
     from_: "2024-07-01T00:00:00Z",
     to_: "2024-01-01T00:00:00Z"
 });
@@ -712,7 +713,8 @@ Searches for articles using their ID(s) or link(s).
 
 ```typescript
 await client.searchLink.searchUrlPost({
-    links: "https://www.reuters.com/business/energy/oil-prices-up-after-israeli-attacks-oversupply-caps-gains-2025-09-10/"
+    links: "https://www.reuters.com/business/energy/oil-prices-up-after-israeli-attacks-oversupply-caps-gains-2025-09-10/",
+    _source: "articles.id,articles.title,articles.link,articles.canonical_url"
 });
 
 ```

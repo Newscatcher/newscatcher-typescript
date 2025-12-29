@@ -39,8 +39,8 @@ export function normalizeClientOptions<T extends BaseClientOptions>(options: T):
         {
             "X-Fern-Language": "JavaScript",
             "X-Fern-SDK-Name": "newscatcher-sdk",
-            "X-Fern-SDK-Version": "1.2.1",
-            "User-Agent": "newscatcher-sdk/1.2.1",
+            "X-Fern-SDK-Version": "1.2.2",
+            "User-Agent": "newscatcher-sdk/AUTO",
             "X-Fern-Runtime": core.RUNTIME.type,
             "X-Fern-Runtime-Version": core.RUNTIME.version,
         },

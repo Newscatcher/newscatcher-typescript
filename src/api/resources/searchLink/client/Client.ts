@@ -43,6 +43,7 @@ export class SearchLinkClient {
      *     await client.searchLink.searchUrlGet({
      *         ids: "5f8d0d55b6e45e00179c6e7e",
      *         links: "https://nytimes.com/article1",
+     *         _source: "articles.id,articles.title,articles.link,articles.published_date",
      *         from_: "2024-07-01T00:00:00Z",
      *         to_: "2024-01-01T00:00:00Z"
      *     })
@@ -58,7 +59,16 @@ export class SearchLinkClient {
         request: NewscatcherApi.SearchUrlGetRequest = {},
         requestOptions?: SearchLinkClient.RequestOptions,
     ): Promise<core.WithRawResponse<NewscatcherApi.SearchResponseDto>> {
-        const { ids, links, from_, to_: to, page, page_size: pageSize, robots_compliant: robotsCompliant } = request;
+        const {
+            ids,
+            links,
+            _source: source,
+            from_,
+            to_: to,
+            page,
+            page_size: pageSize,
+            robots_compliant: robotsCompliant,
+        } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (ids != null) {
             _queryParams.ids = ids;
@@ -66,6 +76,10 @@ export class SearchLinkClient {
 
         if (links != null) {
             _queryParams.links = links;
+        }
+
+        if (source != null) {
+            _queryParams._source = source;
         }
 
         if (from_ != null) {
@@ -189,7 +203,8 @@ export class SearchLinkClient {
      *
      * @example
      *     await client.searchLink.searchUrlPost({
-     *         links: "https://www.reuters.com/business/energy/oil-prices-up-after-israeli-attacks-oversupply-caps-gains-2025-09-10/"
+     *         links: "https://www.reuters.com/business/energy/oil-prices-up-after-israeli-attacks-oversupply-caps-gains-2025-09-10/",
+     *         _source: "articles.id,articles.title,articles.link,articles.canonical_url"
      *     })
      */
     public searchUrlPost(
