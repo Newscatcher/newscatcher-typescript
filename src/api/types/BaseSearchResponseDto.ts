@@ -5,13 +5,13 @@
  */
 export interface BaseSearchResponseDto {
     /** The status of the response. */
-    status: string;
+    status?: string;
     /** The total number of articles matching the search criteria. */
-    total_hits: number;
+    total_hits?: number;
     /** The current page number of the results. */
-    page: number;
+    page?: number;
     /** The total number of pages available for the given search criteria. */
-    total_pages: number;
+    total_pages?: number;
     /** The number of articles per page. */
-    page_size: number;
+    page_size?: number;
 }

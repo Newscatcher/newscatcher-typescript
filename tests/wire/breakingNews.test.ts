@@ -7,7 +7,7 @@ import { mockServerPool } from "../mock-server/MockServerPool";
 describe("BreakingNewsClient", () => {
     test("BreakingNews_get (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = {
             status: "status",
@@ -85,7 +85,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_get (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
@@ -97,7 +97,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_get (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
@@ -109,7 +109,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_get (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
@@ -121,7 +121,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_get (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(408).jsonBody(rawResponseBody).build();
@@ -133,7 +133,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_get (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
@@ -145,7 +145,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_get (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
@@ -157,7 +157,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_get (8)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
@@ -169,7 +169,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_post (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { sort_by: "relevancy", ranked_only: true, top_n_articles: 1 };
         const rawResponseBody = {
             status: "status",
@@ -247,7 +247,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_post (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -266,7 +266,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_post (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -285,7 +285,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_post (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -304,7 +304,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_post (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -323,7 +323,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_post (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -342,7 +342,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_post (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -361,7 +361,7 @@ describe("BreakingNewsClient", () => {
 
     test("BreakingNews_post (8)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = "string";
         server
