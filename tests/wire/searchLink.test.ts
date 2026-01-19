@@ -7,7 +7,7 @@ import { mockServerPool } from "../mock-server/MockServerPool";
 describe("SearchLinkClient", () => {
     test("search_url_get (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = {
             status: "status",
@@ -27,6 +27,7 @@ describe("SearchLinkClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
+                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -71,6 +72,7 @@ describe("SearchLinkClient", () => {
         const response = await client.searchLink.searchUrlGet({
             ids: "5f8d0d55b6e45e00179c6e7e",
             links: "https://nytimes.com/article1",
+            _source: "articles.id,articles.title,articles.link,articles.published_date",
             from_: "2024-07-01T00:00:00Z",
             to_: "2024-01-01T00:00:00Z",
         });
@@ -92,6 +94,7 @@ describe("SearchLinkClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
+                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -133,7 +136,7 @@ describe("SearchLinkClient", () => {
 
     test("search_url_get (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -151,7 +154,7 @@ describe("SearchLinkClient", () => {
 
     test("search_url_get (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -169,7 +172,7 @@ describe("SearchLinkClient", () => {
 
     test("search_url_get (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -187,7 +190,7 @@ describe("SearchLinkClient", () => {
 
     test("search_url_get (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -205,7 +208,7 @@ describe("SearchLinkClient", () => {
 
     test("search_url_get (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -223,7 +226,7 @@ describe("SearchLinkClient", () => {
 
     test("search_url_get (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -241,7 +244,7 @@ describe("SearchLinkClient", () => {
 
     test("search_url_get (8)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
         server
@@ -259,9 +262,10 @@ describe("SearchLinkClient", () => {
 
     test("Search_url_post (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {
             links: "https://www.reuters.com/business/energy/oil-prices-up-after-israeli-attacks-oversupply-caps-gains-2025-09-10/",
+            _source: "articles.id,articles.title,articles.link,articles.canonical_url",
         };
         const rawResponseBody = {
             status: "status",
@@ -281,6 +285,7 @@ describe("SearchLinkClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
+                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -325,6 +330,7 @@ describe("SearchLinkClient", () => {
 
         const response = await client.searchLink.searchUrlPost({
             links: "https://www.reuters.com/business/energy/oil-prices-up-after-israeli-attacks-oversupply-caps-gains-2025-09-10/",
+            _source: "articles.id,articles.title,articles.link,articles.canonical_url",
         });
         expect(response).toEqual({
             status: "status",
@@ -344,6 +350,7 @@ describe("SearchLinkClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
+                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -385,7 +392,7 @@ describe("SearchLinkClient", () => {
 
     test("Search_url_post (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -404,7 +411,7 @@ describe("SearchLinkClient", () => {
 
     test("Search_url_post (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -423,7 +430,7 @@ describe("SearchLinkClient", () => {
 
     test("Search_url_post (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -442,7 +449,7 @@ describe("SearchLinkClient", () => {
 
     test("Search_url_post (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -461,7 +468,7 @@ describe("SearchLinkClient", () => {
 
     test("Search_url_post (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -480,7 +487,7 @@ describe("SearchLinkClient", () => {
 
     test("Search_url_post (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -499,7 +506,7 @@ describe("SearchLinkClient", () => {
 
     test("Search_url_post (8)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = "string";
         server
