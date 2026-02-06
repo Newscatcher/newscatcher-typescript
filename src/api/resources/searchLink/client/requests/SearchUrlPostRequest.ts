@@ -5,12 +5,14 @@ import type * as NewscatcherApi from "../../../../index.js";
 /**
  * @example
  *     {
- *         links: "https://www.reuters.com/business/energy/oil-prices-up-after-israeli-attacks-oversupply-caps-gains-2025-09-10/"
+ *         links: "https://www.reuters.com/business/energy/oil-prices-up-after-israeli-attacks-oversupply-caps-gains-2025-09-10/",
+ *         _source: "articles.id,articles.title,articles.link,articles.canonical_url"
  *     }
  */
 export interface SearchUrlPostRequest {
     ids?: NewscatcherApi.Ids;
     links?: NewscatcherApi.Links;
+    _source?: NewscatcherApi.Source;
     /**
      * The starting point in time to search from. Accepts date-time strings in ISO 8601 format and plain text strings. The default time zone is UTC.
      *
