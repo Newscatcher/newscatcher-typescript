@@ -7,7 +7,7 @@ import { mockServerPool } from "../mock-server/MockServerPool";
 describe("AggregationClient", () => {
     test("get (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = {
             status: "status",
@@ -75,7 +75,7 @@ describe("AggregationClient", () => {
 
     test("get (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -95,7 +95,7 @@ describe("AggregationClient", () => {
 
     test("get (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -115,7 +115,7 @@ describe("AggregationClient", () => {
 
     test("get (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -135,7 +135,7 @@ describe("AggregationClient", () => {
 
     test("get (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -155,7 +155,7 @@ describe("AggregationClient", () => {
 
     test("get (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -175,7 +175,7 @@ describe("AggregationClient", () => {
 
     test("get (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -195,7 +195,7 @@ describe("AggregationClient", () => {
 
     test("get (8)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
         server
@@ -215,7 +215,7 @@ describe("AggregationClient", () => {
 
     test("post (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: '"supply chain" AND Amazon NOT China', aggregation_by: "day" };
         const rawResponseBody = {
             status: "status",
@@ -261,7 +261,7 @@ describe("AggregationClient", () => {
 
     test("post (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -282,7 +282,7 @@ describe("AggregationClient", () => {
 
     test("post (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -303,7 +303,7 @@ describe("AggregationClient", () => {
 
     test("post (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -324,7 +324,7 @@ describe("AggregationClient", () => {
 
     test("post (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -345,7 +345,7 @@ describe("AggregationClient", () => {
 
     test("post (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -366,7 +366,7 @@ describe("AggregationClient", () => {
 
     test("post (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
         server
@@ -387,7 +387,7 @@ describe("AggregationClient", () => {
 
     test("post (8)", async () => {
         const server = mockServerPool.createServer();
-        const client = new NewscatcherApiClient({ apiKey: "test", environment: server.baseUrl });
+        const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = "string";
         server

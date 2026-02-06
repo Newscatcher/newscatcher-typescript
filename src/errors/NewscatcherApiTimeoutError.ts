@@ -3,6 +3,11 @@
 export class NewscatcherApiTimeoutError extends Error {
     constructor(message: string) {
         super(message);
-        Object.setPrototypeOf(this, NewscatcherApiTimeoutError.prototype);
+        Object.setPrototypeOf(this, new.target.prototype);
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor);
+        }
+
+        this.name = this.constructor.name;
     }
 }

@@ -10,16 +10,16 @@ import { SearchsimilarClient } from "./api/resources/searchsimilar/client/Client
 import { SourcesClient } from "./api/resources/sources/client/Client.js";
 import { SubscriptionClient } from "./api/resources/subscription/client/Client.js";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient.js";
-import { normalizeClientOptions } from "./BaseClient.js";
+import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "./BaseClient.js";
 
 export declare namespace NewscatcherApiClient {
-    export interface Options extends BaseClientOptions {}
+    export type Options = BaseClientOptions;
 
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
 export class NewscatcherApiClient {
-    protected readonly _options: NewscatcherApiClient.Options;
+    protected readonly _options: NormalizedClientOptionsWithAuth<NewscatcherApiClient.Options>;
     protected _search: SearchClient | undefined;
     protected _latestheadlines: LatestheadlinesClient | undefined;
     protected _breakingNews: BreakingNewsClient | undefined;
@@ -30,8 +30,8 @@ export class NewscatcherApiClient {
     protected _aggregation: AggregationClient | undefined;
     protected _subscription: SubscriptionClient | undefined;
 
-    constructor(options: NewscatcherApiClient.Options = {}) {
-        this._options = normalizeClientOptions(options);
+    constructor(options: NewscatcherApiClient.Options) {
+        this._options = normalizeClientOptionsWithAuth(options);
     }
 
     public get search(): SearchClient {
