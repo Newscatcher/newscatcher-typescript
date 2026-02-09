@@ -5,6 +5,25 @@
 
 The Newscatcher TypeScript library provides convenient access to the Newscatcher APIs from TypeScript.
 
+## Table of Contents
+
+- [Documentation](#documentation)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Request and Response Types](#request-and-response-types)
+- [Exception Handling](#exception-handling)
+- [Advanced](#advanced)
+  - [Additional Headers](#additional-headers)
+  - [Additional Query String Parameters](#additional-query-string-parameters)
+  - [Retries](#retries)
+  - [Timeouts](#timeouts)
+  - [Aborting Requests](#aborting-requests)
+  - [Access Raw Response Data](#access-raw-response-data)
+  - [Logging](#logging)
+  - [Runtime Compatibility](#runtime-compatibility)
+- [Contributing](#contributing)
+- [Reference](#reference)
+
 ## Documentation
 
 API reference documentation is available [here](https://www.newscatcherapi.com/docs/v3/api-reference).
@@ -29,7 +48,7 @@ await client.search.post({
 });
 ```
 
-## Request And Response Types
+## Request and Response Types
 
 The SDK exports all request and response types as TypeScript interfaces. Simply import them with the
 following namespace:
@@ -69,6 +88,15 @@ try {
 If you would like to send additional headers as part of the request, use the `headers` request option.
 
 ```typescript
+import { NewscatcherApiClient } from "newscatcher-sdk";
+
+const client = new NewscatcherApiClient({
+    ...
+    headers: {
+        'X-Custom-Header': 'custom value'
+    }
+});
+
 const response = await client.search.post(..., {
     headers: {
         'X-Custom-Header': 'custom value'
