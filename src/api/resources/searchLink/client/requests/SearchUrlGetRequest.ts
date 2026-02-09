@@ -7,6 +7,7 @@ import type * as NewscatcherApi from "../../../../index.js";
  *     {
  *         ids: "5f8d0d55b6e45e00179c6e7e",
  *         links: "https://nytimes.com/article1",
+ *         _source: "articles.id,articles.title,articles.link,articles.published_date",
  *         from_: "2024-07-01T00:00:00Z",
  *         to_: "2024-01-01T00:00:00Z"
  *     }
@@ -28,6 +29,7 @@ export interface SearchUrlGetRequest {
      * **Caution**: You can use either the `links` or the `ids` parameter, but not both at the same time.
      */
     links?: string;
+    _source?: NewscatcherApi.Source;
     from_?: NewscatcherApi.From;
     to_?: NewscatcherApi.To;
     /**

@@ -2,7 +2,10 @@
     "name": "newscatcher-sdk",
     "version": "1.2.1",
     "private": false,
-    "repository": "github:Newscatcher/newscatcher-typescript",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Newscatcher/newscatcher-typescript.git"
+    },
     "license": "MIT",
     "type": "commonjs",
     "main": "./dist/cjs/index.js",
@@ -51,7 +54,7 @@
         "msw": "2.11.2",
         "@types/node": "^18.19.70",
         "typescript": "~5.7.2",
-        "@biomejs/biome": "2.3.1"
+        "@biomejs/biome": "2.3.11"
     },
     "browser": {
         "fs": false,
