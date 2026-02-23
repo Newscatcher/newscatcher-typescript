@@ -5,9 +5,9 @@
  */
 export interface AdditionalDomainInfoEntity {
     /** Indicates whether the domain is a news domain. */
-    is_news_domain?: boolean;
+    is_news_domain?: boolean | undefined;
     /** The type of news content provided by the domain. */
-    news_type?: string;
+    news_type?: string | undefined;
     /** The type of news domain. */
-    news_domain_type?: string;
+    news_domain_type?: string | undefined;
 }

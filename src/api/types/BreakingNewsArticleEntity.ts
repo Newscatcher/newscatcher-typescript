@@ -9,21 +9,21 @@ export interface BreakingNewsArticleEntity {
     /** The title of the article. */
     title: string;
     /** The primary author of the article. */
-    author?: string;
+    author?: string | undefined;
     /** A list of authors of the article. */
-    authors?: BreakingNewsArticleEntity.Authors;
+    authors?: BreakingNewsArticleEntity.Authors | undefined;
     /** A list of journalists associated with the article. */
-    journalists?: BreakingNewsArticleEntity.Journalists;
+    journalists?: BreakingNewsArticleEntity.Journalists | undefined;
     /** The date the article was published. */
-    published_date?: string;
+    published_date?: string | undefined;
     /** The precision of the published date. */
-    published_date_precision?: string;
+    published_date_precision?: string | undefined;
     /** The date the article was last updated. */
-    updated_date?: string;
+    updated_date?: string | undefined;
     /** The precision of the updated date. */
-    updated_date_precision?: string;
+    updated_date_precision?: string | undefined;
     /** The date the article was parsed. */
-    parse_date?: string;
+    parse_date?: string | undefined;
     /** The URL link to the article. */
     link: string;
     /** The domain URL of the article. */
@@ -31,44 +31,44 @@ export interface BreakingNewsArticleEntity {
     /** The full domain URL of the article. */
     full_domain_url: string;
     /** The name of the source where the article was published. */
-    name_source?: string;
+    name_source?: string | undefined;
     /** Indicates if the article is a headline. */
-    is_headline?: boolean;
+    is_headline?: boolean | undefined;
     /** Indicates if the article is paid content. */
-    paid_content?: boolean;
+    paid_content?: boolean | undefined;
     /** The categorical URL of the article. */
     parent_url: string;
     /** The country where the article was published. */
-    country?: string;
+    country?: string | undefined;
     /** The rights information for the article. */
-    rights?: string;
+    rights?: string | undefined;
     /** The rank of the article's source. */
     rank: number;
     /** The media associated with the article. */
-    media?: string;
+    media?: string | undefined;
     /** The language in which the article is written. */
-    language?: string;
+    language?: string | undefined;
     /** A brief description of the article. */
-    description?: string;
+    description?: string | undefined;
     /** The content of the article. */
     content: string;
     /** The word count of the article. */
-    word_count?: number;
+    word_count?: number | undefined;
     /** Indicates if the article is an opinion piece. */
-    is_opinion?: boolean;
+    is_opinion?: boolean | undefined;
     /** The Twitter account associated with the article. */
-    twitter_account?: string;
+    twitter_account?: string | undefined;
     /** A list of all URLs mentioned in the article. */
-    all_links?: BreakingNewsArticleEntity.AllLinks;
+    all_links?: BreakingNewsArticleEntity.AllLinks | undefined;
     /** A list of all domain URLs mentioned in the article. */
-    all_domain_links?: BreakingNewsArticleEntity.AllDomainLinks;
-    nlp?: NewscatcherApi.NlpDataEntity;
+    all_domain_links?: BreakingNewsArticleEntity.AllDomainLinks | undefined;
+    nlp?: NewscatcherApi.NlpDataEntity | undefined;
     /** The unique identifier for the article. */
     id: string;
     /** The relevance score of the article. */
     score: number;
     /** True if the article content can be safely accessed according to the publisher's robots.txt rules; false otherwise. */
-    robots_compliant?: boolean;
+    robots_compliant?: boolean | undefined;
 }
 
 export namespace BreakingNewsArticleEntity {

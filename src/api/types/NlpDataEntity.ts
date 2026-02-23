@@ -7,50 +7,50 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface NlpDataEntity {
     /** A brief AI-generated summary of the article's English translation. */
-    summary_translated?: string;
+    summary_translated?: string | undefined;
     /** The themes or categories identified in the article. */
-    theme?: string;
+    theme?: string | undefined;
     /** A brief AI-generated summary of the article content. */
-    summary?: string;
-    sentiment?: NewscatcherApi.SentimentScores;
+    summary?: string | undefined;
+    sentiment?: NewscatcherApi.SentimentScores | undefined;
     /**
      * A dense 1024-dimensional vector representation of the article content, generated using  the [multilingual-e5-large](https://huggingface.co/intfloat/multilingual-e5-large) model.
      *
      * **Note**: The `new_embedding` field is only available in the `v3_local_news_nlp_embeddings` subscription plan.
      */
-    new_embedding?: number[];
+    new_embedding?: number[] | undefined;
     /** Named Entity Recognition for person entities (individuals' names). */
-    ner_PER?: NewscatcherApi.NamedEntityList;
+    ner_PER?: NewscatcherApi.NamedEntityList | undefined;
     /** Named Entity Recognition for organization entities (company names, institutions). */
-    ner_ORG?: NewscatcherApi.NamedEntityList;
+    ner_ORG?: NewscatcherApi.NamedEntityList | undefined;
     /** Named Entity Recognition for miscellaneous entities (events, nationalities, products). */
-    ner_MISC?: NewscatcherApi.NamedEntityList;
+    ner_MISC?: NewscatcherApi.NamedEntityList | undefined;
     /** Named Entity Recognition for location entities (cities, countries, geographic features). */
-    ner_LOC?: NewscatcherApi.NamedEntityList;
+    ner_LOC?: NewscatcherApi.NamedEntityList | undefined;
     /** Named Entity Recognition for person entities (individuals' names) extracted from the English translation of the article. */
-    translation_ner_PER?: NewscatcherApi.NamedEntityList;
+    translation_ner_PER?: NewscatcherApi.NamedEntityList | undefined;
     /** Named Entity Recognition for organization entities (company names, institutions) extracted from the English translation of the article. */
-    translation_ner_ORG?: NewscatcherApi.NamedEntityList;
+    translation_ner_ORG?: NewscatcherApi.NamedEntityList | undefined;
     /** Named Entity Recognition for miscellaneous entities (events, nationalities, products) extracted from the English translation of the article. */
-    translation_ner_MISC?: NewscatcherApi.NamedEntityList;
+    translation_ner_MISC?: NewscatcherApi.NamedEntityList | undefined;
     /** Named Entity Recognition for location entities (cities, countries, geographic features) extracted from the English translation of the article. */
-    translation_ner_LOC?: NewscatcherApi.NamedEntityList;
+    translation_ner_LOC?: NewscatcherApi.NamedEntityList | undefined;
     /**
      * IPTC media topic taxonomy paths identified in the article content. Each path represents a hierarchical category following the IPTC standard.
      *
      * **Note**: The `iptc_tags_name` field is only available in the `v3_nlp_iptc_tags` subscription plan.
      */
-    iptc_tags_name?: string[];
+    iptc_tags_name?: string[] | undefined;
     /**
      * IPTC media topic numeric codes identified in the article content. These codes correspond to the standardized IPTC media topic taxonomy.
      *
      * **Note**: The `iptc_tags_id` field is only available in the `v3_nlp_iptc_tags` subscription plan.
      */
-    iptc_tags_id?: string[];
+    iptc_tags_id?: string[] | undefined;
     /**
      * IAB content taxonomy paths identified in the article content. Each path represents a hierarchical category following the IAB content standard.
      *
      * **Note**: The `iab_tags_name` field is only available in the `v3_nlp_iptc_tags` subscription plan.
      */
-    iab_tags_name?: string[];
+    iab_tags_name?: string[] | undefined;
 }

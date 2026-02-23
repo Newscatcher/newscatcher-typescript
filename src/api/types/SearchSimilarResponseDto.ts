@@ -11,6 +11,6 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface SearchSimilarResponseDto extends NewscatcherApi.BaseSearchResponseDto {
     /** A list of articles matching the search criteria. */
-    articles?: NewscatcherApi.SimilarArticleEntity[];
-    user_input?: NewscatcherApi.UserInputDto;
+    articles?: NewscatcherApi.SimilarArticleEntity[] | undefined;
+    user_input?: NewscatcherApi.UserInputDto | undefined;
 }

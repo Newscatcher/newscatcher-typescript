@@ -15,5 +15,5 @@ import type * as NewscatcherApi from "../index.js";
 export interface ClusteredSearchResponseDto
     extends NewscatcherApi.BaseSearchResponseDto,
         NewscatcherApi.ClusteredArticlesDto {
-    user_input?: NewscatcherApi.UserInputDto;
+    user_input?: NewscatcherApi.UserInputDto | undefined;
 }

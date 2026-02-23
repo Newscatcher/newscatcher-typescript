@@ -9,5 +9,5 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface SimilarArticleEntity extends NewscatcherApi.ArticleEntity {
     /** A list of documents similar to the article. */
-    similar_documents?: NewscatcherApi.SimilarDocument[];
+    similar_documents?: NewscatcherApi.SimilarDocument[] | undefined;
 }

@@ -9,8 +9,8 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface AggregationCountResponseDto extends NewscatcherApi.BaseSearchResponseDto {
     /** The aggregation results. Can be either a dictionary or a list of dictionaries. */
-    aggregations?: AggregationCountResponseDto.Aggregations;
-    user_input?: NewscatcherApi.UserInputDto;
+    aggregations?: AggregationCountResponseDto.Aggregations | undefined;
+    user_input?: NewscatcherApi.UserInputDto | undefined;
 }
 
 export namespace AggregationCountResponseDto {

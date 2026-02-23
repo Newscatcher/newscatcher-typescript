@@ -7,77 +7,77 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface ArticleEntity {
     /** The title of the article. */
-    title?: string;
+    title?: string | undefined;
     /** The primary author of the article. */
-    author?: string;
+    author?: string | undefined;
     /** A list of authors of the article. */
-    authors?: ArticleEntity.Authors;
+    authors?: ArticleEntity.Authors | undefined;
     /** A list of journalists associated with the article. */
-    journalists?: ArticleEntity.Journalists;
+    journalists?: ArticleEntity.Journalists | undefined;
     /** The date the article was published. */
-    published_date?: string;
+    published_date?: string | undefined;
     /** The precision of the published date. */
-    published_date_precision?: string;
+    published_date_precision?: string | undefined;
     /** The date the article was last updated. */
-    updated_date?: string;
+    updated_date?: string | undefined;
     /** The precision of the updated date. */
-    updated_date_precision?: string;
+    updated_date_precision?: string | undefined;
     /** The date the article was parsed. */
-    parse_date?: string;
+    parse_date?: string | undefined;
     /** The URL link to the article. */
-    link?: string;
+    link?: string | undefined;
     /** Indicates whether the article URL is canonical. */
-    canonical_url?: boolean;
+    canonical_url?: boolean | undefined;
     /** The domain URL of the article. */
-    domain_url?: string;
+    domain_url?: string | undefined;
     /** The full domain URL of the article. */
-    full_domain_url?: string;
+    full_domain_url?: string | undefined;
     /** The name of the source where the article was published. */
-    name_source?: string;
+    name_source?: string | undefined;
     /** Indicates if the article is a headline. */
-    is_headline?: boolean;
+    is_headline?: boolean | undefined;
     /** Indicates if the article is paid content. */
-    paid_content?: boolean;
+    paid_content?: boolean | undefined;
     /** The categorical URL of the article. */
-    parent_url?: string;
+    parent_url?: string | undefined;
     /** The country where the article was published. */
-    country?: string;
+    country?: string | undefined;
     /** The rights information for the article. */
-    rights?: string;
+    rights?: string | undefined;
     /** The rank of the article's source. */
-    rank?: number;
+    rank?: number | undefined;
     /** The media associated with the article. */
-    media?: string;
+    media?: string | undefined;
     /** The language in which the article is written. */
-    language?: string;
+    language?: string | undefined;
     /** A brief description of the article. */
-    description?: string;
+    description?: string | undefined;
     /** The content of the article. */
-    content?: string;
+    content?: string | undefined;
     /** English translation of the article title. Available when using the `search_in` parameter with the `title_translated` option or by setting the `include_translation_fields` parameter to `true`. */
-    title_translated_en?: string;
+    title_translated_en?: string | undefined;
     /** English translation of the article content. Available when using the `search_in` parameter with the `content_translated` option or by setting the `include_translation_fields` parameter to `true`. */
-    content_translated_en?: string;
+    content_translated_en?: string | undefined;
     /** The word count of the article. */
-    word_count?: number;
+    word_count?: number | undefined;
     /** Indicates if the article is an opinion piece. */
-    is_opinion?: boolean;
+    is_opinion?: boolean | undefined;
     /** The Twitter account associated with the article. */
-    twitter_account?: string;
+    twitter_account?: string | undefined;
     /** A list of all URLs mentioned in the article. */
-    all_links?: ArticleEntity.AllLinks;
+    all_links?: ArticleEntity.AllLinks | undefined;
     /** A list of all domain URLs mentioned in the article. */
-    all_domain_links?: ArticleEntity.AllDomainLinks;
-    nlp?: NewscatcherApi.NlpDataEntity;
+    all_domain_links?: ArticleEntity.AllDomainLinks | undefined;
+    nlp?: NewscatcherApi.NlpDataEntity | undefined;
     /** The unique identifier for the article. */
-    id?: string;
+    id?: string | undefined;
     /** The relevance score of the article. */
-    score?: number;
+    score?: number | undefined;
     /** True if the article content can be safely accessed according to the publisher's robots.txt rules; false otherwise. */
-    robots_compliant?: boolean;
+    robots_compliant?: boolean | undefined;
     /** An object that contains custom tags associated with an article, where each key is a taxonomy name, and the value is an array of tags. */
-    custom_tags?: Record<string, string[]>;
-    additional_domain_info?: NewscatcherApi.AdditionalDomainInfoEntity;
+    custom_tags?: Record<string, string[]> | undefined;
+    additional_domain_info?: NewscatcherApi.AdditionalDomainInfoEntity | undefined;
 }
 
 export namespace ArticleEntity {

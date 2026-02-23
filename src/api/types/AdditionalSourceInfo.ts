@@ -5,15 +5,15 @@
  */
 export interface AdditionalSourceInfo {
     /** The number of articles published by the source in the last seven days. */
-    nb_articles_for_7d?: number;
+    nb_articles_for_7d?: number | undefined;
     /** The country of origin of the news source. */
-    country?: string;
+    country?: string | undefined;
     /** The SEO rank of the news source. */
-    rank?: number;
+    rank?: number | undefined;
     /** Indicates whether the source is a news domain. */
-    is_news_domain?: boolean;
+    is_news_domain?: boolean | undefined;
     /** The type of news domain. */
-    news_domain_type?: string;
+    news_domain_type?: string | undefined;
     /** The category of news provided by the source. */
-    news_type?: string;
+    news_type?: string | undefined;
 }

@@ -7,10 +7,10 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface SourceInfo {
     /** The name of the news source. */
-    name_source?: string;
+    name_source?: string | undefined;
     /** The domain URL of the news source. */
     domain_url: string;
     /** The logo of the news source. */
-    logo?: string;
-    additional_info?: NewscatcherApi.AdditionalSourceInfo;
+    logo?: string | undefined;
+    additional_info?: NewscatcherApi.AdditionalSourceInfo | undefined;
 }

@@ -10,6 +10,6 @@ import type * as NewscatcherApi from "../index.js";
  * - The `nlp` property within the article object `articles[n].nlp` is only available with NLP-enabled subscription plans.
  */
 export interface SearchResponseDto extends NewscatcherApi.BaseSearchResponseDto {
-    articles?: NewscatcherApi.ArticlesDto;
-    user_input?: NewscatcherApi.UserInputDto;
+    articles?: NewscatcherApi.ArticlesDto | undefined;
+    user_input?: NewscatcherApi.UserInputDto | undefined;
 }
