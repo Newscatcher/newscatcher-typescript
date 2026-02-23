@@ -6,5 +6,5 @@ import type * as NewscatcherApi from "../index.js";
  * The response model for a failed `Aggregation count` request.
  */
 export interface FailedAggregationCountResponseDto extends NewscatcherApi.BaseSearchResponseDto {
-    user_input?: NewscatcherApi.UserInputDto;
+    user_input?: NewscatcherApi.UserInputDto | undefined;
 }

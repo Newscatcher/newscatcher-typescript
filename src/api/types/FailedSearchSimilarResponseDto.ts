@@ -7,6 +7,6 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface FailedSearchSimilarResponseDto extends NewscatcherApi.BaseSearchResponseDto {
     /** An empty list of articles, as no matches were found. */
-    articles?: Record<string, unknown>[];
-    user_input?: NewscatcherApi.UserInputDto;
+    articles?: Record<string, unknown>[] | undefined;
+    user_input?: NewscatcherApi.UserInputDto | undefined;
 }

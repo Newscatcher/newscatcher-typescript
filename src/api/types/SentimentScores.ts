@@ -5,7 +5,7 @@
  */
 export interface SentimentScores {
     /** The sentiment score for the article title (-1.0 to 1.0). */
-    title?: number;
+    title?: number | undefined;
     /** The sentiment score for the article content (-1.0 to 1.0). */
-    content?: number;
+    content?: number | undefined;
 }

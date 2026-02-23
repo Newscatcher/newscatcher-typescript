@@ -2,7 +2,7 @@
 
 export interface NamedEntityListItem {
     /** The name of the entity identified in the article. */
-    entity_name?: string;
+    entity_name?: string | undefined;
     /** The number of times this entity appears in the article. */
-    count?: number;
+    count?: number | undefined;
 }

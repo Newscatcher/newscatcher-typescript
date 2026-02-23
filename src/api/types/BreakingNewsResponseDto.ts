@@ -11,6 +11,6 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface BreakingNewsResponseDto extends NewscatcherApi.BaseSearchResponseDto {
     /** A list of breaking news events, each containing relevant articles. */
-    breaking_news_events?: NewscatcherApi.BreakingNewsEventEntity[];
-    user_input?: NewscatcherApi.UserInputDto;
+    breaking_news_events?: NewscatcherApi.BreakingNewsEventEntity[] | undefined;
+    user_input?: NewscatcherApi.UserInputDto | undefined;
 }
