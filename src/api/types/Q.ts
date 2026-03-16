@@ -11,6 +11,6 @@
  *
  * **Note:** The API automatically inserts `AND` operators between standalone terms, so strings like `"machine learning"` become `"machine AND learning"`. To avoid syntax errors (especially in queries with `OR` operators), use literal escape `"\"machine learning\""`.
  *
- * For detailed syntax rules, see [Advanced querying](/docs/v3/documentation/guides-and-concepts/advanced-querying).
+ * For detailed syntax rules, see [Advanced querying](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/advanced-querying).
  */
 export type Q = string;

@@ -29,7 +29,7 @@ export class AuthorsClient {
     /**
      * Searches for articles written by a specified author. You can filter results by language, country, source, and more.
      *
-     * @param {NewscatcherApi.AuthorsGetRequest} request
+     * @param {NewscatcherApi.GetAuthorsRequest} request
      * @param {AuthorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link NewscatcherApi.BadRequestError}
@@ -43,43 +43,61 @@ export class AuthorsClient {
      * @example
      *     await client.authors.get({
      *         author_name: "Jane Smith",
-     *         not_author_name: "John Doe",
-     *         predefined_sources: "top 100 US, top 5 GB",
-     *         sources: "nytimes.com",
-     *         not_sources: "cnn.com",
-     *         lang: "en",
-     *         not_lang: "fr",
-     *         countries: "US",
-     *         not_countries: "UK",
+     *         not_author_name: "John Doe, Jane Doe",
+     *         predefined_sources: "top 50 US, top 20 GB",
+     *         sources: "nytimes.com,finance.yahoo.com",
+     *         not_sources: "cnn.com,wsj.com",
+     *         lang: "en,es",
+     *         not_lang: "fr,de",
+     *         countries: "US,CA",
+     *         not_countries: "UK,FR",
      *         from_: "2024-07-01T00:00:00Z",
-     *         to_: "2024-07-01T00:00:00Z",
-     *         parent_url: "https://www.washingtonpost.com/politics",
-     *         all_links: "https://aiindex.stanford.edu/report",
-     *         all_domain_links: "nvidia.com",
+     *         to_: "2024-01-01T00:00:00Z",
+     *         published_date_precision: "full",
+     *         by_parse_date: true,
+     *         ranked_only: true,
+     *         from_rank: 100,
+     *         to_rank: 100,
+     *         is_headline: true,
+     *         is_opinion: true,
+     *         is_paid_content: false,
+     *         parent_url: "wsj.com/politics,wsj.com/tech",
+     *         all_links: "https://aiindex.stanford.edu/report,https://www.stateof.ai",
+     *         all_domain_links: "who.int,nih.gov",
+     *         all_links_text: "Nvidia,Tesla",
+     *         word_count_min: 300,
+     *         word_count_max: 1000,
+     *         page: 2,
+     *         page_size: 50,
      *         include_translation_fields: true,
      *         include_nlp_data: true,
      *         has_nlp: true,
-     *         theme: "Business,Finance",
-     *         not_theme: "Crime",
-     *         ner_name: "Tesla",
+     *         theme: "Finance,Tech",
+     *         not_theme: "Crime,Sports",
+     *         ner_name: "Tesla,Amazon",
+     *         title_sentiment_min: -0.5,
+     *         title_sentiment_max: 0.5,
+     *         content_sentiment_min: -0.5,
+     *         content_sentiment_max: 0.5,
      *         iptc_tags: "20000199,20000209",
      *         not_iptc_tags: "20000205,20000209",
      *         iab_tags: "Business,Events",
      *         not_iab_tags: "Agriculture,Metals",
-     *         custom_tags: "Tag1,Tag2,Tag3"
+     *         custom_tags: "Tag1,Tag2",
+     *         robots_compliant: true
      *     })
      */
     public get(
-        request: NewscatcherApi.AuthorsGetRequest,
+        request: NewscatcherApi.GetAuthorsRequest,
         requestOptions?: AuthorsClient.RequestOptions,
-    ): core.HttpResponsePromise<NewscatcherApi.AuthorsGetResponse> {
+    ): core.HttpResponsePromise<NewscatcherApi.GetAuthorsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: NewscatcherApi.AuthorsGetRequest,
+        request: NewscatcherApi.GetAuthorsRequest,
         requestOptions?: AuthorsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<NewscatcherApi.AuthorsGetResponse>> {
+    ): Promise<core.WithRawResponse<NewscatcherApi.GetAuthorsResponse>> {
         const {
             author_name: authorName,
             not_author_name: notAuthorName,
@@ -104,6 +122,7 @@ export class AuthorsClient {
             parent_url: parentUrl,
             all_links: allLinks,
             all_domain_links: allDomainLinks,
+            all_links_text: allLinksText,
             word_count_min: wordCountMin,
             word_count_max: wordCountMax,
             page,
@@ -137,7 +156,7 @@ export class AuthorsClient {
             not_countries: notCountries,
             from_: from_ != null ? (typeof from_ === "string" ? from_ : toJson(from_)) : undefined,
             to_: to != null ? (typeof to === "string" ? to : toJson(to)) : undefined,
-            published_date_precision: publishedDatePrecision != null ? publishedDatePrecision : undefined,
+            published_date_precision: publishedDatePrecision,
             by_parse_date: byParseDate,
             sort_by: sortBy != null ? sortBy : undefined,
             ranked_only: rankedOnly,
@@ -149,6 +168,7 @@ export class AuthorsClient {
             parent_url: parentUrl,
             all_links: allLinks,
             all_domain_links: allDomainLinks,
+            all_links_text: allLinksText,
             word_count_min: wordCountMin,
             word_count_max: wordCountMax,
             page,
@@ -193,7 +213,7 @@ export class AuthorsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as NewscatcherApi.AuthorsGetResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as NewscatcherApi.GetAuthorsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -245,7 +265,7 @@ export class AuthorsClient {
     /**
      * Searches for articles by author. You can filter results by language, country, source, and more.
      *
-     * @param {NewscatcherApi.AuthorsPostRequest} request
+     * @param {NewscatcherApi.PostAuthorsRequest} request
      * @param {AuthorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link NewscatcherApi.BadRequestError}
@@ -262,16 +282,16 @@ export class AuthorsClient {
      *     })
      */
     public post(
-        request: NewscatcherApi.AuthorsPostRequest,
+        request: NewscatcherApi.PostAuthorsRequest,
         requestOptions?: AuthorsClient.RequestOptions,
-    ): core.HttpResponsePromise<NewscatcherApi.AuthorsPostResponse> {
+    ): core.HttpResponsePromise<NewscatcherApi.PostAuthorsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__post(request, requestOptions));
     }
 
     private async __post(
-        request: NewscatcherApi.AuthorsPostRequest,
+        request: NewscatcherApi.PostAuthorsRequest,
         requestOptions?: AuthorsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<NewscatcherApi.AuthorsPostResponse>> {
+    ): Promise<core.WithRawResponse<NewscatcherApi.PostAuthorsResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -298,7 +318,7 @@ export class AuthorsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as NewscatcherApi.AuthorsPostResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as NewscatcherApi.PostAuthorsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

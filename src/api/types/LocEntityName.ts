@@ -6,6 +6,6 @@
  * - To specify multiple locations, use `AND`, `OR`, `NOT` operators, and `\"` escape literals for exact matches.
  * - To search in translations, combine with the translation options of the `search_in` parameter (e.g., `title_content_translated`).
  *
- * To learn more, see [Search by entity](/docs/v3/documentation/how-to/search-by-entity).
+ * To learn more, see [Search by entity](https://www.newscatcherapi.com/docs/news-api/how-to/search-by-entity).
  */
 export type LocEntityName = string;

@@ -1,2 +1,2 @@
-export type { SourcesGetRequest } from "./SourcesGetRequest.js";
-export type { SourcesPostRequest } from "./SourcesPostRequest.js";
+export type { GetSourcesRequest } from "./GetSourcesRequest.js";
+export type { PostSourcesRequest } from "./PostSourcesRequest.js";

@@ -3,6 +3,6 @@
 /**
  * If true, excludes duplicate and highly similar articles from the search results. If false, returns all relevant articles, including duplicates.
  *
- * To learn more, see [Articles deduplication](/docs/v3/documentation/guides-and-concepts/articles-deduplication).
+ * To learn more, see [Articles deduplication](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/articles-deduplication).
  */
 export type ExcludeDuplicates = boolean;

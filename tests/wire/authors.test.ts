@@ -27,7 +27,6 @@ describe("AuthorsClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
-                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -48,6 +47,13 @@ describe("AuthorsClient", () => {
                     twitter_account: "twitter_account",
                     all_links: ["all_links"],
                     all_domain_links: ["all_domain_links"],
+                    all_links_data: [
+                        {
+                            domain_url: "amazon.de",
+                            link: "https://www.amazon.de/s?k=Künstliche+Intelligenz",
+                            text: "KI Brillen",
+                        },
+                    ],
                     id: "id",
                     score: 1.1,
                     robots_compliant: true,
@@ -61,34 +67,53 @@ describe("AuthorsClient", () => {
             ],
             user_input: { key: "value" },
         };
+
         server.mockEndpoint().get("/api/authors").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.authors.get({
             author_name: "Jane Smith",
-            not_author_name: "John Doe",
-            predefined_sources: "top 100 US, top 5 GB",
-            sources: "nytimes.com",
-            not_sources: "cnn.com",
-            lang: "en",
-            not_lang: "fr",
-            countries: "US",
-            not_countries: "UK",
+            not_author_name: "John Doe, Jane Doe",
+            predefined_sources: "top 50 US, top 20 GB",
+            sources: "nytimes.com,finance.yahoo.com",
+            not_sources: "cnn.com,wsj.com",
+            lang: "en,es",
+            not_lang: "fr,de",
+            countries: "US,CA",
+            not_countries: "UK,FR",
             from_: "2024-07-01T00:00:00Z",
-            to_: "2024-07-01T00:00:00Z",
-            parent_url: "https://www.washingtonpost.com/politics",
-            all_links: "https://aiindex.stanford.edu/report",
-            all_domain_links: "nvidia.com",
+            to_: "2024-01-01T00:00:00Z",
+            published_date_precision: "full",
+            by_parse_date: true,
+            ranked_only: true,
+            from_rank: 100,
+            to_rank: 100,
+            is_headline: true,
+            is_opinion: true,
+            is_paid_content: false,
+            parent_url: "wsj.com/politics,wsj.com/tech",
+            all_links: "https://aiindex.stanford.edu/report,https://www.stateof.ai",
+            all_domain_links: "who.int,nih.gov",
+            all_links_text: "Nvidia,Tesla",
+            word_count_min: 300,
+            word_count_max: 1000,
+            page: 2,
+            page_size: 50,
             include_translation_fields: true,
             include_nlp_data: true,
             has_nlp: true,
-            theme: "Business,Finance",
-            not_theme: "Crime",
-            ner_name: "Tesla",
+            theme: "Finance,Tech",
+            not_theme: "Crime,Sports",
+            ner_name: "Tesla,Amazon",
+            title_sentiment_min: -0.5,
+            title_sentiment_max: 0.5,
+            content_sentiment_min: -0.5,
+            content_sentiment_max: 0.5,
             iptc_tags: "20000199,20000209",
             not_iptc_tags: "20000205,20000209",
             iab_tags: "Business,Events",
             not_iab_tags: "Agriculture,Metals",
-            custom_tags: "Tag1,Tag2,Tag3",
+            custom_tags: "Tag1,Tag2",
+            robots_compliant: true,
         });
         expect(response).toEqual({
             status: "status",
@@ -108,7 +133,6 @@ describe("AuthorsClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
-                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -129,6 +153,13 @@ describe("AuthorsClient", () => {
                     twitter_account: "twitter_account",
                     all_links: ["all_links"],
                     all_domain_links: ["all_domain_links"],
+                    all_links_data: [
+                        {
+                            domain_url: "amazon.de",
+                            link: "https://www.amazon.de/s?k=K\u00FCnstliche+Intelligenz",
+                            text: "KI Brillen",
+                        },
+                    ],
                     id: "id",
                     score: 1.1,
                     robots_compliant: true,
@@ -153,6 +184,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/authors").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -167,6 +199,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/authors").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -181,6 +214,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/authors").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -195,6 +229,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/authors").respondWith().statusCode(408).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -209,6 +244,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/authors").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -223,6 +259,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/authors").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -237,6 +274,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
+
         server.mockEndpoint().get("/api/authors").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -268,7 +306,6 @@ describe("AuthorsClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
-                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -289,6 +326,13 @@ describe("AuthorsClient", () => {
                     twitter_account: "twitter_account",
                     all_links: ["all_links"],
                     all_domain_links: ["all_domain_links"],
+                    all_links_data: [
+                        {
+                            domain_url: "amazon.de",
+                            link: "https://www.amazon.de/s?k=Künstliche+Intelligenz",
+                            text: "KI Brillen",
+                        },
+                    ],
                     id: "id",
                     score: 1.1,
                     robots_compliant: true,
@@ -302,6 +346,7 @@ describe("AuthorsClient", () => {
             ],
             user_input: { key: "value" },
         };
+
         server
             .mockEndpoint()
             .post("/api/authors")
@@ -332,7 +377,6 @@ describe("AuthorsClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
-                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -353,6 +397,13 @@ describe("AuthorsClient", () => {
                     twitter_account: "twitter_account",
                     all_links: ["all_links"],
                     all_domain_links: ["all_domain_links"],
+                    all_links_data: [
+                        {
+                            domain_url: "amazon.de",
+                            link: "https://www.amazon.de/s?k=K\u00FCnstliche+Intelligenz",
+                            text: "KI Brillen",
+                        },
+                    ],
                     id: "id",
                     score: 1.1,
                     robots_compliant: true,
@@ -377,6 +428,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { author_name: "author_name" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/authors")
@@ -398,6 +450,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { author_name: "author_name" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/authors")
@@ -419,6 +472,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { author_name: "author_name" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/authors")
@@ -440,6 +494,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { author_name: "author_name" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/authors")
@@ -461,6 +516,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { author_name: "author_name" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/authors")
@@ -482,6 +538,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { author_name: "author_name" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/authors")
@@ -503,6 +560,7 @@ describe("AuthorsClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { author_name: "author_name" };
         const rawResponseBody = "string";
+
         server
             .mockEndpoint()
             .post("/api/authors")

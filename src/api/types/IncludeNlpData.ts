@@ -3,6 +3,6 @@
 /**
  * If true, includes an NLP object for each article in the response. This object provides results of NLP analysis, including article theme, summary, sentiment, tags, and named entity recognition if available.
  *
- * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
+ * To learn more, see [NLP features](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/nlp-features).
  */
 export type IncludeNlpData = boolean;

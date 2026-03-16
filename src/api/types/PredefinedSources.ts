@@ -3,12 +3,8 @@
 /**
  * Predefined top news sources per country.
  *
- * Format: start with the word `top`, followed by the number of desired sources, and then the two-letter country code [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Multiple countries with the number of top sources can be specified as a comma-separated string or an array of strings.
+ * Format: start with the word `top`, followed by the number of desired sources, and then the two-letter country code [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
  *
- * Examples:
- * - `"top 100 US"`
- * - `"top 33 AT"`
- * - `"top 50 US, top 20 GB"`
- * - `["top 50 US", "top 20 GB"]`
+ * Multiple countries with the number of top sources can be specified as a comma-separated string or an array of strings.
  */
 export type PredefinedSources = string | string[];

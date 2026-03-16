@@ -28,7 +28,7 @@ export class BreakingNewsClient {
     /**
      * Retrieves breaking news articles and sorts them based on specified criteria.
      *
-     * @param {NewscatcherApi.BreakingNewsGetRequest} request
+     * @param {NewscatcherApi.GetBreakingNewsRequest} request
      * @param {BreakingNewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link NewscatcherApi.BadRequestError}
@@ -40,28 +40,37 @@ export class BreakingNewsClient {
      * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
-     *     await client.breakingNews.breakingNewsGet({
+     *     await client.breakingNews.get({
+     *         ranked_only: true,
+     *         from_rank: 100,
+     *         to_rank: 100,
+     *         page: 2,
+     *         page_size: 50,
      *         top_n_articles: 5,
      *         include_translation_fields: true,
      *         include_nlp_data: true,
      *         has_nlp: true,
-     *         theme: "Business,Finance",
-     *         not_theme: "Crime",
-     *         ORG_entity_name: "Apple",
-     *         PER_entity_name: "Elon Musk",
-     *         LOC_entity_name: "California",
-     *         MISC_entity_name: "Bitcoin"
+     *         theme: "Finance,Tech",
+     *         not_theme: "Crime,Sports",
+     *         ORG_entity_name: "\"Apple Inc\" OR Microsoft",
+     *         PER_entity_name: "\"Elon Musk\" OR \"Jeff Bezos\"",
+     *         LOC_entity_name: "\"San Francisco\" OR \"New York City\"",
+     *         MISC_entity_name: "AWS OR \"Microsoft Azure\"",
+     *         title_sentiment_min: -0.5,
+     *         title_sentiment_max: 0.5,
+     *         content_sentiment_min: -0.5,
+     *         content_sentiment_max: 0.5
      *     })
      */
-    public breakingNewsGet(
-        request: NewscatcherApi.BreakingNewsGetRequest = {},
+    public get(
+        request: NewscatcherApi.GetBreakingNewsRequest = {},
         requestOptions?: BreakingNewsClient.RequestOptions,
     ): core.HttpResponsePromise<NewscatcherApi.BreakingNewsResponseDto> {
-        return core.HttpResponsePromise.fromPromise(this.__breakingNewsGet(request, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
-    private async __breakingNewsGet(
-        request: NewscatcherApi.BreakingNewsGetRequest = {},
+    private async __get(
+        request: NewscatcherApi.GetBreakingNewsRequest = {},
         requestOptions?: BreakingNewsClient.RequestOptions,
     ): Promise<core.WithRawResponse<NewscatcherApi.BreakingNewsResponseDto>> {
         const {
@@ -85,7 +94,6 @@ export class BreakingNewsClient {
             title_sentiment_max: titleSentimentMax,
             content_sentiment_min: contentSentimentMin,
             content_sentiment_max: contentSentimentMax,
-            robots_compliant: robotsCompliant,
         } = request;
         const _queryParams: Record<string, unknown> = {
             sort_by: sortBy != null ? sortBy : undefined,
@@ -108,7 +116,6 @@ export class BreakingNewsClient {
             title_sentiment_max: titleSentimentMax,
             content_sentiment_min: contentSentimentMin,
             content_sentiment_max: contentSentimentMax,
-            robots_compliant: robotsCompliant,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -188,7 +195,7 @@ export class BreakingNewsClient {
     /**
      * Retrieves breaking news articles and sorts them based on specified criteria.
      *
-     * @param {NewscatcherApi.BreakingNewsPostRequest} request
+     * @param {NewscatcherApi.PostBreakingNewsRequest} request
      * @param {BreakingNewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link NewscatcherApi.BadRequestError}
@@ -200,21 +207,21 @@ export class BreakingNewsClient {
      * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
-     *     await client.breakingNews.breakingNewsPost({
+     *     await client.breakingNews.post({
      *         sort_by: "relevancy",
      *         ranked_only: true,
      *         top_n_articles: 1
      *     })
      */
-    public breakingNewsPost(
-        request: NewscatcherApi.BreakingNewsPostRequest = {},
+    public post(
+        request: NewscatcherApi.PostBreakingNewsRequest = {},
         requestOptions?: BreakingNewsClient.RequestOptions,
     ): core.HttpResponsePromise<NewscatcherApi.BreakingNewsResponseDto> {
-        return core.HttpResponsePromise.fromPromise(this.__breakingNewsPost(request, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__post(request, requestOptions));
     }
 
-    private async __breakingNewsPost(
-        request: NewscatcherApi.BreakingNewsPostRequest = {},
+    private async __post(
+        request: NewscatcherApi.PostBreakingNewsRequest = {},
         requestOptions?: BreakingNewsClient.RequestOptions,
     ): Promise<core.WithRawResponse<NewscatcherApi.BreakingNewsResponseDto>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();

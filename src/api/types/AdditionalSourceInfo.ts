@@ -16,4 +16,6 @@ export interface AdditionalSourceInfo {
     news_domain_type?: string | undefined;
     /** The category of news provided by the source. */
     news_type?: string | undefined;
+    /** Percentage of domain articles that comply with robots.txt scraping rules (0-100%). */
+    robots_compliant?: string | undefined;
 }
