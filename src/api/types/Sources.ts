@@ -2,9 +2,5 @@
 
 /**
  * One or more news sources to narrow down the search. The format must be a domain URL. Subdomains, such as `finance.yahoo.com`, are also acceptable. To specify multiple sources, use a comma-separated string or an array of strings.
- *
- * Examples:
- * - `"nytimes.com, theguardian.com"`
- * - `["nytimes.com", "theguardian.com"]`
  */
 export type Sources = string | string[];

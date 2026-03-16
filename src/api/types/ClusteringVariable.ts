@@ -6,7 +6,7 @@
  * - `title`: Uses only the article title.
  * - `summary`: Uses the article summary.
  *
- * To learn more, see [Clustering news articles](/docs/v3/documentation/guides-and-concepts/clustering-news-articles).
+ * To learn more, see [Clustering news articles](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/clustering-news-articles).
  */
 export const ClusteringVariable = {
     Content: "content",

@@ -6,9 +6,4 @@
  * - `timezone unknown`: The day and time of an article is correctly identified without timezone.
  * - `date`: Only the day is identified without an exact time.
  */
-export const PublishedDatePrecision = {
-    Full: "full",
-    TimezoneUnknown: "timezone unknown",
-    Date: "date",
-} as const;
-export type PublishedDatePrecision = (typeof PublishedDatePrecision)[keyof typeof PublishedDatePrecision];
+export type PublishedDatePrecision = string;

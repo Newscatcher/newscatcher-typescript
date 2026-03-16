@@ -23,20 +23,26 @@ describe("SourcesClient", () => {
                         is_news_domain: true,
                         news_domain_type: "Original Content",
                         news_type: "General News Outlets",
+                        robots_compliant: "100%",
                     },
                 },
             ],
             user_input: { key: "value" },
         };
+
         server.mockEndpoint().get("/api/sources").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.sources.get({
-            lang: "en",
-            countries: "US",
-            predefined_sources: "top 100 US, top 5 GB",
-            source_name: "sport",
+            lang: "en,es",
+            countries: "US,CA",
+            predefined_sources: "top 50 US, top 20 GB",
+            source_name: "sport,tech",
             source_url: "bbc.com",
-            news_type: "General News Outlets",
+            include_additional_info: true,
+            is_news_domain: true,
+            news_type: "General News Outlets,Tech News and Updates",
+            from_rank: 100,
+            to_rank: 100,
         });
         expect(response).toEqual({
             message: "message",
@@ -52,6 +58,7 @@ describe("SourcesClient", () => {
                         is_news_domain: true,
                         news_domain_type: "Original Content",
                         news_type: "General News Outlets",
+                        robots_compliant: "100%",
                     },
                 },
             ],
@@ -66,6 +73,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/sources").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -78,6 +86,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/sources").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -90,6 +99,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/sources").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -102,6 +112,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/sources").respondWith().statusCode(408).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -114,6 +125,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/sources").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -126,6 +138,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/sources").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -138,6 +151,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
+
         server.mockEndpoint().get("/api/sources").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -163,11 +177,13 @@ describe("SourcesClient", () => {
                         is_news_domain: true,
                         news_domain_type: "Original Content",
                         news_type: "General News Outlets",
+                        robots_compliant: "100%",
                     },
                 },
             ],
             user_input: { key: "value" },
         };
+
         server
             .mockEndpoint()
             .post("/api/sources")
@@ -194,6 +210,7 @@ describe("SourcesClient", () => {
                         is_news_domain: true,
                         news_domain_type: "Original Content",
                         news_type: "General News Outlets",
+                        robots_compliant: "100%",
                     },
                 },
             ],
@@ -208,6 +225,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/sources")
@@ -227,6 +245,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/sources")
@@ -246,6 +265,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/sources")
@@ -265,6 +285,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/sources")
@@ -284,6 +305,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/sources")
@@ -303,6 +325,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/sources")
@@ -322,6 +345,7 @@ describe("SourcesClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = "string";
+
         server
             .mockEndpoint()
             .post("/api/sources")

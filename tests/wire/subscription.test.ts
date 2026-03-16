@@ -17,6 +17,7 @@ describe("SubscriptionClient", () => {
             remaining_calls: 1,
             historical_days: 1,
         };
+
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.subscription.get();
@@ -35,6 +36,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -47,6 +49,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -59,6 +62,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -71,6 +75,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(408).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -83,6 +88,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -95,6 +101,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -107,6 +114,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
+
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -126,6 +134,7 @@ describe("SubscriptionClient", () => {
             remaining_calls: 1,
             historical_days: 1,
         };
+
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.subscription.post();
@@ -144,6 +153,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -156,6 +166,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -168,6 +179,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -180,6 +192,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(408).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -192,6 +205,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -204,6 +218,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -216,6 +231,7 @@ describe("SubscriptionClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
+
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {

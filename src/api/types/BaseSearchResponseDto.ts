@@ -5,13 +5,13 @@
  */
 export interface BaseSearchResponseDto {
     /** The status of the response. */
-    status?: string | undefined;
+    status: string;
     /** The total number of articles matching the search criteria. */
-    total_hits?: number | undefined;
+    total_hits: number;
     /** The current page number of the results. */
-    page?: number | undefined;
+    page: number;
     /** The total number of pages available for the given search criteria. */
-    total_pages?: number | undefined;
+    total_pages: number;
     /** The number of articles per page. */
-    page_size?: number | undefined;
+    page_size: number;
 }
