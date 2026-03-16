@@ -8,8 +8,6 @@
  * - Positive values indicate positive sentiment.
  * - Values close to 0 indicate neutral sentiment.
  *
- * **Note**: The `content_sentiment_max` parameter is only available if NLP is included in your subscription plan.
- *
- * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
+ * To learn more, see [NLP features](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/nlp-features).
  */
 export type ContentSentimentMax = number;

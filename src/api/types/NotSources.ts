@@ -2,9 +2,5 @@
 
 /**
  * The news sources to exclude from the search. To exclude multiple sources, use a comma-separated string or an array of strings.
- *
- * Examples:
- * - `"cnn.com, wsj.com"`
- * - `["cnn.com", "wsj.com"]`
  */
 export type NotSources = string | string[];

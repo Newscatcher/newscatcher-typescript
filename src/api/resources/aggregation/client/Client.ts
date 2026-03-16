@@ -29,7 +29,7 @@ export class AggregationClient {
     /**
      * Retrieves the count of articles aggregated by day or hour based on various search criteria, such as keyword, language, country, and source.
      *
-     * @param {NewscatcherApi.AggregationGetRequest} request
+     * @param {NewscatcherApi.AggregationCountGetRequest} request
      * @param {AggregationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link NewscatcherApi.BadRequestError}
@@ -41,45 +41,63 @@ export class AggregationClient {
      * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
-     *     await client.aggregation.get({
+     *     await client.aggregation.countGet({
      *         q: "\"supply chain\" AND Amazon NOT China",
      *         search_in: "title_content, title_content_translated",
-     *         predefined_sources: "top 100 US, top 5 GB",
-     *         sources: "nytimes.com",
-     *         not_sources: "cnn.com",
-     *         lang: "en",
-     *         not_lang: "fr",
-     *         countries: "US",
-     *         not_countries: "UK",
-     *         not_author_name: "John Doe",
+     *         predefined_sources: "top 50 US, top 20 GB",
+     *         sources: "nytimes.com,finance.yahoo.com",
+     *         not_sources: "cnn.com,wsj.com",
+     *         lang: "en,es",
+     *         not_lang: "fr,de",
+     *         countries: "US,CA",
+     *         not_countries: "UK,FR",
+     *         not_author_name: "John Doe, Jane Doe",
      *         from_: "2024-07-01T00:00:00Z",
-     *         to_: "2024-07-01T00:00:00Z",
-     *         parent_url: "https://www.washingtonpost.com/politics",
-     *         all_links: "https://aiindex.stanford.edu/report",
-     *         all_domain_links: "nvidia.com",
+     *         to_: "2024-01-01T00:00:00Z",
+     *         published_date_precision: "full",
+     *         by_parse_date: true,
+     *         ranked_only: true,
+     *         from_rank: 100,
+     *         to_rank: 100,
+     *         is_headline: true,
+     *         is_opinion: true,
+     *         is_paid_content: false,
+     *         parent_url: "wsj.com/politics,wsj.com/tech",
+     *         all_links: "https://aiindex.stanford.edu/report,https://www.stateof.ai",
+     *         all_domain_links: "who.int,nih.gov",
+     *         all_links_text: "Nvidia,Tesla",
+     *         word_count_min: 300,
+     *         word_count_max: 1000,
+     *         page: 2,
+     *         page_size: 50,
      *         include_nlp_data: true,
      *         has_nlp: true,
-     *         theme: "Business,Finance",
-     *         not_theme: "Crime",
-     *         ORG_entity_name: "Apple",
-     *         PER_entity_name: "Elon Musk",
-     *         LOC_entity_name: "California",
-     *         MISC_entity_name: "Bitcoin",
+     *         theme: "Finance,Tech",
+     *         not_theme: "Crime,Sports",
+     *         ORG_entity_name: "\"Apple Inc\" OR Microsoft",
+     *         PER_entity_name: "\"Elon Musk\" OR \"Jeff Bezos\"",
+     *         LOC_entity_name: "\"San Francisco\" OR \"New York City\"",
+     *         MISC_entity_name: "AWS OR \"Microsoft Azure\"",
+     *         title_sentiment_min: -0.5,
+     *         title_sentiment_max: 0.5,
+     *         content_sentiment_min: -0.5,
+     *         content_sentiment_max: 0.5,
      *         iptc_tags: "20000199,20000209",
-     *         not_iptc_tags: "20000205,20000209"
+     *         not_iptc_tags: "20000205,20000209",
+     *         robots_compliant: true
      *     })
      */
-    public get(
-        request: NewscatcherApi.AggregationGetRequest,
+    public countGet(
+        request: NewscatcherApi.AggregationCountGetRequest,
         requestOptions?: AggregationClient.RequestOptions,
-    ): core.HttpResponsePromise<NewscatcherApi.AggregationGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
+    ): core.HttpResponsePromise<NewscatcherApi.AggregationCountGetResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__countGet(request, requestOptions));
     }
 
-    private async __get(
-        request: NewscatcherApi.AggregationGetRequest,
+    private async __countGet(
+        request: NewscatcherApi.AggregationCountGetRequest,
         requestOptions?: AggregationClient.RequestOptions,
-    ): Promise<core.WithRawResponse<NewscatcherApi.AggregationGetResponse>> {
+    ): Promise<core.WithRawResponse<NewscatcherApi.AggregationCountGetResponse>> {
         const {
             q,
             aggregation_by: aggregationBy,
@@ -106,6 +124,7 @@ export class AggregationClient {
             parent_url: parentUrl,
             all_links: allLinks,
             all_domain_links: allDomainLinks,
+            all_links_text: allLinksText,
             word_count_min: wordCountMin,
             word_count_max: wordCountMax,
             page,
@@ -140,7 +159,7 @@ export class AggregationClient {
             not_author_name: notAuthorName,
             from_: from_ != null ? (typeof from_ === "string" ? from_ : toJson(from_)) : undefined,
             to_: to != null ? (typeof to === "string" ? to : toJson(to)) : undefined,
-            published_date_precision: publishedDatePrecision != null ? publishedDatePrecision : undefined,
+            published_date_precision: publishedDatePrecision,
             by_parse_date: byParseDate,
             sort_by: sortBy != null ? sortBy : undefined,
             ranked_only: rankedOnly,
@@ -152,6 +171,7 @@ export class AggregationClient {
             parent_url: parentUrl,
             all_links: allLinks,
             all_domain_links: allDomainLinks,
+            all_links_text: allLinksText,
             word_count_min: wordCountMin,
             word_count_max: wordCountMax,
             page,
@@ -196,7 +216,7 @@ export class AggregationClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as NewscatcherApi.AggregationGetResponse,
+                data: _response.body as NewscatcherApi.AggregationCountGetResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -250,7 +270,7 @@ export class AggregationClient {
     /**
      * Retrieves the count of articles aggregated by day or hour based on various search criteria, such as keyword, language, country, and source.
      *
-     * @param {NewscatcherApi.AggregationPostRequest} request
+     * @param {NewscatcherApi.AggregationCountPostRequest} request
      * @param {AggregationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link NewscatcherApi.BadRequestError}
@@ -262,22 +282,22 @@ export class AggregationClient {
      * @throws {@link NewscatcherApi.InternalServerError}
      *
      * @example
-     *     await client.aggregation.post({
+     *     await client.aggregation.countPost({
      *         q: "\"supply chain\" AND Amazon NOT China",
      *         aggregation_by: "day"
      *     })
      */
-    public post(
-        request: NewscatcherApi.AggregationPostRequest,
+    public countPost(
+        request: NewscatcherApi.AggregationCountPostRequest,
         requestOptions?: AggregationClient.RequestOptions,
-    ): core.HttpResponsePromise<NewscatcherApi.AggregationPostResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__post(request, requestOptions));
+    ): core.HttpResponsePromise<NewscatcherApi.AggregationCountPostResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__countPost(request, requestOptions));
     }
 
-    private async __post(
-        request: NewscatcherApi.AggregationPostRequest,
+    private async __countPost(
+        request: NewscatcherApi.AggregationCountPostRequest,
         requestOptions?: AggregationClient.RequestOptions,
-    ): Promise<core.WithRawResponse<NewscatcherApi.AggregationPostResponse>> {
+    ): Promise<core.WithRawResponse<NewscatcherApi.AggregationCountPostResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -305,7 +325,7 @@ export class AggregationClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as NewscatcherApi.AggregationPostResponse,
+                data: _response.body as NewscatcherApi.AggregationCountPostResponse,
                 rawResponse: _response.rawResponse,
             };
         }

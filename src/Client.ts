@@ -3,10 +3,9 @@
 import { AggregationClient } from "./api/resources/aggregation/client/Client.js";
 import { AuthorsClient } from "./api/resources/authors/client/Client.js";
 import { BreakingNewsClient } from "./api/resources/breakingNews/client/Client.js";
-import { LatestheadlinesClient } from "./api/resources/latestheadlines/client/Client.js";
+import { LatestHeadlinesClient } from "./api/resources/latestHeadlines/client/Client.js";
 import { SearchClient } from "./api/resources/search/client/Client.js";
-import { SearchLinkClient } from "./api/resources/searchLink/client/Client.js";
-import { SearchsimilarClient } from "./api/resources/searchsimilar/client/Client.js";
+import { SearchByLinkClient } from "./api/resources/searchByLink/client/Client.js";
 import { SourcesClient } from "./api/resources/sources/client/Client.js";
 import { SubscriptionClient } from "./api/resources/subscription/client/Client.js";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient.js";
@@ -21,11 +20,10 @@ export declare namespace NewscatcherApiClient {
 export class NewscatcherApiClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<NewscatcherApiClient.Options>;
     protected _search: SearchClient | undefined;
-    protected _latestheadlines: LatestheadlinesClient | undefined;
+    protected _latestHeadlines: LatestHeadlinesClient | undefined;
     protected _breakingNews: BreakingNewsClient | undefined;
     protected _authors: AuthorsClient | undefined;
-    protected _searchLink: SearchLinkClient | undefined;
-    protected _searchsimilar: SearchsimilarClient | undefined;
+    protected _searchByLink: SearchByLinkClient | undefined;
     protected _sources: SourcesClient | undefined;
     protected _aggregation: AggregationClient | undefined;
     protected _subscription: SubscriptionClient | undefined;
@@ -38,8 +36,8 @@ export class NewscatcherApiClient {
         return (this._search ??= new SearchClient(this._options));
     }
 
-    public get latestheadlines(): LatestheadlinesClient {
-        return (this._latestheadlines ??= new LatestheadlinesClient(this._options));
+    public get latestHeadlines(): LatestHeadlinesClient {
+        return (this._latestHeadlines ??= new LatestHeadlinesClient(this._options));
     }
 
     public get breakingNews(): BreakingNewsClient {
@@ -50,12 +48,8 @@ export class NewscatcherApiClient {
         return (this._authors ??= new AuthorsClient(this._options));
     }
 
-    public get searchLink(): SearchLinkClient {
-        return (this._searchLink ??= new SearchLinkClient(this._options));
-    }
-
-    public get searchsimilar(): SearchsimilarClient {
-        return (this._searchsimilar ??= new SearchsimilarClient(this._options));
+    public get searchByLink(): SearchByLinkClient {
+        return (this._searchByLink ??= new SearchByLinkClient(this._options));
     }
 
     public get sources(): SourcesClient {

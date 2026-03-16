@@ -5,7 +5,7 @@ import { NewscatcherApiClient } from "../../src/Client";
 import { mockServerPool } from "../mock-server/MockServerPool";
 
 describe("BreakingNewsClient", () => {
-    test("BreakingNews_get (1)", async () => {
+    test("breakingNewsGet (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
@@ -27,29 +27,37 @@ describe("BreakingNewsClient", () => {
                             full_domain_url: "full_domain_url",
                             parent_url: "parent_url",
                             rank: 1,
-                            content: "content",
                             id: "id",
                             score: 1.1,
-                            robots_compliant: true,
                         },
                     ],
                 },
             ],
             user_input: { key: "value" },
         };
+
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.breakingNews.breakingNewsGet({
+            ranked_only: true,
+            from_rank: 100,
+            to_rank: 100,
+            page: 2,
+            page_size: 50,
             top_n_articles: 5,
             include_translation_fields: true,
             include_nlp_data: true,
             has_nlp: true,
-            theme: "Business,Finance",
-            not_theme: "Crime",
-            ORG_entity_name: "Apple",
-            PER_entity_name: "Elon Musk",
-            LOC_entity_name: "California",
-            MISC_entity_name: "Bitcoin",
+            theme: "Finance,Tech",
+            not_theme: "Crime,Sports",
+            ORG_entity_name: '"Apple Inc" OR Microsoft',
+            PER_entity_name: '"Elon Musk" OR "Jeff Bezos"',
+            LOC_entity_name: '"San Francisco" OR "New York City"',
+            MISC_entity_name: 'AWS OR "Microsoft Azure"',
+            title_sentiment_min: -0.5,
+            title_sentiment_max: 0.5,
+            content_sentiment_min: -0.5,
+            content_sentiment_max: 0.5,
         });
         expect(response).toEqual({
             status: "status",
@@ -69,10 +77,8 @@ describe("BreakingNewsClient", () => {
                             full_domain_url: "full_domain_url",
                             parent_url: "parent_url",
                             rank: 1,
-                            content: "content",
                             id: "id",
                             score: 1.1,
-                            robots_compliant: true,
                         },
                     ],
                 },
@@ -83,11 +89,12 @@ describe("BreakingNewsClient", () => {
         });
     });
 
-    test("BreakingNews_get (2)", async () => {
+    test("breakingNewsGet (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -95,11 +102,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.BadRequestError);
     });
 
-    test("BreakingNews_get (3)", async () => {
+    test("breakingNewsGet (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -107,11 +115,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.UnauthorizedError);
     });
 
-    test("BreakingNews_get (4)", async () => {
+    test("breakingNewsGet (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -119,11 +128,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.ForbiddenError);
     });
 
-    test("BreakingNews_get (5)", async () => {
+    test("breakingNewsGet (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(408).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -131,11 +141,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.RequestTimeoutError);
     });
 
-    test("BreakingNews_get (6)", async () => {
+    test("breakingNewsGet (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -143,11 +154,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.UnprocessableEntityError);
     });
 
-    test("BreakingNews_get (7)", async () => {
+    test("breakingNewsGet (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -155,11 +167,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.TooManyRequestsError);
     });
 
-    test("BreakingNews_get (8)", async () => {
+    test("breakingNewsGet (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
+
         server.mockEndpoint().get("/api/breaking_news").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -167,7 +180,7 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.InternalServerError);
     });
 
-    test("BreakingNews_post (1)", async () => {
+    test("breakingNewsPost (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { sort_by: "relevancy", ranked_only: true, top_n_articles: 1 };
@@ -189,16 +202,15 @@ describe("BreakingNewsClient", () => {
                             full_domain_url: "full_domain_url",
                             parent_url: "parent_url",
                             rank: 1,
-                            content: "content",
                             id: "id",
                             score: 1.1,
-                            robots_compliant: true,
                         },
                     ],
                 },
             ],
             user_input: { key: "value" },
         };
+
         server
             .mockEndpoint()
             .post("/api/breaking_news")
@@ -231,10 +243,8 @@ describe("BreakingNewsClient", () => {
                             full_domain_url: "full_domain_url",
                             parent_url: "parent_url",
                             rank: 1,
-                            content: "content",
                             id: "id",
                             score: 1.1,
-                            robots_compliant: true,
                         },
                     ],
                 },
@@ -245,11 +255,12 @@ describe("BreakingNewsClient", () => {
         });
     });
 
-    test("BreakingNews_post (2)", async () => {
+    test("breakingNewsPost (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/breaking_news")
@@ -264,11 +275,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.BadRequestError);
     });
 
-    test("BreakingNews_post (3)", async () => {
+    test("breakingNewsPost (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/breaking_news")
@@ -283,11 +295,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.UnauthorizedError);
     });
 
-    test("BreakingNews_post (4)", async () => {
+    test("breakingNewsPost (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/breaking_news")
@@ -302,11 +315,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.ForbiddenError);
     });
 
-    test("BreakingNews_post (5)", async () => {
+    test("breakingNewsPost (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/breaking_news")
@@ -321,11 +335,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.RequestTimeoutError);
     });
 
-    test("BreakingNews_post (6)", async () => {
+    test("breakingNewsPost (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/breaking_news")
@@ -340,11 +355,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.UnprocessableEntityError);
     });
 
-    test("BreakingNews_post (7)", async () => {
+    test("breakingNewsPost (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/breaking_news")
@@ -359,11 +375,12 @@ describe("BreakingNewsClient", () => {
         }).rejects.toThrow(NewscatcherApi.TooManyRequestsError);
     });
 
-    test("BreakingNews_post (8)", async () => {
+    test("breakingNewsPost (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = {};
         const rawResponseBody = "string";
+
         server
             .mockEndpoint()
             .post("/api/breaking_news")

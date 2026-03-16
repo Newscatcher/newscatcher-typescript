@@ -1,2 +1,2 @@
-export type { AggregationGetRequest } from "./AggregationGetRequest.js";
-export type { AggregationPostRequest } from "./AggregationPostRequest.js";
+export type { AggregationCountGetRequest } from "./AggregationCountGetRequest.js";
+export type { AggregationCountPostRequest } from "./AggregationCountPostRequest.js";

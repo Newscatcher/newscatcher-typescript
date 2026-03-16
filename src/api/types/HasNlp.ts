@@ -3,6 +3,6 @@
 /**
  * If true, filters results to include only articles that have NLP data.
  *
- * To learn more, see [NLP features](/docs/v3/documentation/guides-and-concepts/nlp-features).
+ * To learn more, see [NLP features](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/nlp-features).
  */
 export type HasNlp = boolean;

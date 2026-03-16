@@ -36,6 +36,7 @@ export interface SearchPostRequest {
     parent_url?: NewscatcherApi.ParentUrl;
     all_links?: NewscatcherApi.AllLinks;
     all_domain_links?: NewscatcherApi.AllDomainLinks;
+    all_links_text?: NewscatcherApi.AllLinksText;
     additional_domain_info?: NewscatcherApi.AdditionalDomainInfo;
     is_news_domain?: NewscatcherApi.IsNewsDomain;
     news_domain_type?: NewscatcherApi.NewsDomainType;

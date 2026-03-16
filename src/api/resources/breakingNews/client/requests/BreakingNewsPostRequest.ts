@@ -30,6 +30,5 @@ export interface BreakingNewsPostRequest {
     title_sentiment_min?: NewscatcherApi.TitleSentimentMin;
     title_sentiment_max?: NewscatcherApi.TitleSentimentMax;
     content_sentiment_min?: NewscatcherApi.ContentSentimentMin;
-    content_sentient_max?: NewscatcherApi.ContentSentimentMax;
-    robots_compliant?: NewscatcherApi.RobotsCompliant;
+    content_sentiment_max?: NewscatcherApi.ContentSentimentMax;
 }

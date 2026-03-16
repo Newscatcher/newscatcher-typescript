@@ -3,10 +3,6 @@
 /**
  * The domain(s) mentioned in the article. For multiple domains, use a comma-separated string or an array of strings.
  *
- * Examples:
- * - `"who.int, nih.gov"`
- * - `["who.int", "nih.gov"]`
- *
- * For more details, see [Search by URL](/docs/v3/documentation/how-to/search-by-url).
+ * For more details, see [Search by URL](https://www.newscatcherapi.com/docs/news-api/how-to/search-by-url).
  */
 export type AllDomainLinks = string | string[];

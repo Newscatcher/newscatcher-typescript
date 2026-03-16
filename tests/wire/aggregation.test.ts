@@ -5,7 +5,7 @@ import { NewscatcherApiClient } from "../../src/Client";
 import { mockServerPool } from "../mock-server/MockServerPool";
 
 describe("AggregationClient", () => {
-    test("get (1)", async () => {
+    test("countGet (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
@@ -18,6 +18,7 @@ describe("AggregationClient", () => {
             aggregations: { aggregation_count: [{ time_frame: "2024-12-31T00:00:00Z", article_count: 86 }] },
             user_input: { key: "value" },
         };
+
         server
             .mockEndpoint()
             .get("/api/aggregation_count")
@@ -26,32 +27,50 @@ describe("AggregationClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.aggregation.get({
+        const response = await client.aggregation.countGet({
             q: '"supply chain" AND Amazon NOT China',
             search_in: "title_content, title_content_translated",
-            predefined_sources: "top 100 US, top 5 GB",
-            sources: "nytimes.com",
-            not_sources: "cnn.com",
-            lang: "en",
-            not_lang: "fr",
-            countries: "US",
-            not_countries: "UK",
-            not_author_name: "John Doe",
+            predefined_sources: "top 50 US, top 20 GB",
+            sources: "nytimes.com,finance.yahoo.com",
+            not_sources: "cnn.com,wsj.com",
+            lang: "en,es",
+            not_lang: "fr,de",
+            countries: "US,CA",
+            not_countries: "UK,FR",
+            not_author_name: "John Doe, Jane Doe",
             from_: "2024-07-01T00:00:00Z",
-            to_: "2024-07-01T00:00:00Z",
-            parent_url: "https://www.washingtonpost.com/politics",
-            all_links: "https://aiindex.stanford.edu/report",
-            all_domain_links: "nvidia.com",
+            to_: "2024-01-01T00:00:00Z",
+            published_date_precision: "full",
+            by_parse_date: true,
+            ranked_only: true,
+            from_rank: 100,
+            to_rank: 100,
+            is_headline: true,
+            is_opinion: true,
+            is_paid_content: false,
+            parent_url: "wsj.com/politics,wsj.com/tech",
+            all_links: "https://aiindex.stanford.edu/report,https://www.stateof.ai",
+            all_domain_links: "who.int,nih.gov",
+            all_links_text: "Nvidia,Tesla",
+            word_count_min: 300,
+            word_count_max: 1000,
+            page: 2,
+            page_size: 50,
             include_nlp_data: true,
             has_nlp: true,
-            theme: "Business,Finance",
-            not_theme: "Crime",
-            ORG_entity_name: "Apple",
-            PER_entity_name: "Elon Musk",
-            LOC_entity_name: "California",
-            MISC_entity_name: "Bitcoin",
+            theme: "Finance,Tech",
+            not_theme: "Crime,Sports",
+            ORG_entity_name: '"Apple Inc" OR Microsoft',
+            PER_entity_name: '"Elon Musk" OR "Jeff Bezos"',
+            LOC_entity_name: '"San Francisco" OR "New York City"',
+            MISC_entity_name: 'AWS OR "Microsoft Azure"',
+            title_sentiment_min: -0.5,
+            title_sentiment_max: 0.5,
+            content_sentiment_min: -0.5,
+            content_sentiment_max: 0.5,
             iptc_tags: "20000199,20000209",
             not_iptc_tags: "20000205,20000209",
+            robots_compliant: true,
         });
         expect(response).toEqual({
             status: "status",
@@ -73,11 +92,12 @@ describe("AggregationClient", () => {
         });
     });
 
-    test("get (2)", async () => {
+    test("countGet (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .get("/api/aggregation_count")
@@ -87,17 +107,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.get({
+            return await client.aggregation.countGet({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.BadRequestError);
     });
 
-    test("get (3)", async () => {
+    test("countGet (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .get("/api/aggregation_count")
@@ -107,17 +128,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.get({
+            return await client.aggregation.countGet({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.UnauthorizedError);
     });
 
-    test("get (4)", async () => {
+    test("countGet (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .get("/api/aggregation_count")
@@ -127,17 +149,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.get({
+            return await client.aggregation.countGet({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.ForbiddenError);
     });
 
-    test("get (5)", async () => {
+    test("countGet (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .get("/api/aggregation_count")
@@ -147,17 +170,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.get({
+            return await client.aggregation.countGet({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.RequestTimeoutError);
     });
 
-    test("get (6)", async () => {
+    test("countGet (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .get("/api/aggregation_count")
@@ -167,17 +191,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.get({
+            return await client.aggregation.countGet({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.UnprocessableEntityError);
     });
 
-    test("get (7)", async () => {
+    test("countGet (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .get("/api/aggregation_count")
@@ -187,17 +212,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.get({
+            return await client.aggregation.countGet({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.TooManyRequestsError);
     });
 
-    test("get (8)", async () => {
+    test("countGet (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
+
         server
             .mockEndpoint()
             .get("/api/aggregation_count")
@@ -207,13 +233,13 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.get({
+            return await client.aggregation.countGet({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.InternalServerError);
     });
 
-    test("post (1)", async () => {
+    test("countPost (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: '"supply chain" AND Amazon NOT China', aggregation_by: "day" };
@@ -226,6 +252,7 @@ describe("AggregationClient", () => {
             aggregations: { aggregation_count: [{ time_frame: "2024-12-31T00:00:00Z", article_count: 86 }] },
             user_input: { key: "value" },
         };
+
         server
             .mockEndpoint()
             .post("/api/aggregation_count")
@@ -235,7 +262,7 @@ describe("AggregationClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.aggregation.post({
+        const response = await client.aggregation.countPost({
             q: '"supply chain" AND Amazon NOT China',
             aggregation_by: "day",
         });
@@ -259,11 +286,12 @@ describe("AggregationClient", () => {
         });
     });
 
-    test("post (2)", async () => {
+    test("countPost (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/aggregation_count")
@@ -274,17 +302,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.post({
+            return await client.aggregation.countPost({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.BadRequestError);
     });
 
-    test("post (3)", async () => {
+    test("countPost (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/aggregation_count")
@@ -295,17 +324,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.post({
+            return await client.aggregation.countPost({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.UnauthorizedError);
     });
 
-    test("post (4)", async () => {
+    test("countPost (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/aggregation_count")
@@ -316,17 +346,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.post({
+            return await client.aggregation.countPost({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.ForbiddenError);
     });
 
-    test("post (5)", async () => {
+    test("countPost (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/aggregation_count")
@@ -337,17 +368,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.post({
+            return await client.aggregation.countPost({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.RequestTimeoutError);
     });
 
-    test("post (6)", async () => {
+    test("countPost (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/aggregation_count")
@@ -358,17 +390,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.post({
+            return await client.aggregation.countPost({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.UnprocessableEntityError);
     });
 
-    test("post (7)", async () => {
+    test("countPost (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/aggregation_count")
@@ -379,17 +412,18 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.post({
+            return await client.aggregation.countPost({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.TooManyRequestsError);
     });
 
-    test("post (8)", async () => {
+    test("countPost (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = "string";
+
         server
             .mockEndpoint()
             .post("/api/aggregation_count")
@@ -400,7 +434,7 @@ describe("AggregationClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.aggregation.post({
+            return await client.aggregation.countPost({
                 q: "q",
             });
         }).rejects.toThrow(NewscatcherApi.InternalServerError);

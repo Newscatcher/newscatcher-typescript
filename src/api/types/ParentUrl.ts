@@ -2,9 +2,5 @@
 
 /**
  * The categorical URL(s) to filter your search. To filter your search by multiple categorical URLs, use a comma-separated string or an array of strings.
- *
- * Examples:
- * - `"wsj.com/politics,wsj.com/tech"`
- * - `["wsj.com/politics", "wsj.com/tech"]`
  */
 export type ParentUrl = string | string[];

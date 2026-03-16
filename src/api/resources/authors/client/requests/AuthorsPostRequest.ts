@@ -32,6 +32,7 @@ export interface AuthorsPostRequest {
     parent_url?: NewscatcherApi.ParentUrl;
     all_links?: NewscatcherApi.AllLinks;
     all_domain_links?: NewscatcherApi.AllDomainLinks;
+    all_links_text?: NewscatcherApi.AllLinksText;
     word_count_min?: NewscatcherApi.WordCountMin;
     word_count_max?: NewscatcherApi.WordCountMax;
     page?: NewscatcherApi.Page;

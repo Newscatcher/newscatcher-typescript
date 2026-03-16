@@ -1,0 +1,7 @@
+## 2.0.0 - 2026-03-16
+* The `searchsimilar` resource has been completely removed from the SDK. Applications using `client.searchsimilar.get()` or `client.searchsimilar.post()` methods will need to remove these calls or use alternative search endpoints.
+* The Search Similar API has been removed along with related types and functionality. Several client properties have been renamed for consistency: `latestheadlines` is now `latestHeadlines`, and `searchLink` is now `searchByLink`. Aggregation methods have been renamed from `get`/`post` to `countGet`/`countPost`.
+* Breaking changes to client class and method names. The LatestheadlinesClient class has been renamed to LatestHeadlinesClient, and its methods get() and post() are now latestHeadlinesGet() and latestHeadlinesPost(). Similarly, SearchLinkClient is now SearchByLinkClient with methods searchByLinkGet() and searchByLinkPost(). Update your code to use the new class and method names.
+* The search API now supports the `all_links_text` parameter for filtering articles by the text content of links mentioned in articles. This enables searching for articles where link anchor text contains specific terms.
+* The SDK now supports filtering articles by link anchor text using the all_links_text parameter across search endpoints. New request types for latest headlines and aggregation endpoints provide comprehensive filtering options. Improved Node.js runtime detection prevents bundler warnings in edge environments.
+

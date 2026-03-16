@@ -13,17 +13,17 @@ export interface BreakingNewsArticleEntity {
     /** A list of authors of the article. */
     authors?: BreakingNewsArticleEntity.Authors | undefined;
     /** A list of journalists associated with the article. */
-    journalists?: BreakingNewsArticleEntity.Journalists | undefined;
+    journalists?: (BreakingNewsArticleEntity.Journalists | null) | undefined;
     /** The date the article was published. */
     published_date?: string | undefined;
     /** The precision of the published date. */
     published_date_precision?: string | undefined;
     /** The date the article was last updated. */
-    updated_date?: string | undefined;
+    updated_date?: (string | null) | undefined;
     /** The precision of the updated date. */
-    updated_date_precision?: string | undefined;
+    updated_date_precision?: (string | null) | undefined;
     /** The date the article was parsed. */
-    parse_date?: string | undefined;
+    parse_date?: (string | null) | undefined;
     /** The URL link to the article. */
     link: string;
     /** The domain URL of the article. */
@@ -34,7 +34,7 @@ export interface BreakingNewsArticleEntity {
     name_source?: string | undefined;
     /** Indicates if the article is a headline. */
     is_headline?: boolean | undefined;
-    /** Indicates if the article is paid content. */
+    /** Indicates whether the source labels the article as paywalled or requiring a subscription for full access. */
     paid_content?: boolean | undefined;
     /** The categorical URL of the article. */
     parent_url: string;
@@ -51,13 +51,17 @@ export interface BreakingNewsArticleEntity {
     /** A brief description of the article. */
     description?: string | undefined;
     /** The content of the article. */
-    content: string;
+    content?: string | undefined;
+    /** English translation of the article title. Available when setting the `include_translation_fields` parameter to `true`. */
+    title_translated_en?: (string | null) | undefined;
+    /** English translation of the article content. Available when setting the `include_translation_fields` parameter to `true`. */
+    content_translated_en?: (string | null) | undefined;
     /** The word count of the article. */
     word_count?: number | undefined;
     /** Indicates if the article is an opinion piece. */
     is_opinion?: boolean | undefined;
     /** The Twitter account associated with the article. */
-    twitter_account?: string | undefined;
+    twitter_account?: (string | null) | undefined;
     /** A list of all URLs mentioned in the article. */
     all_links?: BreakingNewsArticleEntity.AllLinks | undefined;
     /** A list of all domain URLs mentioned in the article. */
@@ -67,8 +71,6 @@ export interface BreakingNewsArticleEntity {
     id: string;
     /** The relevance score of the article. */
     score: number;
-    /** True if the article content can be safely accessed according to the publisher's robots.txt rules; false otherwise. */
-    robots_compliant?: boolean | undefined;
 }
 
 export namespace BreakingNewsArticleEntity {

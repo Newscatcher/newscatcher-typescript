@@ -8,5 +8,6 @@
  * - `is_news_domain`: Boolean indicating if the source is a news domain.
  * - `news_domain_type`: Type of news domain (e.g., "Original Content").
  * - `news_type`: Category of news (e.g., "General News Outlets").
+ * - `robots_compliant`: Percentage of domain articles that comply with robots.txt scraping rules (0-100%).
  */
 export type IncludeAdditionalInfo = boolean;

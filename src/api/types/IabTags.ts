@@ -3,10 +3,6 @@
 /**
  * Filters articles based on Interactive Advertising Bureau (IAB) content categories.These tags provide a standardized taxonomy for digital advertising content categorization. To specify multiple IAB categories, use a comma-separated string or an array of strings.
  *
- * Examples:
- * - `"Business, Events"`
- * - `["Business", "Events"]`
- *
  * **Note**: The `iab_tags` parameter is only available in the `v3_nlp_iptc_tags` subscription plan.
  *
  * To learn more, see the [IAB Content taxonomy](https://iabtechlab.com/standards/content-taxonomy/).

@@ -41,16 +41,25 @@ export class BreakingNewsClient {
      *
      * @example
      *     await client.breakingNews.breakingNewsGet({
+     *         ranked_only: true,
+     *         from_rank: 100,
+     *         to_rank: 100,
+     *         page: 2,
+     *         page_size: 50,
      *         top_n_articles: 5,
      *         include_translation_fields: true,
      *         include_nlp_data: true,
      *         has_nlp: true,
-     *         theme: "Business,Finance",
-     *         not_theme: "Crime",
-     *         ORG_entity_name: "Apple",
-     *         PER_entity_name: "Elon Musk",
-     *         LOC_entity_name: "California",
-     *         MISC_entity_name: "Bitcoin"
+     *         theme: "Finance,Tech",
+     *         not_theme: "Crime,Sports",
+     *         ORG_entity_name: "\"Apple Inc\" OR Microsoft",
+     *         PER_entity_name: "\"Elon Musk\" OR \"Jeff Bezos\"",
+     *         LOC_entity_name: "\"San Francisco\" OR \"New York City\"",
+     *         MISC_entity_name: "AWS OR \"Microsoft Azure\"",
+     *         title_sentiment_min: -0.5,
+     *         title_sentiment_max: 0.5,
+     *         content_sentiment_min: -0.5,
+     *         content_sentiment_max: 0.5
      *     })
      */
     public breakingNewsGet(
@@ -85,7 +94,6 @@ export class BreakingNewsClient {
             title_sentiment_max: titleSentimentMax,
             content_sentiment_min: contentSentimentMin,
             content_sentiment_max: contentSentimentMax,
-            robots_compliant: robotsCompliant,
         } = request;
         const _queryParams: Record<string, unknown> = {
             sort_by: sortBy != null ? sortBy : undefined,
@@ -108,7 +116,6 @@ export class BreakingNewsClient {
             title_sentiment_max: titleSentimentMax,
             content_sentiment_min: contentSentimentMin,
             content_sentiment_max: contentSentimentMax,
-            robots_compliant: robotsCompliant,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(

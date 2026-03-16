@@ -27,7 +27,7 @@ export class SearchClient {
     }
 
     /**
-     * Searches for articles based on specified criteria such as keyword, language, country, source, and more.
+     * Searches for articles based on specified criteria such as keywords, language, country, source, and more.
      *
      * @param {NewscatcherApi.SearchGetRequest} request
      * @param {SearchClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -45,34 +45,57 @@ export class SearchClient {
      *         q: "\"supply chain\" AND Amazon NOT China",
      *         search_in: "title_content, title_content_translated",
      *         include_translation_fields: true,
-     *         predefined_sources: "top 100 US, top 5 GB",
-     *         source_name: "sport",
-     *         sources: "nytimes.com",
-     *         not_sources: "cnn.com",
-     *         lang: "en",
-     *         not_lang: "fr",
-     *         countries: "US",
-     *         not_countries: "UK",
-     *         not_author_name: "John Doe",
+     *         predefined_sources: "top 50 US, top 20 GB",
+     *         source_name: "sport,tech",
+     *         sources: "nytimes.com,finance.yahoo.com",
+     *         not_sources: "cnn.com,wsj.com",
+     *         lang: "en,es",
+     *         not_lang: "fr,de",
+     *         countries: "US,CA",
+     *         not_countries: "UK,FR",
+     *         not_author_name: "John Doe, Jane Doe",
      *         from_: "2024-07-01T00:00:00Z",
-     *         to_: "2024-07-01T00:00:00Z",
-     *         parent_url: "https://www.washingtonpost.com/politics",
-     *         all_links: "https://aiindex.stanford.edu/report",
-     *         all_domain_links: "nvidia.com",
-     *         news_type: "General News Outlets",
+     *         to_: "2024-01-01T00:00:00Z",
+     *         published_date_precision: "full",
+     *         by_parse_date: true,
+     *         ranked_only: true,
+     *         from_rank: 100,
+     *         to_rank: 100,
+     *         is_headline: true,
+     *         is_opinion: true,
+     *         is_paid_content: false,
+     *         parent_url: "wsj.com/politics,wsj.com/tech",
+     *         all_links: "https://aiindex.stanford.edu/report,https://www.stateof.ai",
+     *         all_domain_links: "who.int,nih.gov",
+     *         all_links_text: "Nvidia,Tesla",
+     *         additional_domain_info: true,
+     *         is_news_domain: true,
+     *         news_type: "General News Outlets,Tech News and Updates",
+     *         word_count_min: 300,
+     *         word_count_max: 1000,
+     *         page: 2,
+     *         page_size: 50,
+     *         clustering_enabled: true,
+     *         clustering_threshold: 0.6,
      *         include_nlp_data: true,
      *         has_nlp: true,
-     *         theme: "Business,Finance",
-     *         not_theme: "Crime",
-     *         ORG_entity_name: "Apple",
-     *         PER_entity_name: "Elon Musk",
-     *         LOC_entity_name: "California",
-     *         MISC_entity_name: "Bitcoin",
+     *         theme: "Finance,Tech",
+     *         not_theme: "Crime,Sports",
+     *         ORG_entity_name: "\"Apple Inc\" OR Microsoft",
+     *         PER_entity_name: "\"Elon Musk\" OR \"Jeff Bezos\"",
+     *         LOC_entity_name: "\"San Francisco\" OR \"New York City\"",
+     *         MISC_entity_name: "AWS OR \"Microsoft Azure\"",
+     *         title_sentiment_min: -0.5,
+     *         title_sentiment_max: 0.5,
+     *         content_sentiment_min: -0.5,
+     *         content_sentiment_max: 0.5,
      *         iptc_tags: "20000199,20000209",
      *         not_iptc_tags: "20000205,20000209",
      *         iab_tags: "Business,Events",
      *         not_iab_tags: "Agriculture,Metals",
-     *         custom_tags: "Tag1,Tag2,Tag3"
+     *         custom_tags: "Tag1,Tag2",
+     *         exclude_duplicates: true,
+     *         robots_compliant: true
      *     })
      */
     public get(
@@ -113,6 +136,7 @@ export class SearchClient {
             parent_url: parentUrl,
             all_links: allLinks,
             all_domain_links: allDomainLinks,
+            all_links_text: allLinksText,
             additional_domain_info: additionalDomainInfo,
             is_news_domain: isNewsDomain,
             news_domain_type: newsDomainType,
@@ -159,7 +183,7 @@ export class SearchClient {
             not_author_name: notAuthorName,
             from_: from_ != null ? (typeof from_ === "string" ? from_ : toJson(from_)) : undefined,
             to_: to != null ? (typeof to === "string" ? to : toJson(to)) : undefined,
-            published_date_precision: publishedDatePrecision != null ? publishedDatePrecision : undefined,
+            published_date_precision: publishedDatePrecision,
             by_parse_date: byParseDate,
             sort_by: sortBy != null ? sortBy : undefined,
             ranked_only: rankedOnly,
@@ -171,6 +195,7 @@ export class SearchClient {
             parent_url: parentUrl,
             all_links: allLinks,
             all_domain_links: allDomainLinks,
+            all_links_text: allLinksText,
             additional_domain_info: additionalDomainInfo,
             is_news_domain: isNewsDomain,
             news_domain_type: newsDomainType != null ? newsDomainType : undefined,
@@ -275,7 +300,7 @@ export class SearchClient {
     }
 
     /**
-     * Searches for articles based on specified criteria such as keyword, language, country, source, and more.
+     * Searches for articles based on specified criteria such as keywords, language, country, source, and more.
      *
      * @param {NewscatcherApi.SearchPostRequest} request
      * @param {SearchClient.RequestOptions} requestOptions - Request-specific configuration.

@@ -41,12 +41,16 @@ export class SourcesClient {
      *
      * @example
      *     await client.sources.get({
-     *         lang: "en",
-     *         countries: "US",
-     *         predefined_sources: "top 100 US, top 5 GB",
-     *         source_name: "sport",
+     *         lang: "en,es",
+     *         countries: "US,CA",
+     *         predefined_sources: "top 50 US, top 20 GB",
+     *         source_name: "sport,tech",
      *         source_url: "bbc.com",
-     *         news_type: "General News Outlets"
+     *         include_additional_info: true,
+     *         is_news_domain: true,
+     *         news_type: "General News Outlets,Tech News and Updates",
+     *         from_rank: 100,
+     *         to_rank: 100
      *     })
      */
     public get(
