@@ -27,7 +27,6 @@ describe("SearchClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
-                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -48,6 +47,13 @@ describe("SearchClient", () => {
                     twitter_account: "twitter_account",
                     all_links: ["all_links"],
                     all_domain_links: ["all_domain_links"],
+                    all_links_data: [
+                        {
+                            domain_url: "amazon.de",
+                            link: "https://www.amazon.de/s?k=Künstliche+Intelligenz",
+                            text: "KI Brillen",
+                        },
+                    ],
                     id: "id",
                     score: 1.1,
                     robots_compliant: true,
@@ -61,40 +67,64 @@ describe("SearchClient", () => {
             ],
             user_input: { key: "value" },
         };
+
         server.mockEndpoint().get("/api/search").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.search.get({
             q: '"supply chain" AND Amazon NOT China',
             search_in: "title_content, title_content_translated",
             include_translation_fields: true,
-            predefined_sources: "top 100 US, top 5 GB",
-            source_name: "sport",
-            sources: "nytimes.com",
-            not_sources: "cnn.com",
-            lang: "en",
-            not_lang: "fr",
-            countries: "US",
-            not_countries: "UK",
-            not_author_name: "John Doe",
+            predefined_sources: "top 50 US, top 20 GB",
+            source_name: "sport,tech",
+            sources: "nytimes.com,finance.yahoo.com",
+            not_sources: "cnn.com,wsj.com",
+            lang: "en,es",
+            not_lang: "fr,de",
+            countries: "US,CA",
+            not_countries: "UK,FR",
+            not_author_name: "John Doe, Jane Doe",
             from_: "2024-07-01T00:00:00Z",
-            to_: "2024-07-01T00:00:00Z",
-            parent_url: "https://www.washingtonpost.com/politics",
-            all_links: "https://aiindex.stanford.edu/report",
-            all_domain_links: "nvidia.com",
-            news_type: "General News Outlets",
+            to_: "2024-01-01T00:00:00Z",
+            published_date_precision: "full",
+            by_parse_date: true,
+            ranked_only: true,
+            from_rank: 100,
+            to_rank: 100,
+            is_headline: true,
+            is_opinion: true,
+            is_paid_content: false,
+            parent_url: "wsj.com/politics,wsj.com/tech",
+            all_links: "https://aiindex.stanford.edu/report,https://www.stateof.ai",
+            all_domain_links: "who.int,nih.gov",
+            all_links_text: "Nvidia,Tesla",
+            additional_domain_info: true,
+            is_news_domain: true,
+            news_type: "General News Outlets,Tech News and Updates",
+            word_count_min: 300,
+            word_count_max: 1000,
+            page: 2,
+            page_size: 50,
+            clustering_enabled: true,
+            clustering_threshold: 0.6,
             include_nlp_data: true,
             has_nlp: true,
-            theme: "Business,Finance",
-            not_theme: "Crime",
-            ORG_entity_name: "Apple",
-            PER_entity_name: "Elon Musk",
-            LOC_entity_name: "California",
-            MISC_entity_name: "Bitcoin",
+            theme: "Finance,Tech",
+            not_theme: "Crime,Sports",
+            ORG_entity_name: '"Apple Inc" OR Microsoft',
+            PER_entity_name: '"Elon Musk" OR "Jeff Bezos"',
+            LOC_entity_name: '"San Francisco" OR "New York City"',
+            MISC_entity_name: 'AWS OR "Microsoft Azure"',
+            title_sentiment_min: -0.5,
+            title_sentiment_max: 0.5,
+            content_sentiment_min: -0.5,
+            content_sentiment_max: 0.5,
             iptc_tags: "20000199,20000209",
             not_iptc_tags: "20000205,20000209",
             iab_tags: "Business,Events",
             not_iab_tags: "Agriculture,Metals",
-            custom_tags: "Tag1,Tag2,Tag3",
+            custom_tags: "Tag1,Tag2",
+            exclude_duplicates: true,
+            robots_compliant: true,
         });
         expect(response).toEqual({
             status: "status",
@@ -114,7 +144,6 @@ describe("SearchClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
-                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -135,6 +164,13 @@ describe("SearchClient", () => {
                     twitter_account: "twitter_account",
                     all_links: ["all_links"],
                     all_domain_links: ["all_domain_links"],
+                    all_links_data: [
+                        {
+                            domain_url: "amazon.de",
+                            link: "https://www.amazon.de/s?k=K\u00FCnstliche+Intelligenz",
+                            text: "KI Brillen",
+                        },
+                    ],
                     id: "id",
                     score: 1.1,
                     robots_compliant: true,
@@ -159,6 +195,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/search").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -173,6 +210,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/search").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -187,6 +225,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/search").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -201,6 +240,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/search").respondWith().statusCode(408).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -215,6 +255,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/search").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -229,6 +270,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server.mockEndpoint().get("/api/search").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -243,6 +285,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
 
         const rawResponseBody = "string";
+
         server.mockEndpoint().get("/api/search").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -274,7 +317,6 @@ describe("SearchClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
-                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -295,6 +337,13 @@ describe("SearchClient", () => {
                     twitter_account: "twitter_account",
                     all_links: ["all_links"],
                     all_domain_links: ["all_domain_links"],
+                    all_links_data: [
+                        {
+                            domain_url: "amazon.de",
+                            link: "https://www.amazon.de/s?k=Künstliche+Intelligenz",
+                            text: "KI Brillen",
+                        },
+                    ],
                     id: "id",
                     score: 1.1,
                     robots_compliant: true,
@@ -308,6 +357,7 @@ describe("SearchClient", () => {
             ],
             user_input: { key: "value" },
         };
+
         server
             .mockEndpoint()
             .post("/api/search")
@@ -339,7 +389,6 @@ describe("SearchClient", () => {
                     updated_date_precision: "updated_date_precision",
                     parse_date: "parse_date",
                     link: "link",
-                    canonical_url: true,
                     domain_url: "domain_url",
                     full_domain_url: "full_domain_url",
                     name_source: "name_source",
@@ -360,6 +409,13 @@ describe("SearchClient", () => {
                     twitter_account: "twitter_account",
                     all_links: ["all_links"],
                     all_domain_links: ["all_domain_links"],
+                    all_links_data: [
+                        {
+                            domain_url: "amazon.de",
+                            link: "https://www.amazon.de/s?k=K\u00FCnstliche+Intelligenz",
+                            text: "KI Brillen",
+                        },
+                    ],
                     id: "id",
                     score: 1.1,
                     robots_compliant: true,
@@ -384,6 +440,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/search")
@@ -405,6 +462,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/search")
@@ -426,6 +484,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/search")
@@ -447,6 +506,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/search")
@@ -468,6 +528,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/search")
@@ -489,6 +550,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = { message: "message", status_code: 1, status: "status" };
+
         server
             .mockEndpoint()
             .post("/api/search")
@@ -510,6 +572,7 @@ describe("SearchClient", () => {
         const client = new NewscatcherApiClient({ maxRetries: 0, apiKey: "test", environment: server.baseUrl });
         const rawRequestBody = { q: "q" };
         const rawResponseBody = "string";
+
         server
             .mockEndpoint()
             .post("/api/search")

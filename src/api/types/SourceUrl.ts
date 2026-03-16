@@ -4,10 +4,6 @@
  * The domains of the news publication to search for. To specify multiple news sources,
  * use a comma-separated string or an array of strings.
  *
- * Examples:
- * - `"bbc.com, nytimes.com"`
- * - `["bbc.com", "nytimes.com"]`
- *
  * **Caution**:  When specifying the `source_url` parameter, you can only use `include_additional_info` as an extra parameter.
  */
 export type SourceUrl = string | string[];

@@ -1,2 +1,2 @@
-export type { SearchGetRequest } from "./SearchGetRequest.js";
-export type { SearchPostRequest } from "./SearchPostRequest.js";
+export type { GetSearchRequest } from "./GetSearchRequest.js";
+export type { PostSearchRequest } from "./PostSearchRequest.js";

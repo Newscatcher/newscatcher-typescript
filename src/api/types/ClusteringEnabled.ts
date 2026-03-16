@@ -3,6 +3,6 @@
 /**
  * Determines whether to group similar articles into clusters. If true, the API returns clustered results.
  *
- * To learn more, see [Clustering news articles](/docs/v3/documentation/guides-and-concepts/clustering-news-articles).
+ * To learn more, see [Clustering news articles](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/clustering-news-articles).
  */
 export type ClusteringEnabled = boolean;

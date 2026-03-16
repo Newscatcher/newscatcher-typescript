@@ -28,7 +28,7 @@ export class SourcesClient {
     /**
      * Retrieves a list of sources based on specified criteria such as language, country, rank, and more.
      *
-     * @param {NewscatcherApi.SourcesGetRequest} request
+     * @param {NewscatcherApi.GetSourcesRequest} request
      * @param {SourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link NewscatcherApi.BadRequestError}
@@ -41,23 +41,27 @@ export class SourcesClient {
      *
      * @example
      *     await client.sources.get({
-     *         lang: "en",
-     *         countries: "US",
-     *         predefined_sources: "top 100 US, top 5 GB",
-     *         source_name: "sport",
+     *         lang: "en,es",
+     *         countries: "US,CA",
+     *         predefined_sources: "top 50 US, top 20 GB",
+     *         source_name: "sport,tech",
      *         source_url: "bbc.com",
-     *         news_type: "General News Outlets"
+     *         include_additional_info: true,
+     *         is_news_domain: true,
+     *         news_type: "General News Outlets,Tech News and Updates",
+     *         from_rank: 100,
+     *         to_rank: 100
      *     })
      */
     public get(
-        request: NewscatcherApi.SourcesGetRequest = {},
+        request: NewscatcherApi.GetSourcesRequest = {},
         requestOptions?: SourcesClient.RequestOptions,
     ): core.HttpResponsePromise<NewscatcherApi.SourcesResponseDto> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: NewscatcherApi.SourcesGetRequest = {},
+        request: NewscatcherApi.GetSourcesRequest = {},
         requestOptions?: SourcesClient.RequestOptions,
     ): Promise<core.WithRawResponse<NewscatcherApi.SourcesResponseDto>> {
         const {
@@ -161,7 +165,7 @@ export class SourcesClient {
     /**
      * Retrieves the list of sources available in the database. You can filter the sources by language, country, and more.
      *
-     * @param {NewscatcherApi.SourcesPostRequest} request
+     * @param {NewscatcherApi.PostSourcesRequest} request
      * @param {SourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link NewscatcherApi.BadRequestError}
@@ -178,14 +182,14 @@ export class SourcesClient {
      *     })
      */
     public post(
-        request: NewscatcherApi.SourcesPostRequest = {},
+        request: NewscatcherApi.PostSourcesRequest = {},
         requestOptions?: SourcesClient.RequestOptions,
     ): core.HttpResponsePromise<NewscatcherApi.SourcesResponseDto> {
         return core.HttpResponsePromise.fromPromise(this.__post(request, requestOptions));
     }
 
     private async __post(
-        request: NewscatcherApi.SourcesPostRequest = {},
+        request: NewscatcherApi.PostSourcesRequest = {},
         requestOptions?: SourcesClient.RequestOptions,
     ): Promise<core.WithRawResponse<NewscatcherApi.SourcesResponseDto>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();

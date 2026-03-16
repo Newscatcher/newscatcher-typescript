@@ -16,7 +16,7 @@ export interface NlpDataEntity {
     /**
      * A dense 1024-dimensional vector representation of the article content, generated using  the [multilingual-e5-large](https://huggingface.co/intfloat/multilingual-e5-large) model.
      *
-     * **Note**: The `new_embedding` field is only available in the `v3_local_news_nlp_embeddings` subscription plan.
+     * **Note**: The `new_embedding` field is only available in the `v3_nlp_embeddings` subscription plan.
      */
     new_embedding?: number[] | undefined;
     /** Named Entity Recognition for person entities (individuals' names). */
