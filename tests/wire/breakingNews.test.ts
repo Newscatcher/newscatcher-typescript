@@ -59,34 +59,7 @@ describe("BreakingNewsClient", () => {
             content_sentiment_min: -0.5,
             content_sentiment_max: 0.5,
         });
-        expect(response).toEqual({
-            status: "status",
-            total_hits: 1,
-            page: 1,
-            total_pages: 1,
-            page_size: 1,
-            breaking_news_events: [
-                {
-                    event_id: "event_id",
-                    articles_count: 1,
-                    articles: [
-                        {
-                            title: "title",
-                            link: "link",
-                            domain_url: "domain_url",
-                            full_domain_url: "full_domain_url",
-                            parent_url: "parent_url",
-                            rank: 1,
-                            id: "id",
-                            score: 1.1,
-                        },
-                    ],
-                },
-            ],
-            user_input: {
-                key: "value",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -225,34 +198,7 @@ describe("BreakingNewsClient", () => {
             ranked_only: true,
             top_n_articles: 1,
         });
-        expect(response).toEqual({
-            status: "status",
-            total_hits: 1,
-            page: 1,
-            total_pages: 1,
-            page_size: 1,
-            breaking_news_events: [
-                {
-                    event_id: "event_id",
-                    articles_count: 1,
-                    articles: [
-                        {
-                            title: "title",
-                            link: "link",
-                            domain_url: "domain_url",
-                            full_domain_url: "full_domain_url",
-                            parent_url: "parent_url",
-                            rank: 1,
-                            id: "id",
-                            score: 1.1,
-                        },
-                    ],
-                },
-            ],
-            user_input: {
-                key: "value",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("post (2)", async () => {

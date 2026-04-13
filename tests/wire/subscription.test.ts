@@ -21,14 +21,7 @@ describe("SubscriptionClient", () => {
         server.mockEndpoint().get("/api/subscription").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.subscription.get();
-        expect(response).toEqual({
-            active: true,
-            concurrent_calls: 1,
-            plan: "plan",
-            plan_calls: 1,
-            remaining_calls: 1,
-            historical_days: 1,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -138,14 +131,7 @@ describe("SubscriptionClient", () => {
         server.mockEndpoint().post("/api/subscription").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.subscription.post();
-        expect(response).toEqual({
-            active: true,
-            concurrent_calls: 1,
-            plan: "plan",
-            plan_calls: 1,
-            remaining_calls: 1,
-            historical_days: 1,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("post (2)", async () => {
