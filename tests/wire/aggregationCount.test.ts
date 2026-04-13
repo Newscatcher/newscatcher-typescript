@@ -72,24 +72,7 @@ describe("AggregationCountClient", () => {
             not_iptc_tags: "20000205,20000209",
             robots_compliant: true,
         });
-        expect(response).toEqual({
-            status: "status",
-            total_hits: 1,
-            page: 1,
-            total_pages: 1,
-            page_size: 1,
-            aggregations: {
-                aggregation_count: [
-                    {
-                        time_frame: "2024-12-31T00:00:00Z",
-                        article_count: 86,
-                    },
-                ],
-            },
-            user_input: {
-                key: "value",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -266,24 +249,7 @@ describe("AggregationCountClient", () => {
             q: '"supply chain" AND Amazon NOT China',
             aggregation_by: "day",
         });
-        expect(response).toEqual({
-            status: "status",
-            total_hits: 1,
-            page: 1,
-            total_pages: 1,
-            page_size: 1,
-            aggregations: {
-                aggregation_count: [
-                    {
-                        time_frame: "2024-12-31T00:00:00Z",
-                        article_count: 86,
-                    },
-                ],
-            },
-            user_input: {
-                key: "value",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("post (2)", async () => {
