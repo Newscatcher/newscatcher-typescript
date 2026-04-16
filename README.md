@@ -11,6 +11,7 @@ The Newscatcher TypeScript library provides convenient access to the Newscatcher
 - [Installation](#installation)
 - [Reference](#reference)
 - [Usage](#usage)
+- [Environments](#environments)
 - [Request and Response Types](#request-and-response-types)
 - [Exception Handling](#exception-handling)
 - [Advanced](#advanced)
@@ -51,6 +52,18 @@ const client = new NewscatcherApiClient({ apiKey: "YOUR_API_KEY" });
 await client.search.post({
     q: "\"supply chain\" AND Amazon NOT China",
     page_size: 1
+});
+```
+
+## Environments
+
+This SDK allows you to configure different environments for API requests.
+
+```typescript
+import { NewscatcherApiClient, NewscatcherApiEnvironment } from "newscatcher-sdk";
+
+const client = new NewscatcherApiClient({
+    environment: NewscatcherApiEnvironment.Default,
 });
 ```
 
@@ -283,19 +296,6 @@ The SDK works in the following runtimes:
 - Bun 1.0+
 - React Native
 
-### Customizing Fetch Client
-
-The SDK provides a way for you to customize the underlying HTTP client / Fetch function. If you're running in an
-unsupported environment, this provides a way for you to break glass and ensure the SDK works.
-
-```typescript
-import { NewscatcherApiClient } from "newscatcher-sdk";
-
-const client = new NewscatcherApiClient({
-    ...
-    fetcher: // provide your implementation here
-});
-```
 
 ## Contributing
 
