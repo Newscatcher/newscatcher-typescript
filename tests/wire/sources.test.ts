@@ -44,28 +44,7 @@ describe("SourcesClient", () => {
             from_rank: 100,
             to_rank: 100,
         });
-        expect(response).toEqual({
-            message: "message",
-            sources: [
-                {
-                    name_source: "name_source",
-                    domain_url: "domain_url",
-                    logo: "logo",
-                    additional_info: {
-                        nb_articles_for_7d: 153,
-                        country: "US",
-                        rank: 117,
-                        is_news_domain: true,
-                        news_domain_type: "Original Content",
-                        news_type: "General News Outlets",
-                        robots_compliant: "100%",
-                    },
-                },
-            ],
-            user_input: {
-                key: "value",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -196,28 +175,7 @@ describe("SourcesClient", () => {
         const response = await client.sources.post({
             predefined_sources: "top 10 US",
         });
-        expect(response).toEqual({
-            message: "message",
-            sources: [
-                {
-                    name_source: "name_source",
-                    domain_url: "domain_url",
-                    logo: "logo",
-                    additional_info: {
-                        nb_articles_for_7d: 153,
-                        country: "US",
-                        rank: 117,
-                        is_news_domain: true,
-                        news_domain_type: "Original Content",
-                        news_type: "General News Outlets",
-                        robots_compliant: "100%",
-                    },
-                },
-            ],
-            user_input: {
-                key: "value",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("post (2)", async () => {
