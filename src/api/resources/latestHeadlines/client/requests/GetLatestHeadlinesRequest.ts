@@ -28,7 +28,7 @@ import type * as NewscatcherApi from "../../../../index.js";
  *         page: 2,
  *         page_size: 50,
  *         clustering_enabled: true,
- *         clustering_threshold: 0.6,
+ *         clustering_threshold: 0.7,
  *         include_translation_fields: true,
  *         include_nlp_data: true,
  *         has_nlp: true,

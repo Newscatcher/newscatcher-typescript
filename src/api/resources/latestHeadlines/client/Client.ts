@@ -64,7 +64,7 @@ export class LatestHeadlinesClient {
      *         page: 2,
      *         page_size: 50,
      *         clustering_enabled: true,
-     *         clustering_threshold: 0.6,
+     *         clustering_threshold: 0.7,
      *         include_translation_fields: true,
      *         include_nlp_data: true,
      *         has_nlp: true,
@@ -207,6 +207,11 @@ export class LatestHeadlinesClient {
             method: "GET",
             headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
