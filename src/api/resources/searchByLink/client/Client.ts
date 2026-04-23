@@ -44,8 +44,8 @@ export class SearchByLinkClient {
      *     await client.searchByLink.get({
      *         ids: "5f8d0d55b6e45e00179c6e7e",
      *         links: "https://nytimes.com/article1,https://bbc.com/article2",
-     *         from_: "2024-07-01T00:00:00Z",
-     *         to_: "2024-01-01T00:00:00Z",
+     *         from_: "1 day ago",
+     *         to_: "1 day ago",
      *         page: 2,
      *         page_size: 50,
      *         robots_compliant: true
@@ -88,6 +88,11 @@ export class SearchByLinkClient {
             method: "GET",
             headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

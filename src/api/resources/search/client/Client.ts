@@ -54,8 +54,8 @@ export class SearchClient {
      *         countries: "US,CA",
      *         not_countries: "UK,FR",
      *         not_author_name: "John Doe, Jane Doe",
-     *         from_: "2024-07-01T00:00:00Z",
-     *         to_: "2024-01-01T00:00:00Z",
+     *         from_: "1 day ago",
+     *         to_: "1 day ago",
      *         published_date_precision: "full",
      *         by_parse_date: true,
      *         ranked_only: true,
@@ -76,7 +76,7 @@ export class SearchClient {
      *         page: 2,
      *         page_size: 50,
      *         clustering_enabled: true,
-     *         clustering_threshold: 0.6,
+     *         clustering_threshold: 0.7,
      *         include_nlp_data: true,
      *         has_nlp: true,
      *         theme: "Finance,Tech",
@@ -243,6 +243,11 @@ export class SearchClient {
             method: "GET",
             headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
