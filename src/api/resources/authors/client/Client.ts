@@ -154,8 +154,20 @@ export class AuthorsClient {
             not_lang: notLang,
             countries,
             not_countries: notCountries,
-            from_: from_ != null ? (typeof from_ === "string" ? from_ : toJson(from_)) : undefined,
-            to_: to != null ? (typeof to === "string" ? to : toJson(to)) : undefined,
+            from_: Array.isArray(from_)
+                ? from_.map((item) => (typeof item === "string" ? item : toJson(item)))
+                : from_ != null
+                  ? typeof from_ === "string"
+                      ? from_
+                      : toJson(from_)
+                  : undefined,
+            to_: Array.isArray(to)
+                ? to.map((item) => (typeof item === "string" ? item : toJson(item)))
+                : to != null
+                  ? typeof to === "string"
+                      ? to
+                      : toJson(to)
+                  : undefined,
             published_date_precision: publishedDatePrecision,
             by_parse_date: byParseDate,
             sort_by: sortBy != null ? sortBy : undefined,
@@ -205,7 +217,6 @@ export class AuthorsClient {
             ),
             method: "GET",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
@@ -313,7 +324,7 @@ export class AuthorsClient {
             method: "POST",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: requestOptions?.queryParams,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
             body: request,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
