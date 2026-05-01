@@ -66,8 +66,20 @@ export class SearchByLinkClient {
         const _queryParams: Record<string, unknown> = {
             ids,
             links,
-            from_: from_ != null ? (typeof from_ === "string" ? from_ : toJson(from_)) : undefined,
-            to_: to != null ? (typeof to === "string" ? to : toJson(to)) : undefined,
+            from_: Array.isArray(from_)
+                ? from_.map((item) => (typeof item === "string" ? item : toJson(item)))
+                : from_ != null
+                  ? typeof from_ === "string"
+                      ? from_
+                      : toJson(from_)
+                  : undefined,
+            to_: Array.isArray(to)
+                ? to.map((item) => (typeof item === "string" ? item : toJson(item)))
+                : to != null
+                  ? typeof to === "string"
+                      ? to
+                      : toJson(to)
+                  : undefined,
             page,
             page_size: pageSize,
             robots_compliant: robotsCompliant,
@@ -87,7 +99,6 @@ export class SearchByLinkClient {
             ),
             method: "GET",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
@@ -195,7 +206,7 @@ export class SearchByLinkClient {
             method: "POST",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: requestOptions?.queryParams,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
             body: request,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
