@@ -7,7 +7,7 @@ import type * as NewscatcherApi from "../index.js";
  */
 export interface NlpDataEntity {
     /** A brief AI-generated summary of the article's English translation. */
-    summary_translated?: string | undefined;
+    translation_summary?: string | undefined;
     /** The themes or categories identified in the article. */
     theme?: string | undefined;
     /** A brief AI-generated summary of the article content. */

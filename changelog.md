@@ -1,3 +1,10 @@
+## 3.0.0 - 2026-05-19
+### Breaking Changes
+* **`NlpDataEntity.summary_translated`** — field renamed to `translation_summary`; update all property accesses to use the new name.
+### Added
+* **`BaseClientOptions.auth`** — new optional `auth` field accepting `false` (to disable auth), a function returning auth headers, an `AuthProvider` instance, or `HeaderAuthProvider.AuthOptions`, enabling flexible per-client auth overrides.
+* **Duration shorthand** — `From` and `To` types now accept duration shorthand strings such as `7d`, `30d`, `24h`, and `48h` in addition to existing date formats.
+
 ## 2.1.1 - 2026-04-30
 * fix: improve query parameter serialization for array date fields and POST endpoints
 * Refactor query string construction across all resource clients to use

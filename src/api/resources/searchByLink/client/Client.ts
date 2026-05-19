@@ -45,7 +45,7 @@ export class SearchByLinkClient {
      *         ids: "5f8d0d55b6e45e00179c6e7e",
      *         links: "https://nytimes.com/article1,https://bbc.com/article2",
      *         from_: "1 day ago",
-     *         to_: "1 day ago",
+     *         to_: "now",
      *         page: 2,
      *         page_size: 50,
      *         robots_compliant: true

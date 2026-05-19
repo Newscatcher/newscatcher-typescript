@@ -9,6 +9,7 @@
  * - YYYY/mm/dd HH:MM:SS: `2024/07/01 00:00:00`
  * - YYYY/mm/dd: `2024/07/01`
  * - English phrases: `7 day ago`, `today`
+ * - Duration shorthand: `7d`, `30d`, `24h`, `48h`
  *
  * **Note**: By default, applied to the publication date of the article. To use the article's parse date instead, set the `by_parse_date` parameter to `true`.
  */
