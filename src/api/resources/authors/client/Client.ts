@@ -52,7 +52,7 @@ export class AuthorsClient {
      *         countries: "US,CA",
      *         not_countries: "UK,FR",
      *         from_: "1 day ago",
-     *         to_: "1 day ago",
+     *         to_: "now",
      *         published_date_precision: "full",
      *         by_parse_date: true,
      *         ranked_only: true,

@@ -3,6 +3,6 @@
 /**
  * The page number to scroll through the results. Use for pagination, as a single API response can return up to 1,000 articles.
  *
- * For details, see [How to paginate large datasets](https://www.newscatcherapi.com/docs/news-api/how-to/paginate-large-datasets).
+ * For details, see [Retrieve large datasets](https://www.newscatcherapi.com/docs/news-api/how-to/retrieve-more-than-10k-articles)
  */
 export type Page = number;
