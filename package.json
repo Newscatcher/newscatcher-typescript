@@ -1,6 +1,6 @@
 {
     "name": "newscatcher-sdk",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "private": false,
     "repository": {
         "type": "git",
@@ -154,5 +154,10 @@
     "engines": {
         "node": ">=18.0.0"
     },
-    "sideEffects": false
+    "sideEffects": false,
+    "pnpm": {
+        "overrides": {
+            "vite": ">=8.0.16"
+        }
+    }
 }
