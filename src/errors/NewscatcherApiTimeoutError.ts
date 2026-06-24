@@ -10,7 +10,7 @@ export class NewscatcherApiTimeoutError extends Error {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "NewscatcherApiTimeoutError";
         if (opts?.cause != null) {
             this.cause = opts.cause;
         }
