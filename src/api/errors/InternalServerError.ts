@@ -4,6 +4,8 @@ import type * as core from "../../core/index.js";
 import * as errors from "../../errors/index.js";
 
 export class InternalServerError extends errors.NewscatcherApiError {
+    public declare readonly body: string;
+
     constructor(body: string, rawResponse?: core.RawResponse) {
         super({
             message: "InternalServerError",
@@ -16,6 +18,6 @@ export class InternalServerError extends errors.NewscatcherApiError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "InternalServerError";
     }
 }
