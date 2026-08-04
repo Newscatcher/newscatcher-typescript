@@ -1,3 +1,18 @@
+## [3.1.0] - 2026-08-04
+### Added
+- **`NewscatcherApiError.requestId`** — new getter that returns the `x-request-id` response header, making it easy to correlate SDK errors with server-side logs.
+- **`additionalBodyParameters`** — all resource client `post` methods now merge `requestOptions.additionalBodyParameters` into the request body, enabling callers to inject extra fields without subclassing.
+- **`BaseClientOptions.stream` / `BaseRequestOptions.stream`** — new optional SSE reconnection configuration (`reconnectionEnabled`, `maxReconnectionAttempts`) available at both the client and per-request level.
+- **`getUserAgent()`** — new internal helper that builds a structured `{sdk}/{version} ({os}; {arch}) {runtime}/{version}` User-Agent string.
+
+### Changed
+- **`NewscatcherApiTimeoutError`** — now extends `NewscatcherApiError` instead of the built-in `Error`, giving timeout errors the same `statusCode`, `body`, `rawResponse`, and `requestId` interface as all other SDK errors.
+- **Typed `body` declarations** — `BadRequestError`, `ForbiddenError`, `UnauthorizedError`, `RequestTimeoutError`, `TooManyRequestsError`, `UnprocessableEntityError`, and `InternalServerError` now declare an explicit `body` field, improving TypeScript type narrowing in `catch` blocks.
+- **Passthrough auth guard** — the passthrough fetch helper now only forwards SDK credentials when the resolved URL targets the same origin as the configured base URL, preventing accidental credential leakage to cross-origin hosts.
+
+### Fixed
+- **`getResponseBody`** — pins the upstream `Response` object on the body stream to prevent undici's `FinalizationRegistry` from garbage-collecting it and prematurely cancelling streaming responses.
+
 ## 3.0.0 - 2026-05-19
 ### Breaking Changes
 * **`NlpDataEntity.summary_translated`** — field renamed to `translation_summary`; update all property accesses to use the new name.
