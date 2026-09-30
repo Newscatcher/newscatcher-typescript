@@ -1,3 +1,22 @@
+## [3.1.0] - 2026-09-30
+## [3.1.0] - 2025
+
+### Added
+- **`NewscatcherApiError.requestId`** — new getter that returns the `x-request-id` response header value for correlating thrown errors with server-side traces.
+- **`body` on error subclasses** — `BadRequestError`, `ForbiddenError`, `UnauthorizedError`, `RequestTimeoutError`, `TooManyRequestsError`, `UnprocessableEntityError`, and `InternalServerError` now expose a typed `public readonly body` for accurate TypeScript narrowing.
+- **`additionalBodyParameters` in request options** — all POST endpoints now merge `requestOptions.additionalBodyParameters` into the JSON request body, enabling callers to inject extra fields without subclassing.
+- **`BaseClientOptions.stream`** — new optional field for configuring SSE stream reconnection behavior (`reconnectionEnabled`, `maxReconnectionAttempts`).
+- **`getUserAgent()`** — new exported function from `core/runtime` that builds a structured User-Agent string; also adds `Runtime.os` and `Runtime.arch` fields populated for Node, Deno, and Bun.
+
+### Changed
+- **`NewscatcherApiTimeoutError`** — now extends `NewscatcherApiError` instead of `Error`, providing a consistent error hierarchy and access to shared error properties.
+- **Auth header passthrough** — auth headers are now forwarded only when the resolved request URL targets the same origin as the configured base URL, preventing credential leakage to third-party hosts.
+
+### Fixed
+- **`anySignal()`** — resolves a race condition where a signal aborting between the initial `aborted` check and `addEventListener` would silently go undetected, causing requests to hang.
+- **Query-string serialization** — `null` values are now skipped alongside `undefined`, preventing unexpected `null` tokens in URLs.
+- **Streaming response body** — a reference to the upstream `Response` is now retained on the body stream to prevent premature garbage collection by undici.
+
 ## 3.0.0 - 2026-05-19
 ### Breaking Changes
 * **`NlpDataEntity.summary_translated`** — field renamed to `translation_summary`; update all property accesses to use the new name.
