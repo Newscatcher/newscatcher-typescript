@@ -37,6 +37,8 @@ export class SubscriptionClient {
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
      * @throws {@link NewscatcherApi.TooManyRequestsError}
      * @throws {@link NewscatcherApi.InternalServerError}
+     * @throws {@link errors.NewscatcherApiError}
+     * @throws {@link errors.NewscatcherApiTimeoutError}
      *
      * @example
      *     await client.subscription.get()
@@ -137,6 +139,8 @@ export class SubscriptionClient {
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
      * @throws {@link NewscatcherApi.TooManyRequestsError}
      * @throws {@link NewscatcherApi.InternalServerError}
+     * @throws {@link errors.NewscatcherApiError}
+     * @throws {@link errors.NewscatcherApiTimeoutError}
      *
      * @example
      *     await client.subscription.post()

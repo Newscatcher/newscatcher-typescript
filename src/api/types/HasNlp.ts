@@ -5,6 +5,6 @@
  *
  * **Note**: NLP data is only available for articles indexed from July 2023 onward. Applying this filter to a date range that predates July 2023 returns zero results.
  *
- * To learn more, see [NLP features](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/nlp-features).
+ * To learn more, see [NLP Enrichments](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/nlp-enrichments).
  */
 export type HasNlp = boolean;
