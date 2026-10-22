@@ -1,3 +1,20 @@
+## [3.1.0] - 2026-10-22
+### Breaking Changes
+- **`NewsDomainType`** — changed from a const-enum object to a plain `string | ("Original Content" | "Aggregator" | ...)[]` type alias; replace enum-member references (e.g. `NewsDomainType.OriginalContent`) with their string literals (e.g. `"Original Content"`).
+
+### Added
+- **`NewscatcherApiError.requestId`** — new getter that extracts the request ID from the `X-Request-Id` response header for easier debugging.
+- **`NewscatcherApiTimeoutError`** — now extends `NewscatcherApiError` so timeout errors are caught by the same `instanceof NewscatcherApiError` guard as other API errors.
+- **`BaseRequestOptions.additionalBodyParameters`** — new optional `Record<string, unknown>` field that merges extra key/value pairs into the JSON body of any POST request.
+- **`BaseRequestOptions.stream` / `BaseClientOptions.stream`** — new optional SSE reconnection configuration (`reconnectionEnabled`, `maxReconnectionAttempts`) on both per-request and client-level options.
+- **`getUserAgent()`** — new exported function that builds a structured User-Agent string from the detected runtime environment; `Runtime` interface gains optional `os` and `arch` fields.
+
+### Changed
+- **Error classes** (`BadRequestError`, `ForbiddenError`, `UnauthorizedError`, and others) — now declare a typed `public readonly body` field, making the error payload directly accessible without a cast.
+- **`search.get()` and `sources.get()`** — `news_domain_type` now correctly serializes array values element-by-element, matching the behavior of the POST variants.
+- **Query-string serialization** — `null` values are now skipped alongside `undefined`, preventing literal `"null"` strings from appearing in request URLs.
+- **HTTP client timeout** — the request timeout now remains active until the response body is fully read for non-streaming responses, preventing silent truncation on slow connections.
+
 ## 3.0.0 - 2026-05-19
 ### Breaking Changes
 * **`NlpDataEntity.summary_translated`** — field renamed to `translation_summary`; update all property accesses to use the new name.
