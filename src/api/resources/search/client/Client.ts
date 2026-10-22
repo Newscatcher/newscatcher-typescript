@@ -5,6 +5,7 @@ import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } 
 import { mergeHeaders } from "../../../../core/headers.js";
 import * as core from "../../../../core/index.js";
 import { toJson } from "../../../../core/json.js";
+import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
@@ -39,6 +40,8 @@ export class SearchClient {
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
      * @throws {@link NewscatcherApi.TooManyRequestsError}
      * @throws {@link NewscatcherApi.InternalServerError}
+     * @throws {@link errors.NewscatcherApiError}
+     * @throws {@link errors.NewscatcherApiTimeoutError}
      *
      * @example
      *     await client.search.get({
@@ -70,6 +73,7 @@ export class SearchClient {
      *         all_links_text: "Nvidia,Tesla",
      *         additional_domain_info: true,
      *         is_news_domain: true,
+     *         news_domain_type: "Original Content,Aggregator",
      *         news_type: "General News Outlets,Tech News and Updates",
      *         word_count_min: 300,
      *         word_count_max: 1000,
@@ -210,7 +214,13 @@ export class SearchClient {
             all_links_text: allLinksText,
             additional_domain_info: additionalDomainInfo,
             is_news_domain: isNewsDomain,
-            news_domain_type: newsDomainType != null ? newsDomainType : undefined,
+            news_domain_type: Array.isArray(newsDomainType)
+                ? newsDomainType.map((item) => (typeof item === "string" ? item : toJson(item)))
+                : newsDomainType != null
+                  ? typeof newsDomainType === "string"
+                      ? newsDomainType
+                      : toJson(newsDomainType)
+                  : undefined,
             news_type: newsType,
             word_count_min: wordCountMin,
             word_count_max: wordCountMax,
@@ -328,6 +338,8 @@ export class SearchClient {
      * @throws {@link NewscatcherApi.UnprocessableEntityError}
      * @throws {@link NewscatcherApi.TooManyRequestsError}
      * @throws {@link NewscatcherApi.InternalServerError}
+     * @throws {@link errors.NewscatcherApiError}
+     * @throws {@link errors.NewscatcherApiTimeoutError}
      *
      * @example
      *     await client.search.post({
@@ -364,7 +376,7 @@ export class SearchClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: request,
+            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

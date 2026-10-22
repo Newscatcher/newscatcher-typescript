@@ -1,6 +1,6 @@
 {
     "name": "newscatcher-sdk",
-    "version": "3.0.1",
+    "version": "0.0.0-fern-placeholder",
     "private": false,
     "repository": {
         "type": "git",
@@ -137,7 +137,7 @@
     "devDependencies": {
         "webpack": "^5.105.4",
         "ts-loader": "^9.5.4",
-        "vitest": "^4.1.11",
+        "vitest": "^4.1.1",
         "msw": "2.11.2",
         "@types/node": "^20.0.0",
         "typescript": "~5.9.3",
@@ -154,12 +154,5 @@
     "engines": {
         "node": ">=18.0.0"
     },
-    "sideEffects": false,
-    "pnpm": {
-        "overrides": {
-            "vite": ">=8.0.16",
-            "fast-uri": "^3.1.7",
-            "browserslist": ">=4.28.7"
-        }
-    }
+    "sideEffects": false
 }
