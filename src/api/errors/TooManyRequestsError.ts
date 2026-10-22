@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import type * as NewscatcherApi from "../index.js";
 
 export class TooManyRequestsError extends errors.NewscatcherApiError {
+    public declare readonly body: NewscatcherApi.Error_;
+
     constructor(body: NewscatcherApi.Error_, rawResponse?: core.RawResponse) {
         super({
             message: "TooManyRequestsError",
@@ -17,6 +19,6 @@ export class TooManyRequestsError extends errors.NewscatcherApiError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "TooManyRequestsError";
     }
 }

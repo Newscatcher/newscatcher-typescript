@@ -33,6 +33,7 @@ import type * as NewscatcherApi from "../../../../index.js";
  *         all_links_text: "Nvidia,Tesla",
  *         additional_domain_info: true,
  *         is_news_domain: true,
+ *         news_domain_type: "Original Content,Aggregator",
  *         news_type: "General News Outlets,Tech News and Updates",
  *         word_count_min: 300,
  *         word_count_max: 1000,

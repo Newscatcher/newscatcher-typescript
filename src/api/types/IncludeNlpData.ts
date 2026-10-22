@@ -5,6 +5,6 @@
  *
  * **Note**: NLP data is only available for articles indexed from July 2023 onward. For articles indexed before July 2023, the `nlp` field is returned as an empty object `{}`.
  *
- * To learn more, see [NLP features](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/nlp-features).
+ * To learn more, see [NLP Enrichments](https://www.newscatcherapi.com/docs/news-api/guides-and-concepts/nlp-enrichments).
  */
 export type IncludeNlpData = boolean;

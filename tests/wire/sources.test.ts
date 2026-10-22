@@ -40,6 +40,7 @@ describe("SourcesClient", () => {
             source_url: "bbc.com",
             include_additional_info: true,
             is_news_domain: true,
+            news_domain_type: "Original Content,Aggregator",
             news_type: "General News Outlets,Tech News and Updates",
             from_rank: 100,
             to_rank: 100,
